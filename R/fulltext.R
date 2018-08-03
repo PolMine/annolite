@@ -6,7 +6,7 @@
 #' a \code{data.frame} (or a list) with a column "token", and a column "cpos".
 #' @param width The width of the widget.
 #' @param height The height of the widget.
-#' @importFrom htmlwidgets createWidget
+#' @importFrom htmlwidgets createWidget sizingPolicy
 #' @export fulltext
 fulltext <- function(data = list(token = LETTERS[1:10], cpos = 1:10), width = NULL, height = NULL) {
   createWidget(

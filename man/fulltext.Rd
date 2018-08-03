@@ -4,15 +4,18 @@
 \alias{fulltext}
 \title{Fulltext output.}
 \usage{
-fulltext(tokendata_file = system.file(package = "fulltext", "extdata", "json",
-  "abc.json"), width = NULL, height = NULL)
+fulltext(data = list(token = LETTERS[1:10], cpos = 1:10), width = NULL,
+  height = NULL)
 }
 \arguments{
-\item{tokendata_file}{xxx}
+\item{data}{The data that is passed to the JavaScript that generates the output. Expected to be
+a list of lists that provide data on sections of text. Each of the sub-lists is to be a named
+list of a character vector with the HTML element the section will be wrapped into, and 
+a \code{data.frame} (or a list) with a column "token", and a column "cpos".}
 
-\item{width}{xxx}
+\item{width}{The width of the widget.}
 
-\item{height}{xxx}
+\item{height}{The height of the widget.}
 }
 \description{
 Fulltext output.

@@ -8,6 +8,7 @@ Description: A story to be told.
 Imports:
     htmlwidgets
 Suggests:
+    polmineR,
     knitr
 VignetteBuilder: knitr
 LazyData: yes
