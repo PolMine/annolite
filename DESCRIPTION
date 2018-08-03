@@ -1,0 +1,18 @@
+Package: fulltext
+Type: Package
+Title: Toolkit for Managing CWB Corpora
+Version: 0.0.0.9001
+Date: 2018-08-02
+Authors@R: person("Andreas", "Blaette", role = c("aut", "cre"), email = "andreas.blaette@uni-due.de")
+Description: A story to be told.
+Imports:
+    htmlwidgets
+Suggests:
+    knitr
+VignetteBuilder: knitr
+LazyData: yes
+License: GPL-3
+Encoding: UTF-8
+Collate:
+    'fulltext.R'
+RoxygenNote: 6.0.1

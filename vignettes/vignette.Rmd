@@ -1,0 +1,85 @@
+---
+title: "The 'fulltext'-htmlwidget"
+author: "Andreas Blätte (andreas.blaette@uni-due.de)"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{fulltext}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+
+---
+
+
+## Purpose
+
+The purpose of the ´fulltext´-package is to offer a htmlwidget to reconstruct a formatted fulltext output from input data of tokenized text. To provide the basis for an annotation tool that can detect the corpus positions of annotations, each token is supplemented with (invisible) additional information, such as corpus positions.
+
+
+## Initialization
+
+We introduce the fulltext package by example. In addition to the fulltext package, we need the polmineR package which includes the GERMAPARLMINI corpus.
+
+```{r}
+library(fulltext)
+library(polmineR)
+use("polmineR")
+```
+
+
+## The speech to reconstruct
+
+The example aims at outputting one particular speech. We take a speech held by Voker Kauder in the German Bundestag.
+
+```{r}
+P <- partition("GERMAPARLMINI", speaker = "Volker Kauder", date = "2009-11-10")
+```
+
+
+## Input data for the widget
+
+The data that is passed to the JavaScript that generates the output. Expected to be a list of lists that provide data on sections of text. Each of the sub-lists is to be a named list of a character vector with the HTML element the section will be wrapped into, and  a `data.frame` (or a list) with a column "token", and a column "cpos".
+
+```{r}
+data <- apply(
+  P@cpos,
+  1, 
+  function(row){
+    ts <- getTokenStream(row[1]:row[2], p_attribute = "word", cpos = TRUE, corpus = "GERMAPARLMINI")
+    s_attr <- polmineR:::CQI$struc2str(polmineR:::CQI$cpos2struc(row[1], corpus = "GERMAPARLMINI", s_attribute = "interjection"), corpus = "GERMAPARLMINI", s_attribute ="interjection")
+    list(
+      element = if (s_attr == "speech") "p" else "blockquote",
+      tokenstream = data.frame(token = as.utf8(unname(ts), from = "latin1"), cpos = as.integer(names(ts)))
+    )
+  }
+  )
+```
+
+
+## Adding a headline
+
+We prepare an additional block with a headline ... 
+
+```{r}
+headline <- list(
+  list(
+      element = "h2",
+      tokenstream = data.frame(
+        token = c("Volker", "Kauder", "(CDU)"),
+        cpos = rep("", times = 3)
+    )
+  )
+)
+```
+
+... and append it to the list.
+
+```{r}
+data <- c(headline, data)
+```
+
+## Getting the output
+
+```{r}
+fulltext(data)
+```
