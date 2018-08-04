@@ -19,11 +19,10 @@ HTMLWidgets.widget({
         for (var i = 0; i < x.data.length; i++){
             p = x.data[i].tokenstream;
             
-            console.log(x.data[i].element);
             newPara = "<" + x.data[i].element + ">";
 
             for (var j = 0; j < p.token.length; j++){
-              newPara = newPara + '<span cpos="' + p.cpos[j] + '">' + p.token[j] + '</span> ';
+              newPara = newPara + '<span id="' + p.cpos[j] + '">' + p.token[j] + '</span> ';
             }
             
             newPara = newPara + "</" + x.data[i].element + ">";
@@ -31,6 +30,9 @@ HTMLWidgets.widget({
             div.innerHTML = div.innerHTML + newPara;
         }
         
+      },
+      
+      resize: function(width, height) {
       }
     };
   }
