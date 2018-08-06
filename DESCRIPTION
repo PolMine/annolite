@@ -5,10 +5,17 @@ Version: 0.0.0.9001
 Date: 2018-08-02
 Authors@R: person("Andreas", "Blaette", role = c("aut", "cre"), email = "andreas.blaette@uni-due.de")
 Description: A story to be told.
+Depends:
+    R6
 Imports:
-    htmlwidgets
+    htmlwidgets,
+    miniUI,
+    shiny,
+    shinyjs,
+    shinyWidgets,
+    methods,
+    polmineR
 Suggests:
-    polmineR,
     knitr
 VignetteBuilder: knitr
 LazyData: yes
@@ -16,4 +23,7 @@ License: GPL-3
 Encoding: UTF-8
 Collate:
     'fulltext.R'
+    'Annotator.R'
+    'annotator_widget.R'
+    'as.fulltextdata.R'
 RoxygenNote: 6.0.1

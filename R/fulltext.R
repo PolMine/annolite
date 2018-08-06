@@ -20,3 +20,27 @@ fulltext <- function(data = list(token = LETTERS[1:10], cpos = 1:10), width = NU
                  knitr.defaultHeight = 300)
     )
 }
+
+
+#' Render and show fulltext output in shiny apps.
+#' 
+#' @param outputId Output variable to read the value from.
+#' @param width The width of the widget.
+#' @param height The height of the widget.
+#' @param expr An expression (...).
+#' @param env The environment in which to evaluate expr.
+#' @param quoted Is expr a quoted expression (with quote())? This is useful if
+#'   you want to save an expression in a variable.
+#' @export fulltextOutput
+#' @importFrom htmlwidgets shinyWidgetOutput
+#' @rdname shiny
+fulltextOutput <- function(outputId, width = "100%", height = "400px") {
+  shinyWidgetOutput(outputId, "fulltext", width, height, package = "fulltext")
+}
+#' @export renderFulltext
+#' @importFrom htmlwidgets shinyRenderWidget
+#' @rdname shiny
+renderFulltext <- function(expr, env = parent.frame(), quoted = FALSE) {
+  if (!quoted) { expr <- substitute(expr) } # force quoted
+  shinyRenderWidget(expr, fulltextOutput, env, quoted = TRUE)
+}
