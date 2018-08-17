@@ -14,10 +14,14 @@ fulltext <- function(data = list(token = LETTERS[1:10], cpos = 1:10), width = NU
     x = list(data = data, settings = list()),
     width = width,
     height = height,
-    sizingPolicy(knitr.figure = FALSE,
-                 browser.fill = TRUE,
-                 knitr.defaultWidth = "100%",
-                 knitr.defaultHeight = 300)
+    sizingPolicy(browser.fill = TRUE,
+                 viewer.defaultHeight = 800L,
+                 browser.defaultHeight = 800L,
+                 viewer.fill = TRUE,
+                 knitr.figure = FALSE,
+                 knitr.defaultWidth = NULL,
+                 knitr.defaultHeight = 300
+                 )
     )
 }
 
@@ -34,7 +38,7 @@ fulltext <- function(data = list(token = LETTERS[1:10], cpos = 1:10), width = NU
 #' @export fulltextOutput
 #' @importFrom htmlwidgets shinyWidgetOutput
 #' @rdname shiny
-fulltextOutput <- function(outputId, width = "100%", height = "400px") {
+fulltextOutput <- function(outputId, width = "100%", height = "100%") {
   shinyWidgetOutput(outputId, "fulltext", width, height, package = "fulltext")
 }
 #' @export renderFulltext

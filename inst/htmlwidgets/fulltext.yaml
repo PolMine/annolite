@@ -1,5 +1,8 @@
 dependencies:
   - name: markdown_css
-    src: htmlwidgets/lib/css
+    src: htmlwidgets/lib
     version: 0.0.0
-    stylesheet: markdown7.css
+    script:
+      - plugins/bootbox.min.js
+    stylesheet:
+      - css/markdown7.css
