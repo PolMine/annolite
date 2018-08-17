@@ -1,10 +1,10 @@
-Package: fulltext
+Package: annolite
 Type: Package
-Title: Toolkit for Managing CWB Corpora
-Version: 0.0.0.9001
+Title: Leightweight Fulltext Display and Annotation Tools.
+Version: 0.0.0.9002
 Date: 2018-08-02
 Authors@R: person("Andreas", "Blaette", role = c("aut", "cre"), email = "andreas.blaette@uni-due.de")
-Description: A story to be told.
+Description: The package includes an htmlwidget 'fulltext' and a shiny gadget to inspect the fulltext of (sub-)corpora, and for coding and adding free-text memos. 
 Depends:
     R6
 Imports:
