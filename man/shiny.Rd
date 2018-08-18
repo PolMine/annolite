@@ -5,7 +5,7 @@
 \alias{renderFulltext}
 \title{Render and show fulltext output in shiny apps.}
 \usage{
-fulltextOutput(outputId, width = "100\%", height = "400px")
+fulltextOutput(outputId, width = "100\%", height = "100\%")
 
 renderFulltext(expr, env = parent.frame(), quoted = FALSE)
 }

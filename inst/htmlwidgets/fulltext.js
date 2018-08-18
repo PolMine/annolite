@@ -33,43 +33,14 @@ HTMLWidgets.widget({
         function getSelectionText() {
           var text = "";
           if (window.getSelection) {
-            var highlighted_text = window.getSelection().toString()
-            var cpos_left = parseInt(window.getSelection().anchorNode.parentNode.getAttribute("id"));
-            var cpos_right = parseInt(window.getSelection().focusNode.parentNode.getAttribute("id"));
+            window.highlighted_text = window.getSelection().toString()
+            window.cpos_left = parseInt(window.getSelection().anchorNode.parentNode.getAttribute("id"));
+            window.cpos_right = parseInt(window.getSelection().focusNode.parentNode.getAttribute("id"));
             
             var code_color = bootbox.prompt({
-              title: 'Add Annotation\
-                      <hr/>\
-                      <div id="selection" class="btn-group" data-toggle="buttons">\
-                      <label class="radio-inline">\
-                        <input type="radio" name="optradio" checked value="yellow">keep\
-                      </label>\
-                      <label class="radio-inline">\
-                        <input type="radio" name="optradio" value="lightgreen">reconsider\
-                      </label>\
-                      <label class="radio-inline">\
-                        <input type="radio" name="optradio" value="lightgrey">drop\
-                      </label>\
-                      </div>',
+              title: x.settings.codeSelection,
               inputType: 'textarea',
-              callback: function (result) {
-                var code_selected = $('#selection input:radio:checked').val();
-                for (var cpos = cpos_left; cpos <= cpos_right; cpos++) {
-                  var spanEl = document.getElementById(cpos.toString());
-                  spanEl.style.backgroundColor = code_selected;
-                }
-                Shiny.onInputChange('code', code_selected);
-                Shiny.onInputChange('annotation', result);
-                Shiny.onInputChange('region', [cpos_left, cpos_right]);
-                console.log(window.getSelection().toString());
-                Shiny.onInputChange('text', highlighted_text);
-            
-                if (window.getSelection().empty) {  // Chrome
-                  window.getSelection().empty();
-                } else if (window.getSelection().removeAllRanges) {  // Firefox
-                  window.getSelection().removeAllRanges();
-                }
-              }
+              callback: x.settings.callbackFunction
             });
 
             

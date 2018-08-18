@@ -2,8 +2,8 @@
 #' 
 #' @param input A list of data.frames according to the requirements of fulltext
 #'   input.
-#' @importFrom miniUI miniPage miniContentPanel gadgetTitleBar miniButtonBlock
-#' @importFrom shiny tags runGadget paneViewer textAreaInput observeEvent stopApp
+#' @importFrom miniUI miniPage miniContentPanel gadgetTitleBar miniButtonBlock miniTabstripPanel miniTabPanel
+#' @importFrom shiny tags runGadget paneViewer textAreaInput observeEvent stopApp reactiveValues icon
 #' @importFrom shinyjs useShinyjs extendShinyjs js
 #' @importFrom shinyWidgets prettyRadioButtons
 #' @importFrom methods is
@@ -14,10 +14,10 @@
 #' P <- partition("GERMAPARLMINI", speaker = "Volker Kauder", date = "2009-11-10")
 #' D <- as.fulltextdata(P, headline = "Volker Kauder (CDU)")
 #' if (interactive()) Y <- annotate(D)
-annotate <- function(input, width = NULL, height = NULL) { 
+annotate <- function(input, width = NULL, height = NULL, codes = c(keep = "green", drop = "orange", reconsider = "grey")) { 
   
   message(Sys.time(), " generating fulltext")
-  TXT <- fulltext(input, width = width, height = height)
+  TXT <- fulltext(input, width = width, height = height, codes = codes)
   
   values <- reactiveValues()
   values[["regions"]] <- data.frame(
@@ -71,7 +71,7 @@ annotate <- function(input, width = NULL, height = NULL) {
       )
     )
     
-    observeEvent(input$done, stopApp(regions))
+    observeEvent(input$done, stopApp(values[["regions"]]))
   }
 
   runGadget(ui, server, viewer = paneViewer())

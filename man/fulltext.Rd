@@ -5,7 +5,8 @@
 \title{Fulltext output.}
 \usage{
 fulltext(data = list(token = LETTERS[1:10], cpos = 1:10), width = NULL,
-  height = NULL)
+  height = NULL, codes = c(keep = "green", drop = "orange", reconsider =
+  "grey"))
 }
 \arguments{
 \item{data}{The data that is passed to the JavaScript that generates the output. Expected to be
