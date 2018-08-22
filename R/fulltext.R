@@ -6,18 +6,26 @@
 #' a \code{data.frame} (or a list) with a column "token", and a column "cpos".
 #' @param width The width of the widget.
 #' @param height The height of the widget.
+#' @param dialog The dialog.
+#' @param box Logical, whether to put text into a box.
 #' @importFrom htmlwidgets createWidget sizingPolicy
 #' @export fulltext
-#' @examples
-#' 
-fulltext <- function(data, width = NULL, height = NULL, dialog = NULL) {
+fulltext <- function(data, width = NULL, height = NULL, dialog = NULL, box = TRUE) {
 
+  if (!is.list(data)) stop("Argument data is required to be a list.")
+  
+  # If data is a named list, JavaScript will receive an object, and not an array, as required.
+  if (!is.null(names(data))) data <- unname(data)
+                           
+  
   createWidget(
     "fulltext",
+    package = "annolite",
     x = list(
       data = data,
       settings = list(
         dialog = if (is.null(dialog)) FALSE else TRUE,
+        box = box,
         codeSelection = if (!is.null(dialog)) if ("choices" %in% names(dialog)) dialog[["choices"]],
         callbackFunction = if (!is.null(dialog)) if ("callback" %in% names(dialog)) htmlwidgets::JS(dialog[["callback"]])
       )
@@ -29,8 +37,8 @@ fulltext <- function(data, width = NULL, height = NULL, dialog = NULL) {
                  browser.defaultHeight = 800L,
                  viewer.fill = TRUE,
                  knitr.figure = FALSE,
-                 knitr.defaultWidth = NULL,
-                 knitr.defaultHeight = 300L
+                 knitr.defaultWidth = 800L,
+                 knitr.defaultHeight = 400L
                  )
     )
 }

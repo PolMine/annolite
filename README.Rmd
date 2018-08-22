@@ -1,14 +1,10 @@
 ---
-title: "Introducing 'annolite'. A Leightweight Fulltext Display and Annotation Tool"
-author: "Andreas Blätte (andreas.blaette@uni-due.de)"
-date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{annolite}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
-
+output: github_document
+always_allow_html: yes
 ---
+
+[![Travis-CI Build Status](https://api.travis-ci.org/PolMine/annolite.svg?branch=master)](https://travis-ci.org/PolMine/annolite)
+[![codecov](https://codecov.io/gh/PolMine/annolite/branch/master/graph/badge.svg)](https://codecov.io/gh/PolMine/annolite/branch/master)
 
 
 ## Purpose

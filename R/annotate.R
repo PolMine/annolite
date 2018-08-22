@@ -2,22 +2,26 @@
 #' 
 #' @param input A list of data.frames according to the requirements of fulltext
 #'   input.
+#' @param width The width of the fulltext htmlwidget.
+#' @param height The height of the fulltext htmlwidget.
+#' @param dialog Specification of the dialog box.
 #' @importFrom miniUI miniPage miniContentPanel gadgetTitleBar miniButtonBlock miniTabstripPanel miniTabPanel
-#' @importFrom shiny tags runGadget paneViewer textAreaInput observeEvent stopApp reactiveValues icon
+#' @importFrom shiny tags runGadget paneViewer textAreaInput observeEvent stopApp reactiveValues icon observe
 #' @importFrom shinyjs useShinyjs extendShinyjs js
 #' @importFrom shinyWidgets prettyRadioButtons
 #' @importFrom methods is
+#' @importFrom DT dataTableOutput renderDataTable datatable
 #' @export annotate
 #' @examples
 #' library(polmineR)
 #' use("polmineR")
 #' P <- partition("GERMAPARLMINI", speaker = "Volker Kauder", date = "2009-11-10")
 #' D <- as.fulltextdata(P, headline = "Volker Kauder (CDU)")
-#' if (interactive()) Y <- annotate(D, dialog = NULL)
+#' if (interactive()) Y <- annotate(D)
 annotate <- function(input, width = NULL, height = NULL, dialog = list(choices = dialog_radio_buttons(keep = "yellow", drop = "orange"), callback = dialog_default_callback)) { 
   
   message(Sys.time(), " generating fulltext")
-  TXT <- fulltext(input, width = width, height = height, dialog = dialog)
+  TXT <- fulltext(input, width = width, height = height, dialog = dialog, box = FALSE)
   
   values <- reactiveValues()
   values[["regions"]] <- data.frame(

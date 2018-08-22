@@ -4,12 +4,19 @@
 \alias{annotate}
 \title{Leightweight Annotation Widget.}
 \usage{
-annotate(input, width = NULL, height = NULL, codes = c(keep = "green",
-  drop = "orange", reconsider = "grey"))
+annotate(input, width = NULL, height = NULL, dialog = list(choices =
+  dialog_radio_buttons(keep = "yellow", drop = "orange"), callback =
+  dialog_default_callback))
 }
 \arguments{
 \item{input}{A list of data.frames according to the requirements of fulltext
 input.}
+
+\item{width}{The width of the fulltext htmlwidget.}
+
+\item{height}{The height of the fulltext htmlwidget.}
+
+\item{dialog}{Specification of the dialog box.}
 }
 \description{
 Leightweight Annotation Widget.

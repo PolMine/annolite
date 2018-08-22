@@ -7,19 +7,20 @@ HTMLWidgets.widget({
   factory: function(el, width, height) {
     
     var getSelectionText; // needs to be defined globally
+    
+    // document.getElementsByTagName("body")[0].style.overflow = "scroll";
+
+    // var div = document.getElementsByClassName("fulltext")[0];
+    el.style.overflow = "scroll";
+    el.style.padding = "5px";
+    var container = el;
 
     return {
       renderValue: function(x) {
         
-        console.log("adsf");
-        window.annotation_color = "yellow";
-        
-        document.getElementsByTagName("body")[0].style.overflow = "scroll";
+        // document.foo = x;
+        if (x.settings.box){ container.style.border = "1px solid #ddd"; };
 
-        var div = document.getElementsByClassName("fulltext")[0];
-        div.style.overflow = "scroll";
-        div.style.border = "1px solid #ddd";
-        div.style.padding = "5px";
 
         for (var i = 0; i < x.data.length; i++){
             p = x.data[i].tokenstream;
@@ -28,7 +29,7 @@ HTMLWidgets.widget({
               newPara = newPara + '<span id="' + p.cpos[j] + '">' + p.token[j] + '</span> ';
             }
             newPara = newPara + "</" + x.data[i].element + ">";
-            div.innerHTML = div.innerHTML + newPara;
+            container.innerHTML = container.innerHTML + newPara;
         }
         
         function getSelectionText() {
@@ -52,11 +53,8 @@ HTMLWidgets.widget({
           
         }
         
-        console.log(x.settings.dialog);
         if (x.settings.dialog){
-          console.log(x.settings.dialog);
-          console.log(div);
-          div.onmouseup = function(el) getSelectionText();
+          container.onmouseup = function(el) { getSelectionText() };
         };
 
       },

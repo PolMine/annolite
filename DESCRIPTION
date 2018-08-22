@@ -1,6 +1,6 @@
 Package: annolite
 Type: Package
-Title: Leightweight Fulltext Display and Annotation Tools.
+Title: Leightweight Fulltext Display and Annotation Tools
 Version: 0.0.0.9003
 Date: 2018-08-18
 Authors@R: person("Andreas", "Blaette", role = c("aut", "cre"), email = "andreas.blaette@uni-due.de")
@@ -11,9 +11,14 @@ Imports:
     shiny,
     shinyjs,
     shinyWidgets,
-    polmineR
+    polmineR,
+    RcppCWB,
+    methods,
+    DT
 Suggests:
-    knitr
+    knitr,
+    janeaustenr,
+    tokenizers
 VignetteBuilder: knitr
 LazyData: yes
 License: GPL-3

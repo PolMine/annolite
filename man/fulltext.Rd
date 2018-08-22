@@ -4,9 +4,7 @@
 \alias{fulltext}
 \title{Fulltext output.}
 \usage{
-fulltext(data = list(token = LETTERS[1:10], cpos = 1:10), width = NULL,
-  height = NULL, codes = c(keep = "green", drop = "orange", reconsider =
-  "grey"))
+fulltext(data, width = NULL, height = NULL, dialog = NULL, box = TRUE)
 }
 \arguments{
 \item{data}{The data that is passed to the JavaScript that generates the output. Expected to be
@@ -17,6 +15,10 @@ a \code{data.frame} (or a list) with a column "token", and a column "cpos".}
 \item{width}{The width of the widget.}
 
 \item{height}{The height of the widget.}
+
+\item{dialog}{The dialog.}
+
+\item{box}{Logical, whether to put text into a box.}
 }
 \description{
 Fulltext output.
