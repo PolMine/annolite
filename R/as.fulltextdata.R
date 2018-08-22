@@ -10,14 +10,14 @@
 #' D <- as.fulltextdata(P, headline = "Volker Kauder (CDU)")
 #' fulltext(D)
 #' @importFrom polmineR getTokenStream as.utf8
+#' @importFrom RcppCWB cl_struc2str cl_cpos2struc
 as.fulltextdata <- function(x, headline){
   if ("partition" %in% is(x)){
     data <- apply(
-      x@cpos,
-      1, 
+      x@cpos, 1, 
       function(row){
-        ts <- getTokenStream(row[1]:row[2], p_attribute = "word", cpos = TRUE, corpus = "GERMAPARLMINI")
-        s_attr <- polmineR:::CQI$struc2str(polmineR:::CQI$cpos2struc(row[1], corpus = "GERMAPARLMINI", s_attribute = "interjection"), corpus = "GERMAPARLMINI", s_attribute ="interjection")
+        ts <- getTokenStream(row[1]:row[2], p_attribute = "word", cpos = TRUE, corpus = x@corpus)
+        s_attr <- RcppCWB::cl_struc2str(RcppCWB::cl_cpos2struc(row[1], corpus = x@corpus, s_attribute = "interjection"), corpus = x@corpus, s_attribute ="interjection")
         list(
           element = if (s_attr == "speech") "p" else "blockquote",
           tokenstream = data.frame(token = as.utf8(unname(ts), from = "latin1"), cpos = as.integer(names(ts)))

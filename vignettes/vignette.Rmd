@@ -1,10 +1,10 @@
 ---
-title: "The 'fulltext'-htmlwidget"
+title: "Introducing 'annolite'. A Leightweight Fulltext Display and Annotation Tool"
 author: "Andreas Blätte (andreas.blaette@uni-due.de)"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{fulltext}
+  %\VignetteIndexEntry{annolite}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 
@@ -13,7 +13,58 @@ vignette: >
 
 ## Purpose
 
-The purpose of the ´fulltext´-package is to offer a htmlwidget to reconstruct a formatted fulltext output from input data of tokenized text. To provide the basis for an annotation tool that can detect the corpus positions of annotations, each token is supplemented with (invisible) additional information, such as corpus positions.
+The purpose of the ´annolite´-package is to offer a htmlwidget to reconstruct a formatted fulltext output from input data of tokenized text. To provide the basis for an annotation tool that can detect the corpus positions of annotations, each token is supplemented with (invisible) additional information, such as corpus positions.
+
+
+## From tidytext to fulltext
+
+```{r}
+emma_txt <- janeaustenr::emma[grep("^CHAPTER\\s+.*?$", emma)[1]:length(emma)]
+chapter_beginnings <- grep("^CHAPTER\\s+.*?$", emma_txt)
+chapters <- split(
+  emma_txt,
+  cut(
+    1L:length(emma_txt),
+    c(chapter_beginnings, length(emma_txt)),
+    include.lowest = TRUE, right = FALSE
+  )
+)
+
+reconstruct_paragraphs <- function(x){
+  paras <- split(
+    x, 
+    cut(
+      1L:length(x),
+      unique(c(1L, grep("^\\s*$", x), length(x))),
+      include.lowest = TRUE, right = FALSE
+    )
+  )
+  paras <- lapply(paras, function(x) x[x != ""])
+  for (i in rev(which(lapply(paras, length) == 0))) paras[[i]] <- NULL
+  sapply(paras, function(p) paste(p, collapse = " "))
+}
+
+chs <- lapply(chapters, reconstruct_paragraphs)
+
+as_paragraphdata <- function(x){
+  paras_tok <- tokenize_words(txt, lowercase = FALSE, strip_punct = FALSE)
+  df1 <- lapply(
+    1:length(paras_tok),
+    function(i) data.frame(token = paras_tok[[i]], para = i)
+  )
+  df2 <- do.call(rbind, df1)
+  df2[["cpos"]] <- 1L:nrow(df2)
+  para_list <- split(df2, f = df2[["para"]])
+  
+  lapply(
+    para_list,
+    function(x) list(element = "p", tokenstream = x[, c("cpos", "token")])
+  )
+}
+
+ch1 <- as_paragraphdata(chs[[1]])
+annotate(ft)
+```
 
 
 ## Initialization

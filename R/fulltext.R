@@ -8,46 +8,18 @@
 #' @param height The height of the widget.
 #' @importFrom htmlwidgets createWidget sizingPolicy
 #' @export fulltext
-fulltext <- function(data = list(token = LETTERS[1:10], cpos = 1:10), width = NULL, height = NULL, codes = c(keep = "green", drop = "orange", reconsider = "grey")) {
-  
-  callbackFunction <- c(
-    "function (result) {",
-      "var code_selected = $('#selection input:radio:checked').val();",
-      "for (var cpos = window.cpos_left; cpos <= window.cpos_right; cpos++) {",
-        "var spanEl = document.getElementById(cpos.toString());",
-        "spanEl.style.backgroundColor = code_selected;",
-      "}",
-      "Shiny.onInputChange('code', code_selected);",
-      "Shiny.onInputChange('annotation', result);",
-      "Shiny.onInputChange('region', [cpos_left, cpos_right]);",
-      "console.log(window.getSelection().toString());",
-      "Shiny.onInputChange('text', window.highlighted_text);",
-      "",
-      "if (window.getSelection().empty) {  // Chrome",
-        "window.getSelection().empty();",
-      "} else if (window.getSelection().removeAllRanges) {  // Firefox",
-        "window.getSelection().removeAllRanges();",
-      "}",
-    "}"
-  )
-  
+#' @examples
+#' 
+fulltext <- function(data, width = NULL, height = NULL, dialog = NULL) {
+
   createWidget(
     "fulltext",
     x = list(
       data = data,
       settings = list(
-        codeSelection = paste(
-          c('Add Annotation',
-          '<hr/>',
-          '<div id="selection" class="btn-group" data-toggle="buttons">',
-          sprintf(
-            '<label class="radio-inline"><input type="radio" name="optradio" checked value="%s">%s</label>',
-            unname(codes), names(codes)
-          ),
-          '</div>'
-          ), collapse = ""
-        ),
-        callbackFunction = htmlwidgets::JS(callbackFunction)
+        dialog = if (is.null(dialog)) FALSE else TRUE,
+        codeSelection = if (!is.null(dialog)) if ("choices" %in% names(dialog)) dialog[["choices"]],
+        callbackFunction = if (!is.null(dialog)) if ("callback" %in% names(dialog)) htmlwidgets::JS(dialog[["callback"]])
       )
     ),
     width = width,
@@ -58,7 +30,7 @@ fulltext <- function(data = list(token = LETTERS[1:10], cpos = 1:10), width = NU
                  viewer.fill = TRUE,
                  knitr.figure = FALSE,
                  knitr.defaultWidth = NULL,
-                 knitr.defaultHeight = 300
+                 knitr.defaultHeight = 300L
                  )
     )
 }

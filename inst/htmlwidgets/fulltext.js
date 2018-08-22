@@ -11,6 +11,7 @@ HTMLWidgets.widget({
     return {
       renderValue: function(x) {
         
+        console.log("adsf");
         window.annotation_color = "yellow";
         
         document.getElementsByTagName("body")[0].style.overflow = "scroll";
@@ -51,7 +52,12 @@ HTMLWidgets.widget({
           
         }
         
-        div.onmouseup = function() { getSelectionText(); };
+        console.log(x.settings.dialog);
+        if (x.settings.dialog){
+          console.log(x.settings.dialog);
+          console.log(div);
+          div.onmouseup = function(el) getSelectionText();
+        };
 
       },
       

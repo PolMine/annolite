@@ -13,11 +13,11 @@
 #' use("polmineR")
 #' P <- partition("GERMAPARLMINI", speaker = "Volker Kauder", date = "2009-11-10")
 #' D <- as.fulltextdata(P, headline = "Volker Kauder (CDU)")
-#' if (interactive()) Y <- annotate(D)
-annotate <- function(input, width = NULL, height = NULL, codes = c(keep = "green", drop = "orange", reconsider = "grey")) { 
+#' if (interactive()) Y <- annotate(D, dialog = NULL)
+annotate <- function(input, width = NULL, height = NULL, dialog = list(choices = dialog_radio_buttons(keep = "yellow", drop = "orange"), callback = dialog_default_callback)) { 
   
   message(Sys.time(), " generating fulltext")
-  TXT <- fulltext(input, width = width, height = height, codes = codes)
+  TXT <- fulltext(input, width = width, height = height, dialog = dialog)
   
   values <- reactiveValues()
   values[["regions"]] <- data.frame(

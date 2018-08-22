@@ -11,7 +11,6 @@ Imports:
     shiny,
     shinyjs,
     shinyWidgets,
-    methods,
     polmineR
 Suggests:
     knitr
@@ -22,5 +21,6 @@ Encoding: UTF-8
 Collate:
     'fulltext.R'
     'annotate.R'
+    'dialog.R'
     'as.fulltextdata.R'
 RoxygenNote: 6.0.1
