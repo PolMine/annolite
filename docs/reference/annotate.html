@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Fulltext output. — fulltext • annolite</title>
+<title>Leightweight Annotation Widget. — annotate • annolite</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Fulltext output. — fulltext" />
+<meta property="og:title" content="Leightweight Annotation Widget. — annotate" />
 
-<meta property="og:description" content="Fulltext output." />
+<meta property="og:description" content="Leightweight Annotation Widget." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -104,54 +104,55 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Fulltext output.</h1>
+    <h1>Leightweight Annotation Widget.</h1>
     
-    <div class="hidden name"><code>fulltext.Rd</code></div>
+    <div class="hidden name"><code>annotate.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Fulltext output.</p>
+    <p>Leightweight Annotation Widget.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>fulltext</span>(<span class='no'>data</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>height</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dialog</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>box</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>annotate</span>(<span class='no'>input</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>height</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dialog</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>choices</span> <span class='kw'>=</span>
+  <span class='fu'><a href='dialog.html'>dialog_radio_buttons</a></span>(<span class='kw'>keep</span> <span class='kw'>=</span> <span class='st'>"yellow"</span>, <span class='kw'>drop</span> <span class='kw'>=</span> <span class='st'>"orange"</span>), <span class='kw'>callback</span> <span class='kw'>=</span>
+  <span class='no'>dialog_default_callback</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>data</th>
-      <td><p>The data that is passed to the JavaScript that generates the output. Expected to be
-a list of lists that provide data on sections of text. Each of the sub-lists is to be a named
-list of a character vector with the HTML element the section will be wrapped into, and 
-a <code>data.frame</code> (or a list) with a column "token", and a column "cpos".</p></td>
+      <th>input</th>
+      <td><p>A list of data.frames according to the requirements of fulltext
+input.</p></td>
     </tr>
     <tr>
       <th>width</th>
-      <td><p>The width of the widget.</p></td>
+      <td><p>The width of the fulltext htmlwidget.</p></td>
     </tr>
     <tr>
       <th>height</th>
-      <td><p>The height of the widget.</p></td>
+      <td><p>The height of the fulltext htmlwidget.</p></td>
     </tr>
     <tr>
       <th>dialog</th>
-      <td><p>The dialog.</p></td>
-    </tr>
-    <tr>
-      <th>box</th>
-      <td><p>Logical, whether to put text into a box.</p></td>
+      <td><p>Specification of the dialog box.</p></td>
     </tr>
     </table>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='no'>polmineR</span>)</div><div class='output co'>#&gt; <span class='message'>polmineR v0.7.9.9007</span></div><div class='output co'>#&gt; <span class='message'>session registry:  /private/var/folders/r6/1k6mxnbj5077980k11xvr0q40000gn/T/RtmpbBJx7m/polmineR_registry</span></div><div class='input'><span class='fu'><a href='http://www.rdocumentation.org/packages/polmineR/topics/use'>use</a></span>(<span class='st'>"polmineR"</span>)</div><div class='output co'>#&gt; <span class='message'>... activating corpus: germaparlmini</span></div><div class='output co'>#&gt; <span class='message'>... activating corpus: reuters</span></div><div class='input'><span class='no'>P</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/polmineR/topics/partition'>partition</a></span>(<span class='st'>"GERMAPARLMINI"</span>, <span class='kw'>speaker</span> <span class='kw'>=</span> <span class='st'>"Volker Kauder"</span>, <span class='kw'>date</span> <span class='kw'>=</span> <span class='st'>"2009-11-10"</span>)</div><div class='output co'>#&gt; <span class='message'>... get encoding: latin1</span></div><div class='output co'>#&gt; <span class='message'>... get cpos and strucs</span></div><div class='input'><span class='no'>D</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='as.fulltextdata.html'>as.fulltextdata</a></span>(<span class='no'>P</span>, <span class='kw'>headline</span> <span class='kw'>=</span> <span class='st'>"Volker Kauder (CDU)"</span>)
+<span class='kw'>if</span> (<span class='fu'>interactive</span>()) <span class='no'>Y</span> <span class='kw'>&lt;-</span> <span class='fu'>annotate</span>(<span class='no'>D</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+            
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>
