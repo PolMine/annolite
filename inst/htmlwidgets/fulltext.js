@@ -26,7 +26,7 @@ HTMLWidgets.widget({
             p = x.data[i].tokenstream;
             newPara = "<" + x.data[i].element + ">";
             for (var j = 0; j < p.token.length; j++){
-              newPara = newPara + '<span id="' + p.cpos[j] + '">' + p.token[j] + '</span> ';
+              newPara = newPara + '<span id="' + p.id[j] + '">' + p.token[j] + '</span> ';
             }
             newPara = newPara + "</" + x.data[i].element + ">";
             container.innerHTML = container.innerHTML + newPara;
@@ -36,8 +36,8 @@ HTMLWidgets.widget({
           var text = "";
           if (window.getSelection) {
             window.highlighted_text = window.getSelection().toString()
-            window.cpos_left = parseInt(window.getSelection().anchorNode.parentNode.getAttribute("id"));
-            window.cpos_right = parseInt(window.getSelection().focusNode.parentNode.getAttribute("id"));
+            window.id_left = parseInt(window.getSelection().anchorNode.parentNode.getAttribute("id"));
+            window.id_right = parseInt(window.getSelection().focusNode.parentNode.getAttribute("id"));
             
             var code_color = bootbox.prompt({
               title: x.settings.codeSelection,

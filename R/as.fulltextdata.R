@@ -20,7 +20,7 @@ as.fulltextdata <- function(x, headline){
         s_attr <- RcppCWB::cl_struc2str(RcppCWB::cl_cpos2struc(row[1], corpus = x@corpus, s_attribute = "interjection"), corpus = x@corpus, s_attribute ="interjection")
         list(
           element = if (s_attr == "speech") "p" else "blockquote",
-          tokenstream = data.frame(token = as.utf8(unname(ts), from = "latin1"), cpos = as.integer(names(ts)))
+          tokenstream = data.frame(token = as.utf8(unname(ts), from = "latin1"), id = as.integer(names(ts)))
         )
       }
     )
@@ -34,7 +34,7 @@ as.fulltextdata <- function(x, headline){
       element = "h2",
       tokenstream = data.frame(
         token = headline,
-        cpos = rep("", times = length(headline))
+        id = rep("", times = length(headline))
       )
     )
   )

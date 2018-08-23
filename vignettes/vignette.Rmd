@@ -61,12 +61,12 @@ as_paragraphdata <- function(x){
     function(i) data.frame(token = paras_tok[[i]], para = i)
   )
   df2 <- do.call(rbind, df1)
-  df2[["cpos"]] <- 1L:nrow(df2)
+  df2[["id"]] <- 1L:nrow(df2)
   para_list <- split(df2, f = df2[["para"]])
   
   lapply(
     para_list,
-    function(x) list(element = "p", tokenstream = x[, c("cpos", "token")])
+    function(x) list(element = "p", tokenstream = x[, c("id", "token")])
   )
 }
 
@@ -75,7 +75,7 @@ ch1[[1]][["element"]] <- "h3"
 ch1 <- c(
   list(list(
     element = "h2",
-    tokenstream = data.frame(token = c("Jane", "Austen", "-", "Emma"), cpos = 10001L:10004L)
+    tokenstream = data.frame(token = c("Jane", "Austen", "-", "Emma"), id = 10001L:10004L)
     )),
   ch1
 )
@@ -108,7 +108,7 @@ P <- partition("GERMAPARLMINI", speaker = "Volker Kauder", date = "2009-11-10")
 
 ## Input data for the widget
 
-The data that is passed to the JavaScript that generates the output. Expected to be a list of lists that provide data on sections of text. Each of the sub-lists is to be a named list of a character vector with the HTML element the section will be wrapped into, and  a `data.frame` (or a list) with a column "token", and a column "cpos".
+The data that is passed to the JavaScript that generates the output. Expected to be a list of lists that provide data on sections of text. Each of the sub-lists is to be a named list of a character vector with the HTML element the section will be wrapped into, and  a `data.frame` (or a list) with a column "token", and a column "id".
 
 ```{r}
 D <- as.fulltextdata(P, headline = "Volker Kauder (CDU)")

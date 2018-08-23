@@ -28,8 +28,8 @@ annotate <- function(input, width = NULL, height = NULL, dialog = list(choices =
     text = character(),
     code = character(),
     annotation = character(),
-    cpos_left = integer(),
-    cpos_right = integer()
+    id_left = integer(),
+    id_right = integer()
     )
   
   ui <- miniPage(
@@ -61,8 +61,8 @@ annotate <- function(input, width = NULL, height = NULL, dialog = list(choices =
             text = input$text,
             code = input$code,
             annotation = input$annotation,
-            cpos_left = input$region[1],
-            cpos_right = input$region[2]
+            id_left = input$region[1],
+            id_right = input$region[2]
           )
         )
         print(values[["regions"]])
