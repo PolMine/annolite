@@ -77,7 +77,7 @@ ch1 <- c(
 )
 ```
 
-```{r}
+```{r, eval = FALSE}
 fulltext(ch1, dialog = FALSE, box = TRUE, width = 650)
 ```
 
@@ -116,7 +116,7 @@ D <- as.fulltextdata(P, headline = "Volker Kauder (CDU)")
 
 ## Getting the output
 
-```{r}
+```{r, eval = FALSE}
 fulltext(D, dialog = FALSE, box = TRUE, width = 650)
 ```
 
