@@ -17,21 +17,14 @@
 #' use("polmineR")
 #' P <- partition("GERMAPARLMINI", speaker = "Volker Kauder", date = "2009-11-10")
 #' D <- as.fulltextdata(P, headline = "Volker Kauder (CDU)")
+#' D[["annotations"]] <- sample_annotation
 #' if (interactive()) Y <- annotate(D)
 annotate <- function(input, width = NULL, height = NULL, dialog = list(choices = dialog_radio_buttons(keep = "yellow", drop = "orange"), callback = dialog_default_callback)) { 
   
-  message(Sys.time(), " generating fulltext")
   TXT <- fulltext(input, width = width, height = height, dialog = dialog, box = FALSE)
   
   values <- reactiveValues()
-  values[["regions"]] <- data.frame(
-    text = character(),
-    code = character(),
-    annotation = character(),
-    id_left = integer(),
-    id_right = integer()
-    )
-  
+
   ui <- miniPage(
     gadgetTitleBar(title = "Annotation Gadget"),
     miniTabstripPanel(
@@ -53,19 +46,9 @@ annotate <- function(input, width = NULL, height = NULL, dialog = list(choices =
     output$fulltext <- renderFulltext(TXT)
     
     observeEvent(
-      input$region,
+      input$annotations_created,
       {
-        values[["regions"]] <<- rbind(
-          values[["regions"]],
-          data.frame(
-            text = input$text,
-            code = input$code,
-            annotation = input$annotation,
-            id_left = input$region[1],
-            id_right = input$region[2]
-          )
-        )
-        print(values[["regions"]])
+        values[["regions"]] <- data.frame(lapply(input$annotations_table, unlist))
       }
     )
     

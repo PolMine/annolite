@@ -15,7 +15,7 @@ fulltext <- function(data, width = NULL, height = NULL, dialog = NULL, box = TRU
   if (!is.list(data)) stop("Argument data is required to be a list.")
   
   # If data is a named list, JavaScript will receive an object, and not an array, as required.
-  if (!is.null(names(data))) data <- unname(data)
+  if (!is.null(names(data[["paragraphs"]]))) data[["paragraphs"]] <- unname(data[["paragraphs"]])
                            
   
   createWidget(

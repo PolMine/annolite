@@ -4,21 +4,28 @@
 #' @rdname dialog
 dialog_default_callback <- c(
   "function (result) {",
+    
+    "var i = document.annotations.id_left.length - 1;",
     "var code_selected = $('#selection input:radio:checked').val();",
-    "for (var id = window.id_left; id <= window.id_right; id++) {",
-      "var spanEl = document.getElementById(id.toString());",
-     "spanEl.style.backgroundColor = code_selected;",
-    "}",
-    "Shiny.onInputChange('code', code_selected);",
-    "Shiny.onInputChange('annotation', result);",
-    "Shiny.onInputChange('region', [id_left, id_right]);",
-    "console.log(window.getSelection().toString());",
-    "Shiny.onInputChange('text', window.highlighted_text);",
+    "document.annotations.code.push(code_selected);",
+    "document.annotations.annotation.push(result);",
+    
+    "for (var id = document.annotations.id_left[i]; id <= document.annotations.id_right[i]; id++) {",
+      "document.getElementById(id.toString()).style.backgroundColor = code_selected;",
+    "};",
+    
+    "document.annotationsCreated++;",
+    "console.log(document.annotationsCreated);",
+    "Shiny.onInputChange('annotations_created', document.annotationsCreated);",
+    "Shiny.onInputChange('annotations_table', document.annotations);",
+    "console.log(document.annotations);",
+  
     "if (window.getSelection().empty) {  // Chrome",
       "window.getSelection().empty();",
     "} else if (window.getSelection().removeAllRanges) {  // Firefox",
     "window.getSelection().removeAllRanges();",
     "}",
+  
   "}"
 )
 

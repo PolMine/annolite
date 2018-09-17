@@ -70,19 +70,29 @@ as_paragraphdata <- function(x){
   )
 }
 
-ch1 <- as_paragraphdata(chs[[1]])
-ch1[[1]][["element"]] <- "h3"
-ch1 <- c(
+ch1_paragraphs <- as_paragraphdata(chs[[1]])
+ch1_paragraphs[[1]][["element"]] <- "h3"
+ch1_paragraphs <- c(
   list(list(
     element = "h2",
     tokenstream = data.frame(token = c("Jane", "Austen", "-", "Emma"), id = 10001L:10004L)
     )),
-  ch1
+  ch1_paragraphs
+)
+ch1_fulltextdata <- list(
+  paragraphs = ch1_paragraphs,
+  annotations = data.frame(
+      text = character(),
+      code = character(),
+      annotation = character(),
+      id_left = integer(),
+      id_right = integer()
+  )
 )
 ```
 
 ```{r}
-fulltext(ch1, dialog = FALSE, box = TRUE, width = 650)
+fulltext(ch1_fulltextdata, dialog = FALSE, box = TRUE, width = 650)
 ```
 
 
