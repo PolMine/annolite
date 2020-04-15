@@ -2,3 +2,6 @@
 ^_pkgdown\.yml$
 ^data-raw$
 ^\.travis\.yml$
+^.*\.Rproj$
+^\.Rproj\.user$
+^appveyor\.yml$
