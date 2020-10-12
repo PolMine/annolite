@@ -3,6 +3,7 @@
 export(annotate)
 export(as.fulltextdata)
 export(dialog_default_callback)
+export(dialog_radio_buttons)
 export(fulltext)
 export(fulltextOutput)
 export(renderFulltext)

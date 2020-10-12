@@ -4,9 +4,13 @@
 \alias{annotate}
 \title{Leightweight Annotation Widget.}
 \usage{
-annotate(input, width = NULL, height = NULL, dialog = list(choices =
-  dialog_radio_buttons(keep = "yellow", drop = "orange"), callback =
-  dialog_default_callback))
+annotate(
+  input,
+  width = NULL,
+  height = NULL,
+  dialog = list(choices = dialog_radio_buttons(keep = "yellow", drop = "orange"),
+    callback = dialog_default_callback)
+)
 }
 \arguments{
 \item{input}{A list of data.frames according to the requirements of fulltext

@@ -29,6 +29,7 @@ dialog_default_callback <- c(
   "}"
 )
 
+#' @export dialog_radio_buttons
 #' @rdname dialog
 #' @param ... Definition of options in radio button group: Arguments are options, values are colors.
 dialog_radio_buttons <- function(...){

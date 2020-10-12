@@ -4,7 +4,6 @@
 \name{annolite}
 \alias{annolite}
 \alias{annolite-package}
-\alias{annolite-package}
 \alias{sample_annotation}
 \title{R-Package 'annolite'.}
 \format{An object of class \code{data.frame} with 4 rows and 5 columns.}

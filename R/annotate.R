@@ -48,15 +48,16 @@ annotate <- function(input, width = NULL, height = NULL, dialog = list(choices =
     observeEvent(
       input$annotations_created,
       {
+        print(input$annotations_table)
         values[["regions"]] <- data.frame(lapply(input$annotations_table, unlist))
       }
     )
     
-    observe(
-      output$annotations <- DT::renderDataTable(
-        DT::datatable(values[["regions"]], selection = "single", rownames = FALSE),
-      )
-    )
+    # observe(
+    #   output$annotations <- DT::renderDataTable(
+    #     DT::datatable(values[["regions"]], selection = "single", rownames = FALSE),
+    #   )
+    # )
     
     observeEvent(input$done, stopApp(values[["regions"]]))
   }
