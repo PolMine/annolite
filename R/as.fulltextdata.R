@@ -4,11 +4,13 @@
 #' @param headline A headline to append.
 #' @export as.fulltextdata
 #' @examples
+#' \dontrun{
 #' library(polmineR)
 #' use("polmineR")
 #' P <- partition("GERMAPARLMINI", speaker = "Volker Kauder", date = "2009-11-10")
 #' D <- as.fulltextdata(P, headline = "Volker Kauder (CDU)")
 #' fulltext(D)
+#' }
 #' @importFrom polmineR getTokenStream as.utf8
 #' @importFrom RcppCWB cl_struc2str cl_cpos2struc
 as.fulltextdata <- function(x, headline){

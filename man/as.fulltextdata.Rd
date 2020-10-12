@@ -15,9 +15,11 @@ as.fulltextdata(x, headline)
 Convert object to input for fulltext.
 }
 \examples{
+\dontrun{
 library(polmineR)
 use("polmineR")
 P <- partition("GERMAPARLMINI", speaker = "Volker Kauder", date = "2009-11-10")
 D <- as.fulltextdata(P, headline = "Volker Kauder (CDU)")
 fulltext(D)
+}
 }

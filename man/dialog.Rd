@@ -5,7 +5,9 @@
 \alias{dialog_default_callback}
 \alias{dialog_radio_buttons}
 \title{Customization for bootbox prompt dialog.}
-\format{An object of class \code{character} of length 19.}
+\format{
+An object of class \code{character} of length 19.
+}
 \usage{
 dialog_default_callback
 
