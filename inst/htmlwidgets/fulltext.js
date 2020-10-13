@@ -24,9 +24,10 @@ HTMLWidgets.widget({
 
         for (var i = 0; i < x.data.paragraphs.length; i++){
             p = x.data.paragraphs[i].tokenstream;
+            console.log(p);
             newPara = "<" + x.data.paragraphs[i].element + ">";
             for (var j = 0; j < p.token.length; j++){
-              newPara = newPara + '<span id="' + p.id[j] + '">' + p.token[j] + '</span> ';
+              newPara = newPara + p.whitespace[j] + '<span id="' + p.id[j] + '">' + p.token[j] + '</span>';
             }
             newPara = newPara + "</" + x.data.paragraphs[i].element + ">";
             container.innerHTML = container.innerHTML + newPara;

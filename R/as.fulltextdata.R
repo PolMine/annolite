@@ -27,10 +27,13 @@ as.fulltextdata.plpr_partition <- function(x, headline){
     function(row){
       ts <- get_token_stream(row[1]:row[2], p_attribute = "word", cpos = TRUE, corpus = x@corpus, encoding = x@encoding)
       s_attr <- RcppCWB::cl_struc2str(RcppCWB::cl_cpos2struc(row[1], corpus = x@corpus, s_attribute = "interjection"), corpus = x@corpus, s_attribute ="interjection")
-      list(
+      df <- data.frame(token = as.utf8(unname(ts), from = localeToCharset()), id = as.integer(names(ts)))
+      df <- .adjust_whitespace(df)
+      y <- list(
         element = if (s_attr %in% c("speech", "FALSE")) "p" else "blockquote",
-        tokenstream = data.frame(token = as.utf8(unname(ts), from = localeToCharset()), id = as.integer(names(ts)))
+        tokenstream = df
       )
+      y
     }
   )
   
@@ -38,7 +41,7 @@ as.fulltextdata.plpr_partition <- function(x, headline){
   headline <- list(
     list(
       element = "h2",
-      tokenstream = data.frame(token = headline, id = rep("", times = length(headline)))
+      tokenstream = data.frame(token = headline, id = rep("", times = length(headline)), whitespace = "")
     )
   )
   paragraphs <- c(headline, paragraphs)
@@ -47,6 +50,7 @@ as.fulltextdata.plpr_partition <- function(x, headline){
     annotations = data.frame(
       text = character(),
       code = character(),
+      color = character(),
       annotation = character(),
       id_left = integer(),
       id_right = integer()
@@ -62,10 +66,9 @@ as.fulltextdata.subcorpus <- function(x, headline){
     x@cpos, 1, 
     function(row){
       ts <- get_token_stream(row[1]:row[2], p_attribute = "word", cpos = TRUE, corpus = x@corpus, encoding = x@encoding)
-      list(
-        element = "p",
-        tokenstream = data.frame(token = as.utf8(unname(ts), from = localeToCharset()), id = as.integer(names(ts)))
-      )
+      df <- data.frame(token = as.utf8(unname(ts), from = localeToCharset()), id = as.integer(names(ts)), whitespace = " ")
+      df <- .adjust_whitespace(df)
+      list(element = "p", tokenstream = df)
     }
   )
   
@@ -73,7 +76,7 @@ as.fulltextdata.subcorpus <- function(x, headline){
   headline <- list(
     list(
       element = "h2",
-      tokenstream = data.frame(token = headline, id = rep("", times = length(headline)))
+      tokenstream = data.frame(token = headline, id = rep("", times = length(headline)), whitespace = "")
     )
   )
   paragraphs <- c(headline, paragraphs)
@@ -82,6 +85,7 @@ as.fulltextdata.subcorpus <- function(x, headline){
     annotations = data.frame(
       text = character(),
       code = character(),
+      color = character(),
       annotation = character(),
       id_left = integer(),
       id_right = integer()
@@ -89,3 +93,11 @@ as.fulltextdata.subcorpus <- function(x, headline){
   )
 }
 
+.adjust_whitespace <- function(x){
+  x[["whitespace"]] <- " "
+  whitespace <- grep("^[\\.;,:!?\\)\\(]$", x[["token"]], perl = TRUE)
+  if (length(whitespace) > 0L) x[whitespace, "whitespace"] <- ""
+  x[1,"whitespace"] <- ""
+  x
+  
+}
