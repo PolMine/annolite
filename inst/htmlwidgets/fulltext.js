@@ -33,7 +33,7 @@ HTMLWidgets.widget({
         };
         
         for (var i = 0; i < x.data.annotations.id_left.length; i++){
-          for (var id = x.data.annotations.id_left[i]; id <= x.data.annotations.id_right[i]; id ++){
+          for (var id = x.data.annotations.id_left[i]; id <= x.data.annotations.id_right[i]; id++){
             el = document.getElementById(id.toString())
             el.style.backgroundColor = x.data.annotations.code[i];
             el.addEventListener('contextmenu', function(ev) {
@@ -47,14 +47,13 @@ HTMLWidgets.widget({
         function getSelectionText() {
           var text = "";
           if (window.getSelection) {
-            
-            document.annotations.text.push(window.getSelection().toString());
 
             var id_left = parseInt(window.getSelection().anchorNode.parentNode.getAttribute("id"));
             var id_right = parseInt(window.getSelection().focusNode.parentNode.getAttribute("id"));
 
             document.annotations.id_left.push(id_left);
             document.annotations.id_right.push(id_right);
+            document.annotations.text.push(window.getSelection().toString());
 
             var code_color = bootbox.prompt({
               title: x.settings.codeSelection,

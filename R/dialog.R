@@ -2,33 +2,11 @@
 #' 
 #' @export dialog_default_callback
 #' @rdname dialog
-dialog_default_callback <- c(
-  "function (result) {",
-    
-    "var i = document.annotations.id_left.length - 1;",
-    "var code_selected = $('#selection input:radio:checked').val();",
-    "document.annotations.code.push(code_selected);",
-    "document.annotations.annotation.push(result);",
-    
-    "for (var id = document.annotations.id_left[i]; id <= document.annotations.id_right[i]; id++) {",
-      "document.getElementById(id.toString()).style.backgroundColor = code_selected;",
-    "};",
-    
-    "document.annotationsCreated++;",
-    "console.log(document.annotationsCreated);",
-    "Shiny.onInputChange('annotations_created', document.annotationsCreated);",
-    "Shiny.onInputChange('annotations_table', document.annotations);",
-    "console.log(document.annotations);",
+dialog_default_callback <- function(){
+  readLines(system.file(package = "annolite", "js", "callback.js"))
+}
   
-    "if (window.getSelection().empty) {  // Chrome",
-      "window.getSelection().empty();",
-    "} else if (window.getSelection().removeAllRanges) {  // Firefox",
-      "window.getSelection().removeAllRanges();",
-    "}",
   
-  "}"
-)
-
 #' @export dialog_radio_buttons
 #' @rdname dialog
 #' @param ... Definition of options in radio button group: Arguments are options, values are colors.
@@ -40,13 +18,14 @@ dialog_radio_buttons <- function(...){
     names(codes) <- names(list(...))
   }
   
+  is_checked <- c(" checked", rep("", length(codes) - 1L))
   paste(
     c('Add Annotation',
       '<hr/>',
       '<div id="selection" class="btn-group" data-toggle="buttons">',
       sprintf(
-        '<label class="radio-inline"><input type="radio" name="optradio" checked value="%s">%s</label>',
-        unname(codes), names(codes)
+        '<label class="radio-inline"><input type="radio" name="radioGroup" value="%s"%s>%s</label>',
+        unname(codes), is_checked, names(codes)
       ),
       '</div>'
     ), collapse = ""
