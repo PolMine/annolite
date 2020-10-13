@@ -9,7 +9,7 @@ annotate(
   width = NULL,
   height = NULL,
   dialog = list(choices = dialog_radio_buttons(keep = "yellow", drop = "orange"),
-    callback = dialog_default_callback)
+    callback = dialog_default_callback())
 )
 }
 \arguments{
