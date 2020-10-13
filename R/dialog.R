@@ -23,7 +23,7 @@ dialog_default_callback <- c(
     "if (window.getSelection().empty) {  // Chrome",
       "window.getSelection().empty();",
     "} else if (window.getSelection().removeAllRanges) {  // Firefox",
-    "window.getSelection().removeAllRanges();",
+      "window.getSelection().removeAllRanges();",
     "}",
   
   "}"

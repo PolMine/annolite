@@ -10,9 +10,6 @@ HTMLWidgets.widget({
     document.annotationsCreated = 0;
     var getSelectionText; // needs to be defined globally
     
-    // document.getElementsByTagName("body")[0].style.overflow = "scroll";
-
-    // var div = document.getElementsByClassName("fulltext")[0];
     el.style.overflow = "scroll";
     el.style.padding = "5px";
     var container = el;

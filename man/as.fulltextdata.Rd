@@ -2,9 +2,15 @@
 % Please edit documentation in R/as.fulltextdata.R
 \name{as.fulltextdata}
 \alias{as.fulltextdata}
+\alias{as.fulltextdata.plpr_partition}
+\alias{as.fulltextdata.subcorpus}
 \title{Convert object to input for fulltext.}
 \usage{
 as.fulltextdata(x, headline)
+
+\method{as.fulltextdata}{plpr_partition}(x, headline)
+
+\method{as.fulltextdata}{subcorpus}(x, headline)
 }
 \arguments{
 \item{x}{The object to be converted.}
