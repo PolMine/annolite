@@ -7,7 +7,7 @@
 \alias{sample_annotation}
 \title{R-Package 'annolite'.}
 \format{
-An object of class \code{data.frame} with 4 rows and 5 columns.
+An object of class \code{data.frame} with 4 rows and 6 columns.
 }
 \usage{
 sample_annotation

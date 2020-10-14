@@ -19,7 +19,7 @@
 #' D <- as.fulltextdata(P, headline = "Volker Kauder (CDU)")
 #' D[["annotations"]] <- sample_annotation
 #' if (interactive()) Y <- annotate(D)
-annotate <- function(input, width = NULL, height = NULL, dialog = list(choices = dialog_radio_buttons(keep = "yellow", drop = "orange"), callback = dialog_default_callback())) { 
+annotate <- function(input, width = NULL, height = NULL, dialog = list(choices = dialog_radio_buttons(keep = "yellow", drop = "orange"))) { 
   
   TXT <- fulltext(input, width = width, height = height, dialog = dialog, box = FALSE)
   

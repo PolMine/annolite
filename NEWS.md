@@ -1,5 +1,5 @@
-annolite 0.0.0.9005
-===================
+annolite 0.0.0.9005-6
+=====================
 
 * An error when running R CMD check resulting from a limitation of polmineR to be loaded multiple times is resolved by commenting out the example of `as.fulltext`.
 * Mixed up special characters are displayed correctly now (#2).
@@ -9,3 +9,4 @@ annolite 0.0.0.9005
 * Columns "id_left" and "id_right" in the annotations table have been renamed and are "start" and "end" now.
 * The bug that occurred when cancelling the annotation dialogue is resolved.
 * Including whitespace on the left or right of an annotation provoked a creash - resolved (#4).
+* The R function `dialog_default_callback()` that defined a default callback function for the bootbox dialogue has been removed. The default JavaScript callback function it defined had grown so complicated that it is unlikely that modificiations "on the fly" are possible and likely.

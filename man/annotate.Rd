@@ -8,8 +8,7 @@ annotate(
   input,
   width = NULL,
   height = NULL,
-  dialog = list(choices = dialog_radio_buttons(keep = "yellow", drop = "orange"),
-    callback = dialog_default_callback())
+  dialog = list(choices = dialog_radio_buttons(keep = "yellow", drop = "orange"))
 )
 }
 \arguments{

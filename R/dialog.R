@@ -1,12 +1,5 @@
 #' Customization for bootbox prompt dialog.
 #' 
-#' @export dialog_default_callback
-#' @rdname dialog
-dialog_default_callback <- function(){
-  readLines(system.file(package = "annolite", "js", "callback.js"))
-}
-  
-  
 #' @export dialog_radio_buttons
 #' @rdname dialog
 #' @param ... Definition of options in radio button group: Arguments are options, values are colors.
