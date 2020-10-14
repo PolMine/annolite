@@ -52,8 +52,8 @@ as.fulltextdata.plpr_partition <- function(x, headline){
       code = character(),
       color = character(),
       annotation = character(),
-      id_left = integer(),
-      id_right = integer()
+      start = integer(),
+      end = integer()
     )
   )
 }
@@ -87,8 +87,8 @@ as.fulltextdata.subcorpus <- function(x, headline){
       code = character(),
       color = character(),
       annotation = character(),
-      id_left = integer(),
-      id_right = integer()
+      start = integer(),
+      end = integer()
     )
   )
 }

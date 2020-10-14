@@ -6,3 +6,4 @@ annolite 0.0.0.9005
 * The `as.fulltextdata()` function has been turned into a (S3) method, it is defined for plpr_partition objects and `subcorpus` objects.
 * In the dialogue opened for annotation, the first radio button is checked by default (not the last) (#3)
 * The `data.frame` returned by the annotation widget now reports the code in the column "code". Previously, the colour of the code had been reported.
+* Columns "id_left" and "id_right" in the annotations table have been renamed and are "start" and "end" now.

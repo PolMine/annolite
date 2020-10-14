@@ -5,6 +5,8 @@ Version: 0.0.0.9005
 Date: 2020-10-12
 Authors@R: person("Andreas", "Blaette", role = c("aut", "cre"), email = "andreas.blaette@uni-due.de")
 Description: The package includes an htmlwidget 'fulltext' and a shiny gadget to inspect the fulltext of (sub-)corpora, and for coding and adding free-text memos. 
+Depends:
+    R (>= 3.5.0)
 Imports:
     htmlwidgets,
     miniUI,
