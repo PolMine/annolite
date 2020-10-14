@@ -1,6 +1,6 @@
 HTMLWidgets.widget({
   
-  name: "fulltext",
+  name: "annotator",
   
   type: "output",
   

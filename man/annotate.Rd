@@ -15,9 +15,9 @@ annotate(
 \item{input}{A list of data.frames according to the requirements of fulltext
 input.}
 
-\item{width}{The width of the fulltext htmlwidget.}
+\item{width}{The width of the annotator htmlwidget.}
 
-\item{height}{The height of the fulltext htmlwidget.}
+\item{height}{The height of the annotator htmlwidget.}
 
 \item{dialog}{Specification of the dialog box.}
 }
@@ -28,7 +28,7 @@ Leightweight Annotation Widget.
 library(polmineR)
 use("polmineR")
 P <- partition("GERMAPARLMINI", speaker = "Volker Kauder", date = "2009-11-10")
-D <- as.fulltextdata(P, headline = "Volker Kauder (CDU)")
+D <- as.annotatordata(P, headline = "Volker Kauder (CDU)")
 D[["annotations"]] <- sample_annotation
 if (interactive()) Y <- annotate(D)
 }

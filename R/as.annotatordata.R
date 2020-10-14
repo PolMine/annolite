@@ -1,9 +1,9 @@
-#' @rdname as.fulltextdata
-#' @export as.fulltextdata
-as.fulltextdata <- function(x, headline) UseMethod("as.fulltextdata", x)
+#' @rdname as.annotatordata
+#' @export as.annotatordata
+as.annotatordata <- function(x, headline) UseMethod("as.annotatordata", x)
 
 
-#' Convert object to input for fulltext.
+#' Convert object to input for annotator htmlwidget.
 #' 
 #' @param x The object to be converted.
 #' @param headline A headline to append.
@@ -13,15 +13,15 @@ as.fulltextdata <- function(x, headline) UseMethod("as.fulltextdata", x)
 #' library(polmineR)
 #' use("polmineR")
 #' P <- partition("GERMAPARLMINI", speaker = "Volker Kauder", date = "2009-11-10")
-#' D <- as.fulltextdata(P, headline = "Volker Kauder (CDU)")
-#' fulltext(D)
+#' D <- as.annotatordata(P, headline = "Volker Kauder (CDU)")
+#' annotate(D)
 #' }
 #' @importFrom polmineR get_token_stream
 #' @importFrom polmineR as.utf8
 #' @importFrom utils localeToCharset
 #' @importFrom RcppCWB cl_struc2str cl_cpos2struc
-#' @rdname as.fulltextdata
-as.fulltextdata.plpr_partition <- function(x, headline){
+#' @rdname as.annotatordata
+as.annotatordata.plpr_partition <- function(x, headline){
   paragraphs <- apply(
     x@cpos, 1, 
     function(row){
@@ -60,8 +60,8 @@ as.fulltextdata.plpr_partition <- function(x, headline){
 
 
 #' @export
-#' @rdname as.fulltextdata
-as.fulltextdata.subcorpus <- function(x, headline){
+#' @rdname as.annotatordata
+as.annotatordata.subcorpus <- function(x, headline){
   paragraphs <- apply(
     x@cpos, 1, 
     function(row){

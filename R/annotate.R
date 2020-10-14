@@ -2,8 +2,8 @@
 #' 
 #' @param input A list of data.frames according to the requirements of fulltext
 #'   input.
-#' @param width The width of the fulltext htmlwidget.
-#' @param height The height of the fulltext htmlwidget.
+#' @param width The width of the annotator htmlwidget.
+#' @param height The height of the annotator htmlwidget.
 #' @param dialog Specification of the dialog box.
 #' @importFrom miniUI miniPage miniContentPanel gadgetTitleBar miniButtonBlock miniTabstripPanel miniTabPanel
 #' @importFrom shiny tags runGadget paneViewer textAreaInput observeEvent stopApp reactiveValues icon observe
@@ -16,12 +16,12 @@
 #' library(polmineR)
 #' use("polmineR")
 #' P <- partition("GERMAPARLMINI", speaker = "Volker Kauder", date = "2009-11-10")
-#' D <- as.fulltextdata(P, headline = "Volker Kauder (CDU)")
+#' D <- as.annotatordata(P, headline = "Volker Kauder (CDU)")
 #' D[["annotations"]] <- sample_annotation
 #' if (interactive()) Y <- annotate(D)
 annotate <- function(input, width = NULL, height = NULL, dialog = list(choices = dialog_radio_buttons(keep = "yellow", drop = "orange"))) { 
   
-  TXT <- fulltext(input, width = width, height = height, dialog = dialog, box = FALSE)
+  TXT <- annotator(input, width = width, height = height, dialog = dialog, box = FALSE)
   
   values <- reactiveValues()
 
@@ -30,7 +30,7 @@ annotate <- function(input, width = NULL, height = NULL, dialog = list(choices =
     miniTabstripPanel(
       miniTabPanel(
         "Text", icon = icon("file"),
-        miniContentPanel( fulltextOutput("fulltext"))
+        miniContentPanel( annotatorOutput("annotator"))
       ),
       miniTabPanel(
         "Annotations", icon = icon("table"),
@@ -42,8 +42,7 @@ annotate <- function(input, width = NULL, height = NULL, dialog = list(choices =
   
   server <- function(input, output, session) {
     
-
-    output$fulltext <- renderFulltext(TXT)
+    output$annotator <- renderAnnotator(TXT)
     
     observeEvent(
       input$annotations_created,

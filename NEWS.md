@@ -10,3 +10,5 @@ annolite 0.0.0.9005-6
 * The bug that occurred when cancelling the annotation dialogue is resolved.
 * Including whitespace on the left or right of an annotation provoked a creash - resolved (#4).
 * The R function `dialog_default_callback()` that defined a default callback function for the bootbox dialogue has been removed. The default JavaScript callback function it defined had grown so complicated that it is unlikely that modificiations "on the fly" are possible and likely.
+* The htmlwidget included in the package has been renamed as "annotator" (previously: "fulltext").
+* The `as.fulltextdata()` has been renamed as `as.annotatordata`.

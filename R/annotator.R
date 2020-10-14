@@ -1,4 +1,4 @@
-#' Fulltext output.
+#' Annotator htmlwidget.
 #' 
 #' @param data The data that is passed to the JavaScript that generates the output. Expected to be
 #' a list of lists that provide data on sections of text. Each of the sub-lists is to be a named
@@ -9,8 +9,8 @@
 #' @param dialog The dialog.
 #' @param box Logical, whether to put text into a box.
 #' @importFrom htmlwidgets createWidget sizingPolicy
-#' @export fulltext
-fulltext <- function(data, width = NULL, height = NULL, dialog = NULL, box = TRUE) {
+#' @export annotator
+annotator <- function(data, width = NULL, height = NULL, dialog = NULL, box = TRUE) {
 
   if (!is.list(data)) stop("Argument data is required to be a list.")
   
@@ -19,7 +19,7 @@ fulltext <- function(data, width = NULL, height = NULL, dialog = NULL, box = TRU
                            
   
   createWidget(
-    "fulltext",
+    "annotator",
     package = "annolite",
     x = list(
       data = data,
@@ -44,7 +44,7 @@ fulltext <- function(data, width = NULL, height = NULL, dialog = NULL, box = TRU
 }
 
 
-#' Render and show fulltext output in shiny apps.
+#' Render annotator htmlwidget in shiny apps.
 #' 
 #' @param outputId Output variable to read the value from.
 #' @param width The width of the widget.
@@ -53,16 +53,16 @@ fulltext <- function(data, width = NULL, height = NULL, dialog = NULL, box = TRU
 #' @param env The environment in which to evaluate expr.
 #' @param quoted Is expr a quoted expression (with quote())? This is useful if
 #'   you want to save an expression in a variable.
-#' @export fulltextOutput
+#' @export annotatorOutput
 #' @importFrom htmlwidgets shinyWidgetOutput
 #' @rdname shiny
-fulltextOutput <- function(outputId, width = "100%", height = "100%") {
-  shinyWidgetOutput(outputId, "fulltext", width, height, package = "annolite")
+annotatorOutput <- function(outputId, width = "100%", height = "100%") {
+  shinyWidgetOutput(outputId, "annotator", width, height, package = "annolite")
 }
-#' @export renderFulltext
+#' @export renderAnnotator
 #' @importFrom htmlwidgets shinyRenderWidget
 #' @rdname shiny
-renderFulltext <- function(expr, env = parent.frame(), quoted = FALSE) {
+renderAnnotator <- function(expr, env = parent.frame(), quoted = FALSE) {
   if (!quoted) { expr <- substitute(expr) } # force quoted
-  shinyRenderWidget(expr, fulltextOutput, env, quoted = TRUE)
+  shinyRenderWidget(expr, annotatorOutput, env, quoted = TRUE)
 }

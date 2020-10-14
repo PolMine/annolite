@@ -28,8 +28,8 @@ License: GPL-3
 Encoding: UTF-8
 Collate:
     'annolite.R'
-    'fulltext.R'
+    'annotator.R'
     'annotate.R'
     'dialog.R'
-    'as.fulltextdata.R'
+    'as.annotatordata.R'
 RoxygenNote: 7.1.1

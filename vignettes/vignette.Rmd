@@ -80,7 +80,7 @@ ch1_paragraphs <- c(
     )),
   ch1_paragraphs
 )
-ch1_fulltextdata <- list(
+ch1_data <- list(
   paragraphs = ch1_paragraphs,
   annotations = data.frame(
       text = character(),
@@ -93,13 +93,13 @@ ch1_fulltextdata <- list(
 ```
 
 ```{r}
-fulltext(ch1_fulltextdata, dialog = FALSE, box = TRUE, width = 650)
+annotator(ch1_data, dialog = FALSE, box = TRUE, width = 650)
 ```
 
 
 ## Initialization
 
-We introduce the fulltext package by example. In addition to the fulltext package, we need the polmineR package which includes the GERMAPARLMINI corpus.
+We introduce the annolite package by example. In addition to the annolite package, we need the polmineR package which includes the GERMAPARLMINI corpus.
 
 ```{r}
 library(annolite)
@@ -122,7 +122,7 @@ P <- partition("GERMAPARLMINI", speaker = "Volker Kauder", date = "2009-11-10")
 The data that is passed to the JavaScript that generates the output. Expected to be a list of lists that provide data on sections of text. Each of the sub-lists is to be a named list of a character vector with the HTML element the section will be wrapped into, and  a `data.frame` (or a list) with a column "token", and a column "id".
 
 ```{r}
-D <- as.fulltextdata(P, headline = "Volker Kauder (CDU)")
+D <- as.annotatordata(P, headline = "Volker Kauder (CDU)")
 ```
 
 
@@ -132,7 +132,7 @@ D <- as.fulltextdata(P, headline = "Volker Kauder (CDU)")
 ## Getting the output
 
 ```{r}
-fulltext(D, dialog = FALSE, box = TRUE, width = 650)
+annotator(D, box = TRUE, width = 650)
 ```
 
 ## Perspectives
