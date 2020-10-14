@@ -7,3 +7,5 @@ annolite 0.0.0.9005
 * In the dialogue opened for annotation, the first radio button is checked by default (not the last) (#3)
 * The `data.frame` returned by the annotation widget now reports the code in the column "code". Previously, the colour of the code had been reported.
 * Columns "id_left" and "id_right" in the annotations table have been renamed and are "start" and "end" now.
+* The bug that occurred when cancelling the annotation dialogue is resolved.
+* Including whitespace on the left or right of an annotation provoked a creash - resolved (#4).
