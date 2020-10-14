@@ -4,13 +4,16 @@
 \alias{as.annotatordata}
 \alias{as.annotatordata.plpr_partition}
 \alias{as.annotatordata.subcorpus}
+\alias{is.annotatordata}
 \title{Convert object to input for annotator htmlwidget.}
 \usage{
 as.annotatordata(x, headline)
 
-\method{as.annotatordata}{plpr_partition}(x, headline)
+\method{as.annotatordata}{plpr_partition}(x, headline = NULL)
 
-\method{as.annotatordata}{subcorpus}(x, headline)
+\method{as.annotatordata}{subcorpus}(x, headline = NULL)
+
+is.annotatordata(x)
 }
 \arguments{
 \item{x}{The object to be converted.}

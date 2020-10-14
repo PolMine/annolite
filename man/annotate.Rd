@@ -2,33 +2,45 @@
 % Please edit documentation in R/annotate.R
 \name{annotate}
 \alias{annotate}
-\title{Leightweight Annotation Widget.}
+\title{Call Leightweight Annotation Widget.}
 \usage{
 annotate(
   input,
   width = NULL,
   height = NULL,
-  dialog = list(choices = dialog_radio_buttons(keep = "yellow", drop = "orange"))
+  dialog = list(choices = dialog_radio_buttons(keep = "yellow", drop = "orange")),
+  file = NULL,
+  ...
 )
 }
 \arguments{
-\item{input}{A list of data.frames according to the requirements of fulltext
-input.}
+\item{input}{Either a \code{annotatordata} object or an object that can be
+coerced to \code{annotatordata} using the \code{as.annotatordata} method.}
 
 \item{width}{The width of the annotator htmlwidget.}
 
 \item{height}{The height of the annotator htmlwidget.}
 
 \item{dialog}{Specification of the dialog box.}
+
+\item{file}{If a \code{character} vector, a filename to save table with
+annotations to disk whenever a new annotation is added. If the filename
+ends with ".rds", a RDS file is saved. In all other cases, a csv file
+is generated.}
+
+\item{...}{Further arguments passed into call of \code{as.annotatordata} if
+argument \code{input} is not an \code{annotatordata} class object.}
 }
 \description{
-Leightweight Annotation Widget.
+Call Leightweight Annotation Widget.
 }
 \examples{
 library(polmineR)
 use("polmineR")
 P <- partition("GERMAPARLMINI", speaker = "Volker Kauder", date = "2009-11-10")
+if (interactive()) Y <- annotate(P, headline = "Volker Kauder (CDU)")
+
 D <- as.annotatordata(P, headline = "Volker Kauder (CDU)")
-D[["annotations"]] <- sample_annotation
+D$annotations <- sample_annotation
 if (interactive()) Y <- annotate(D)
 }

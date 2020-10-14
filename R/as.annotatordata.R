@@ -1,3 +1,6 @@
+#' @include utils.R
+NULL
+
 #' @rdname as.annotatordata
 #' @export as.annotatordata
 as.annotatordata <- function(x, headline) UseMethod("as.annotatordata", x)
@@ -21,7 +24,7 @@ as.annotatordata <- function(x, headline) UseMethod("as.annotatordata", x)
 #' @importFrom utils localeToCharset
 #' @importFrom RcppCWB cl_struc2str cl_cpos2struc
 #' @rdname as.annotatordata
-as.annotatordata.plpr_partition <- function(x, headline){
+as.annotatordata.plpr_partition <- function(x, headline = NULL){
   paragraphs <- apply(
     x@cpos, 1, 
     function(row){
@@ -37,31 +40,25 @@ as.annotatordata.plpr_partition <- function(x, headline){
     }
   )
   
+  if (!is.null(headline)){
+    headline <- list(
+      list(
+        element = "h2",
+        tokenstream = data.frame(token = headline, id = rep("", times = length(headline)), whitespace = "")
+      )
+    )
+  }
   
-  headline <- list(
-    list(
-      element = "h2",
-      tokenstream = data.frame(token = headline, id = rep("", times = length(headline)), whitespace = "")
-    )
-  )
   paragraphs <- c(headline, paragraphs)
-  list(
-    paragraphs = paragraphs,
-    annotations = data.frame(
-      text = character(),
-      code = character(),
-      color = character(),
-      annotation = character(),
-      start = integer(),
-      end = integer()
-    )
-  )
+  retval <- list(paragraphs = paragraphs, annotations = .annotations())
+  class(retval) <- c("annotatordata", is(retval))
+  retval
 }
 
 
 #' @export
 #' @rdname as.annotatordata
-as.annotatordata.subcorpus <- function(x, headline){
+as.annotatordata.subcorpus <- function(x, headline = NULL){
   paragraphs <- apply(
     x@cpos, 1, 
     function(row){
@@ -72,25 +69,19 @@ as.annotatordata.subcorpus <- function(x, headline){
     }
   )
   
+  if (isFALSE(is.null(headline))){
+    headline <- list(
+      list(
+        element = "h2",
+        tokenstream = data.frame(token = headline, id = rep("", times = length(headline)), whitespace = "")
+      )
+    )
+  }
   
-  headline <- list(
-    list(
-      element = "h2",
-      tokenstream = data.frame(token = headline, id = rep("", times = length(headline)), whitespace = "")
-    )
-  )
   paragraphs <- c(headline, paragraphs)
-  list(
-    paragraphs = paragraphs,
-    annotations = data.frame(
-      text = character(),
-      code = character(),
-      color = character(),
-      annotation = character(),
-      start = integer(),
-      end = integer()
-    )
-  )
+  retval <- list(paragraphs = paragraphs, annotations = .annotations())
+  class(retval) <- c("annotatordata", is(retval))
+  retval
 }
 
 .adjust_whitespace <- function(x){
@@ -101,3 +92,7 @@ as.annotatordata.subcorpus <- function(x, headline){
   x
   
 }
+
+#' @rdname as.annotatordata
+#' @export is.annotatordata
+is.annotatordata <- function(x) inherits(x, "annotatordata")

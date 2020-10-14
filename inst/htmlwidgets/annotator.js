@@ -23,15 +23,14 @@ HTMLWidgets.widget({
         document.annotations = x.data.annotations;
         if (x.settings.box){ container.style.border = "1px solid #ddd"; };
 
-
         for (var i = 0; i < x.data.paragraphs.length; i++){
-            p = x.data.paragraphs[i].tokenstream;
-            newPara = "<" + x.data.paragraphs[i].element + ">";
-            for (var j = 0; j < p.token.length; j++){
-              newPara = newPara + '<span>' + p.whitespace[j] + '</span>' + '<span id="' + p.id[j] + '">' + p.token[j] + '</span>';
+            var p = "<" + x.data.paragraphs[i].element + ">";
+            for (var j = 0; j < x.data.paragraphs[i].tokenstream.token.length; j++){
+              p += '<span>' + x.data.paragraphs[i].tokenstream.whitespace[j] + '</span>';
+              p += '<span id="' + x.data.paragraphs[i].tokenstream.id[j] + '">' + x.data.paragraphs[i].tokenstream.token[j] + '</span>';
             }
-            newPara = newPara + "</" + x.data.paragraphs[i].element + ">";
-            container.innerHTML = container.innerHTML + newPara;
+            p += "</" + x.data.paragraphs[i].element + ">";
+            container.innerHTML += p;
         };
         
         for (var i = 0; i < x.data.annotations.start.length; i++){
