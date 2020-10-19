@@ -1,0 +1,105 @@
+---
+title: "Introducing 'fulltext'"
+author: "Andreas Blätte (andreas.blaette@uni-due.de)"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{fulltext}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+## Purpose
+
+
+The ´fulltext´-package includes a lightweight htmlwidget for fulltext output.
+
+## Getting Started
+
+```{r, eval = TRUE}
+library(janeaustenr)
+library(tokenizers)
+library(fulltext)
+library(polmineR)
+library(crosstalk)
+```
+
+
+## From tidytext to fulltext
+
+```{r, eval = TRUE}
+emma_tokenized_paragraphs <- cut(1:length(emma), c(1, grep("^\\s*$", emma), length(emma))) %>%
+  split(janeaustenr::emma, f = .) %>%
+  lapply(paste, collapse = " ") %>%
+  tokenizers::tokenize_words(lowercase = FALSE, strip_punct = FALSE)
+```
+
+```{r}
+for (i in rev(which(sapply(emma_tokenized_paragraphs, length) == 0))){
+  emma_tokenized_paragraphs[[i]] <- NULL
+}
+
+EmmaFulltextParas <- lapply(emma_tokenized_paragraphs, function(p) FulltextData$new(p))
+
+for (i in seq_along(EmmaFulltextParas)){
+  EmmaFulltextParas[[i]]$retag(regex = "CHAPTER", old = "para", new = "h2")
+}
+```
+
+```{r}
+EmmaFulltext <- FulltextData$new(EmmaFulltextParas)
+EmmaFulltextChapters <- EmmaFulltext$split(regex = "CHAPTER", column = "token")
+```
+
+```{r}
+for (i in seq_along(EmmaFulltextChapters)){
+  EmmaFulltextChapters[[i]]$rename(name = sprintf("Chapter %d", i))
+}
+```
+
+
+```{r, eval = TRUE}
+fulltext(EmmaFulltextChapters[[1]])
+```
+
+
+## From a polmineR subcorpus to fulltext
+
+We introduce the fulltext package by example. In addition to the fulltext package, we need the polmineR package which includes the GERMAPARLMINI corpus.
+
+```{r, eval = TRUE}
+library(polmineR)
+use("polmineR")
+```
+
+The example aims at outputting one particular speech. We take a speech held by Voker Kauder in the German Bundestag.
+
+```{r, eval = TRUE}
+sp <- corpus("GERMAPARLMINI") %>% subset(speaker == "Volker Kauder" & date == "2009-11-10")
+```
+
+The data that is passed to the JavaScript that generates the output. Expected to be a list of lists that provide data on sections of text. Each of the sub-lists is to be a named list of a character vector with the HTML element the section will be wrapped into, and  a `data.frame` (or a list) with a column "token", and a column "id".
+
+```{r, eval = TRUE}
+KauderSpeech <- FulltextData$new(sp, headline = "Volker Kauder (CDU)")
+```
+
+So let us see the result ... 
+
+```{r, eval = TRUE}
+fulltext(KauderSpeech, box = TRUE)
+```
+
+
+## Crosstalking
+
+```{r, eval = TRUE}
+fulltext(EmmaFulltextChapters)
+```
+
+
+## Perspectives
+
+Enjoy! 

@@ -1,4 +1,4 @@
-annolite 0.0.0.9005-6
+annolite 0.0.0.9005-7
 =====================
 
 * An error when running R CMD check resulting from a limitation of polmineR to be loaded multiple times is resolved by commenting out the example of `as.fulltext`.
@@ -14,3 +14,7 @@ annolite 0.0.0.9005-6
 * The `as.fulltextdata()` has been renamed as `as.annotatordata`.
 * Calling the annotator widget is faster, resulting from an improved JavaScript implemention.
 * Argument `headline` of the `as.annotatordata()` method has now default value `NULL`, it is not necessary to provide argument.
+* The README was totally outdated and the bulk of the content has been removed.
+* Methods `as.fulltexttable()`, R6 Class `FulltextData` and the `fulltext()` function have been integrated into annolite package from fulltext package.
+* The CSS file markdown7.css included in the fulltext package supersedes the equally-named file in annolite, assuming that the fullext package has seen relevant updates.
+

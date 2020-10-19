@@ -13,24 +13,31 @@ Imports:
     shiny,
     shinyjs,
     shinyWidgets,
-    polmineR,
+    polmineR (>= 0.8.0.9006),
     RcppCWB,
     methods,
     DT,
-    utils
+    utils,
+    crosstalk
 Suggests:
     knitr,
     janeaustenr,
-    tokenizers
+    tokenizers,
+    magrittr,
+    rmarkdown,
+    webshot
 VignetteBuilder: knitr
 LazyData: yes
 License: GPL-3
 Encoding: UTF-8
 Collate:
+    'FulltextData.R'
     'annolite.R'
     'annotate.R'
     'annotator.R'
     'utils.R'
     'as.annotatordata.R'
+    'as.fulltexttable.R'
     'dialog.R'
+    'fulltext.R'
 RoxygenNote: 7.1.1

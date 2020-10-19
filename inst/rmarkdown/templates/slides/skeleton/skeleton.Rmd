@@ -1,0 +1,183 @@
+---
+title: "R Markdown and ioslides"
+subtitle: "How to embed fulltext htmlwidgets"
+author: "Andreas Blaette"
+output:
+  ioslides_presentation:
+    self_contained: FALSE
+vignette: >
+  %\VignetteIndexEntry{fulltext_slides}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## About these slides {.smaller}
+
+* The htmlwidget included in the fulltext package is designed to be used
+
+  - in an interactive R sessions as output in the Viewer pane of RStudio;
+  - to be included in Shiny apps;
+  - or to be included in Rmarkdown documents, including the communication between htmlwidgets using the crosstalk R package.
+  
+* Including fulltext widgets in html slide presentations (ioslides) generated from Rmarkdown documents is a relevant scenario: Being able to show the fulltext behind different kinds of quantitative analyses (cooccurrences, keywords, topicmodelling) has a genuine value ...
+
+  - to qualitatively validate quantiative results (documentation function of slides)
+  - to explain the intuition behind using quantiative approaches to text, either in the context of presenting research results, or offering a tutorial (explanatory function of slides)
+  
+* Including 'fulltext' widgets in an ioslides presentation is feasible and yields results fully in line with the aforementioned aims. But there is a set of technical caveats and considerations. These slides explain how to do it.
+
+
+## Slide with R Output {.smaller}
+
+* To get started, we load the fulltext package that includes the fulltext htmlwidget, and the polmineR package to access corpus data.
+
+```{r cars, echo = TRUE, message = FALSE}
+library(fulltext)
+library(polmineR)
+```
+
+* We generate a subcorpus with a speech given by Volker Kauder in a session of the Bundestag on November 10, 2009, turn it into the table format required by the fulltext htmlwidget (`as.fulltextdata()`), and generate the widget calling the `fulltext()` function.
+
+```{r echo = TRUE, message = FALSE}
+ftxt <- corpus("GERMAPARLMINI") %>%
+  subset(speaker == "Volker Kauder") %>%
+  subset(date == "2009-11-10") %>%
+  as.fulltexttable(headline = "Volker Kauder (CDU)", display = "block") %>%
+  fulltext(box = TRUE)
+```
+
+* Note that the argument `display` has the value "block" here: This means that the text will be visible from the outset (which would not be the case if the value was "none".
+
+
+## Fulltext Output in Slides {.smaller}
+
+* Including the htmlwidget `ftxt` in an document erssentially requires nothing more than to put the `ftxt` object at the end of a code block, however ...
+
+* The CSS of the fulltext widget may conflict with the CSS of the document where it is embedded in. Modifying the CSS of the widget until all interferences have ceased is possible. But this is not fully reliable. The best practice for the time being is to wrap the fulltext widget into a so-called "widgetframe" as offered by the - surprise - widgetframe package. The widgetframe ensures that the the htmlwidget within it is complete and sealed off against the wrapping document. Apart from loading the widgetframe package, it is necessary to define a directory where the widgetframe will keep its files. (The respective snippet is reported here. But typically, you would set chunk options invisibly before the actual document starts.)
+
+```{r, message = FALSE}
+library(widgetframe)
+knitr::opts_chunk$set(widgetframe_widgetsdir = 'widgets')
+```
+
+* Now we create the widgetframe from the fulltext-htmlwidget we had prepared before. See the result on the next page/slide.
+
+```{r, echo = TRUE, eval = FALSE}
+frameWidget(ftxt)
+```
+
+
+## Slide with a fulltext widget
+
+```{r, echo = FALSE}
+frameWidget(ftxt)
+```
+
+
+## Fulltext likes compancy  {.smaller}
+
+* For explanatory purposes, the ability to show different documents relevant for an analysis without having to leave the presentation is very attractive. The fulltext htmlwidget is designed to be compatible with the crosstalk package, which offers the JavaScript functionality to support the communication of different htmlwidgets, and this is a prerequisite for this functionality.
+
+* To learn how to create crosstalk-enabled html including a fulltext widget and further widgets in an interactive R/RStudio session, see the standard vignette of this package. 
+
+* To embed a fulltext htmlwidget in an ioslides presentation, conflicts with the surrounding document need to be contained. But for the crosstalk scenario, is not possible to use the widgetframe that is appropriate when you have just one simple fulltext widget: The `shiny.tag` class that is used as a wrapper for several htmlwidgets is not an htmlwidget itself and the `frameWidget()` function will not accept it as an input.
+
+* The best solution at this time is to generate the `shiny.tag` object that includes htmlwidgets communicating with each other via crosstalk, to turn it into a plain html file that is saved to disk and included in the slides with an iframe tag.
+
+
+## Scenario & Code, Part I {.smaller}
+
+* In this scenario, we want to have a slide with a table with different sucorpora to be displayed in fulltext mode at the left and the fulltext output in the right column of the slide.
+
+* To prepare some data, we generate a bundle of subcorpora of speeches given in the German Bundestag ...
+
+```{r}
+speeches <- corpus("GERMAPARLMINI") %>%
+  subset(date == "2009-11-10") %>%
+  as.speeches(s_attribute_name = "speaker", verbose = FALSE, progress = FALSE)
+speeches <- speeches[[subset(summary(speeches), size >= 50)$name]]
+```
+
+* We turn the subcorpora into `fulltexttable` objects and glue the tables together. Note that chunks of text are not displayed initially (display = "none").
+
+```{r}
+df_list <- lapply(seq_len(length(speeches)),
+  function(i) data.frame(
+    as.fulltexttable(speeches[[i]], headline = unname(name(speeches[[i]])), display = "none", name = name(name(speeches[[i]]))),
+    subcorpus_id = unname(name(speeches[[i]])))
+  )
+df <- do.call(rbind, df_list)
+```
+
+
+## Scenario & Code, Part II {.smaller}
+
+* Now we take care that we have two tables that are able to communicate with each other. The technical link is offered by the crostalk package, i.e. by provided by wrapping `data.frame`-like objects in a `SharedData` object. 
+
+```{r, eval = TRUE}
+library(crosstalk)
+```
+
+* That requires the definition of an id and to put both tables into the same group.
+
+```{r}
+sd <- crosstalk::SharedData$new(df, ~subcorpus_id, group = "fulltext")
+```
+
+* To make the selection among speeches, we use a table with the names of the subcorpora, and turn it into a `SharedData` object. The ids for linking are the names of the subcorpora.
+
+```{r}
+speeches_table <- data.frame(name = names(speeches))
+dt_cross <- crosstalk::SharedData$new(speeches_table, ~name, group = "fulltext")
+```
+
+
+## Putting it together (Part III) {.smaller}
+
+* The `bscols` function (crosstalk package) combines two htmlwidgets in a bootstrap layout.
+
+```{r}
+y <- bscols(
+  widths = c(5,NA),
+  DT::datatable(
+    dt_cross,
+    options = list(lengthChange = TRUE, pageLength = 8L, pagingType = "simple", dom = "tp"),
+    rownames = NULL, width = "100%", selection = "single"
+  ),
+  fulltext(sd, width = "100%", box = FALSE)
+)
+```
+
+* The resulting object is a `shiny.tag` object. In an interactive session, it can be viewed directly in the Viewer pane of RStudio. But including this in an ioslides presentation will provoke a plethora of CSS interferences (see this GitHub issue). Generating plain html from the object, saving it to disk and including this page in an iframe is the solution (see the result on the following slide).
+
+```{r, echo = TRUE, eval = TRUE}
+crosstalk_html <- file.path(getwd(), "crosstalk.html")
+htmltools::save_html(y, file = crosstalk_html, background = "white",  libdir = "lib")
+```
+
+
+## A fulltext selection slide {.smaller}
+
+<iframe src = "crosstalk.html" frameborder="0" scrolling="no" onload="resizeIframe(this)" padding="0em !important" margin-left="0 !important"></iframe>
+
+
+## Managing resulting files {.smaller}
+
+* Embedding the fulltext htmlwidget in an ioslides is perfectly possible. The result will however **not** be a single self-contained html file. Depending on whether you work with a widgetframe and/or a crosstalk-enabled slide, there will be additional files and folders in the output directory of the html file with the slides:
+  - folder 'libs'
+  - folder '..._files'
+  - file 'crosstalk.html'
+
+* When you move your html presentation to another storage location (including a site available on the web), ensure that these files the accompany the original slides remain in the same folder.
+
+
+## Summary & Next Steps {.smaller}
+
+* These slides convey they best practices that have been identified for including fulltext htmlwidgets in ioslides presentations generated from R Markdown documents. Essentially, the recommendation is:
+
+  - to wrap a single fulltext htmlwidget in an widgetframe (R pacakge widgetframe), so avoid CSS conflicts.
+  - to save a `shiny.tag` object that wraps a set of htmlwidgets connected to each other using crosstalk as an html file to disk and to include this page using an iframe-tag.
+  
+* The scenarios presented here were basic, simple and not necessarily impressive. The beauty of the fulltext htmlwidget is that it can be used to combine the quantitative and the qualitative analysis if text. Highlighting words in the fulltext output simply requires to add something like "font style='background-color:yellow' to the "before"-column of the "fulltexttable" and the corresponding "/font" tag to the "after"-column. So there is a lot you can do to support fancy quantitative text analysis.
+
+* Enjoy! Feedback welcome! Visit us at GitHub!

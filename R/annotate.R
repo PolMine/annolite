@@ -20,8 +20,10 @@
 #' @importFrom shinyWidgets prettyRadioButtons
 #' @importFrom methods is
 #' @importFrom DT dataTableOutput renderDataTable datatable
+#' @importFrom utils write.table
 #' @export annotate
 #' @examples
+#' \dontrun{
 #' library(polmineR)
 #' use("polmineR")
 #' P <- partition("GERMAPARLMINI", speaker = "Volker Kauder", date = "2009-11-10")
@@ -30,6 +32,7 @@
 #' D <- as.annotatordata(P, headline = "Volker Kauder (CDU)")
 #' D$annotations <- sample_annotation
 #' if (interactive()) Y <- annotate(D)
+#' }
 annotate <- function(input, width = NULL, height = NULL, dialog = list(choices = dialog_radio_buttons(keep = "yellow", drop = "orange")), file = NULL, ...) { 
   
   if (!is.annotatordata(input)) input <- as.annotatordata(input, ...)

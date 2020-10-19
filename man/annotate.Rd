@@ -31,10 +31,14 @@ is generated.}
 \item{...}{Further arguments passed into call of \code{as.annotatordata} if
 argument \code{input} is not an \code{annotatordata} class object.}
 }
+\value{
+A \code{data.frame} with annotations is returned invisibly.
+}
 \description{
 Call Leightweight Annotation Widget.
 }
 \examples{
+\dontrun{
 library(polmineR)
 use("polmineR")
 P <- partition("GERMAPARLMINI", speaker = "Volker Kauder", date = "2009-11-10")
@@ -43,4 +47,5 @@ if (interactive()) Y <- annotate(P, headline = "Volker Kauder (CDU)")
 D <- as.annotatordata(P, headline = "Volker Kauder (CDU)")
 D$annotations <- sample_annotation
 if (interactive()) Y <- annotate(D)
+}
 }
