@@ -21,7 +21,7 @@ The ´fulltext´-package includes a lightweight htmlwidget for fulltext output.
 ```{r, eval = TRUE}
 library(janeaustenr)
 library(tokenizers)
-library(fulltext)
+library(annolite)
 library(polmineR)
 library(crosstalk)
 ```

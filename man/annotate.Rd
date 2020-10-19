@@ -15,7 +15,7 @@ annotate(
 }
 \arguments{
 \item{input}{Either a \code{annotatordata} object or an object that can be
-coerced to \code{annotatordata} using the \code{as.annotatordata} method.}
+brought in shape using the \code{as.fulltextlist} method.}
 
 \item{width}{The width of the annotator htmlwidget.}
 
@@ -28,8 +28,7 @@ annotations to disk whenever a new annotation is added. If the filename
 ends with ".rds", a RDS file is saved. In all other cases, a csv file
 is generated.}
 
-\item{...}{Further arguments passed into call of \code{as.annotatordata} if
-argument \code{input} is not an \code{annotatordata} class object.}
+\item{...}{Further arguments passed into call of \code{as.fulltextlist}.}
 }
 \value{
 A \code{data.frame} with annotations is returned invisibly.
@@ -44,7 +43,7 @@ use("polmineR")
 P <- partition("GERMAPARLMINI", speaker = "Volker Kauder", date = "2009-11-10")
 if (interactive()) Y <- annotate(P, headline = "Volker Kauder (CDU)")
 
-D <- as.annotatordata(P, headline = "Volker Kauder (CDU)")
+D <- as.fulltextlist(P)
 D$annotations <- sample_annotation
 if (interactive()) Y <- annotate(D)
 }

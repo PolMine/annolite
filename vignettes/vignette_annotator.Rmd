@@ -122,11 +122,8 @@ P <- partition("GERMAPARLMINI", speaker = "Volker Kauder", date = "2009-11-10")
 The data that is passed to the JavaScript that generates the output. Expected to be a list of lists that provide data on sections of text. Each of the sub-lists is to be a named list of a character vector with the HTML element the section will be wrapped into, and  a `data.frame` (or a list) with a column "token", and a column "id".
 
 ```{r}
-D <- as.annotatordata(P, headline = "Volker Kauder (CDU)")
+D <- as.fulltextlist(P)
 ```
-
-
-## Adding a headline
 
 
 ## Getting the output
