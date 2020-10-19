@@ -28,7 +28,7 @@ setMethod("as.fulltexttable", "slice", function(x, display = "block", headline =
       ts <- get_token_stream(x@cpos[i,1]:x@cpos[i,2], p_attribute = "word", cpos = TRUE, corpus = x@corpus)
       df <- data.frame(
         id = as.integer(names(ts)),
-        token = as.utf8(unname(ts), from = "latin1"),
+        token = as.utf8(unname(ts), from = localeToCharset()),
         tag_before = " ",
         tag_after = "",
         stringsAsFactors = FALSE
