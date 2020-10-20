@@ -1,11 +1,12 @@
 #' @rdname fulltext
 #' @export fulltext
-fulltext <- function(x, width = NULL, height = NULL, box = TRUE, group = NULL) UseMethod("fulltext", x)
+fulltext <- function(x, annotations, width = NULL, height = NULL, box = TRUE, group = NULL) UseMethod("fulltext", x)
 
 
 #' Fulltext output htmlwidget.
 #' 
 #' @param x The data.
+#' @param annotations A table with annotations.
 #' @param width The width of the widget.
 #' @param group Name of the crosstalk group, see ....
 #' @param height The height of the widget.
@@ -14,13 +15,13 @@ fulltext <- function(x, width = NULL, height = NULL, box = TRUE, group = NULL) U
 #' @importFrom crosstalk is.SharedData
 #' @export
 #' @rdname fulltext
-fulltext.data.frame <- function(x, width = "100%", height = NULL, box = TRUE, group = NULL) {
+fulltext.fulltextlist <- function(x, annotations = NULL, width = "100%", height = NULL, box = TRUE, group = NULL) {
   
   createWidget(
     "fulltext",
     package = "annolite",
     x = list(
-      data = x,
+      data = list(paragraphs = x, annotations = annotations),
       settings = list(box = box, crosstalk_key = NULL, crosstalk_group = group)
     ),
     width = width,
@@ -41,9 +42,10 @@ fulltext.data.frame <- function(x, width = "100%", height = NULL, box = TRUE, gr
 
 #' @export
 #' @rdname fulltext
-fulltext.SharedData <- function(x, width = "100%", height = NULL, box = TRUE, group = x$groupName()) {
-  fulltext.data.frame(
+fulltext.SharedData <- function(x, annotations = NULL, width = "100%", height = NULL, box = TRUE, group = x$groupName()) {
+  fulltext.fulltextlist(
     x = x$origData(),
+    annotations = annotations,
     width = width, height = height, box = box,
     group = group
   )
@@ -51,14 +53,14 @@ fulltext.SharedData <- function(x, width = "100%", height = NULL, box = TRUE, gr
 
 #' @export
 #' @rdname fulltext
-fulltext.FulltextData <- function(x, width = "100%", height = NULL, box = TRUE, group = NULL) {
-  fulltext.data.frame(x = x$data, width = width, height = height, box = box, group = group)
+fulltext.FulltextData <- function(x, annotations = NULL, width = "100%", height = NULL, box = TRUE, group = NULL) {
+  fulltext.fulltextlist(x = x$data, annotations = annotations, width = width, height = height, box = box, group = group)
 }
 
 #' @export
 #' @rdname fulltext
 #' @importFrom crosstalk bscols
-fulltext.list <- function(x, width = "100%", height = NULL, box = TRUE, group = "fulltext"){
+fulltext.list <- function(x, annotations = NULL, width = "100%", height = NULL, box = TRUE, group = "fulltext"){
   
   document_ids <- sapply(x, function(x) x$get_name())
   

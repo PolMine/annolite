@@ -14,9 +14,10 @@ k <- corpus("GERMAPARLMINI") \%>\%
   subset(speaker == "Volker Kauder") \%>\%
   subset(date == "2009-11-10")
   
-F <- FulltextData$new(k, headline = "Volker Kauder (CDU)", display = "block")
-F$highlight(yellow = "Opposition")
-F$tooltips(tooltips = list(Opposition = "A", Regierung = "B"))
+F <- FulltextData$new(k, display = "block")
+m <- cpos(k, query = "Opposition")
+anno <- data.frame(color = "yellow", start = m[,1], end = m[,2])
+# F$tooltips(tooltips = list(Opposition = "A", Regierung = "B"))
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
@@ -29,11 +30,9 @@ F$tooltips(tooltips = list(Opposition = "A", Regierung = "B"))
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{FulltextData$new()}}
-\item \href{#method-highlight}{\code{FulltextData$highlight()}}
 \item \href{#method-rename}{\code{FulltextData$rename()}}
 \item \href{#method-get_name}{\code{FulltextData$get_name()}}
 \item \href{#method-retag}{\code{FulltextData$retag()}}
-\item \href{#method-tooltips}{\code{FulltextData$tooltips()}}
 \item \href{#method-split}{\code{FulltextData$split()}}
 \item \href{#method-set_display}{\code{FulltextData$set_display()}}
 \item \href{#method-get_display}{\code{FulltextData$get_display()}}
@@ -60,29 +59,6 @@ Initialize a new instance of class \code{CorpusData}.
 }
 \subsection{Returns}{
 A class \code{CorpusData} object.
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-highlight"></a>}}
-\if{latex}{\out{\hypertarget{method-highlight}{}}}
-\subsection{Method \code{highlight()}}{
-Highlight tokens in fulltexttable
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{FulltextData$highlight(annotations = NULL, ...)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{annotations}}{A \code{data.frame} that needs to have columns "color",
-"start" and "end".}
-
-\item{\code{...}}{Further arguments.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-The \code{FulltextData} object is returned invisibly.
 }
 }
 \if{html}{\out{<hr>}}
@@ -129,24 +105,6 @@ Assign new name
 \item{\code{old}}{The old tag.}
 
 \item{\code{new}}{The new tag.}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-tooltips"></a>}}
-\if{latex}{\out{\hypertarget{method-tooltips}{}}}
-\subsection{Method \code{tooltips()}}{
-Add tooltips to fulltexttable
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{FulltextData$tooltips(tooltips)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{tooltips}}{A named list or character vector with the tooltips to be
-displayed. The names of the list/vector are expected to be tokens.}
 }
 \if{html}{\out{</div>}}
 }

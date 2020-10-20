@@ -2,24 +2,54 @@
 % Please edit documentation in R/fulltext.R
 \name{fulltext}
 \alias{fulltext}
-\alias{fulltext.data.frame}
+\alias{fulltext.fulltextlist}
 \alias{fulltext.SharedData}
 \alias{fulltext.FulltextData}
 \alias{fulltext.list}
 \title{Fulltext output htmlwidget.}
 \usage{
-fulltext(x, width = NULL, height = NULL, box = TRUE, group = NULL)
+fulltext(x, annotations, width = NULL, height = NULL, box = TRUE, group = NULL)
 
-\method{fulltext}{data.frame}(x, width = "100\%", height = NULL, box = TRUE, group = NULL)
+\method{fulltext}{fulltextlist}(
+  x,
+  annotations = NULL,
+  width = "100\%",
+  height = NULL,
+  box = TRUE,
+  group = NULL
+)
 
-\method{fulltext}{SharedData}(x, width = "100\%", height = NULL, box = TRUE, group = x$groupName())
+\method{fulltext}{SharedData}(
+  x,
+  annotations = NULL,
+  width = "100\%",
+  height = NULL,
+  box = TRUE,
+  group = x$groupName()
+)
 
-\method{fulltext}{FulltextData}(x, width = "100\%", height = NULL, box = TRUE, group = NULL)
+\method{fulltext}{FulltextData}(
+  x,
+  annotations = NULL,
+  width = "100\%",
+  height = NULL,
+  box = TRUE,
+  group = NULL
+)
 
-\method{fulltext}{list}(x, width = "100\%", height = NULL, box = TRUE, group = "fulltext")
+\method{fulltext}{list}(
+  x,
+  annotations = NULL,
+  width = "100\%",
+  height = NULL,
+  box = TRUE,
+  group = "fulltext"
+)
 }
 \arguments{
 \item{x}{The data.}
+
+\item{annotations}{A table with annotations.}
 
 \item{width}{The width of the widget.}
 

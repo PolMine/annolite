@@ -19,7 +19,7 @@ setOldClass("fulltextlist")
 #' @importClassesFrom polmineR slice subcorpus partition
 #' @rdname as.fulltextlist
 setMethod("as.fulltextlist", "subcorpus", function(x, display = "block", name = ""){
-  apply(
+  retval <- apply(
     x@cpos, MARGIN = 1L, 
     function(region){
       ts <- get_token_stream(
@@ -42,6 +42,8 @@ setMethod("as.fulltextlist", "subcorpus", function(x, display = "block", name = 
       )
     }
   )
+  class(retval) <- c("fulltextlist", is(retval))
+  retval
 })
 
 #' @rdname as.fulltextlist
@@ -94,13 +96,15 @@ setMethod("as.fulltextlist", "character", function(x, display = "block", tag = "
     stringsAsFactors = FALSE
   )
   df <- .adjust_whitespace(df)
-  list(
+  retval <- list(
     list(
       element = tag,
       attributes = list(style = sprintf("display:%s", display), name = name),
       tokenstream = df
     )
   )
+  class(retval) <- c("fulltextlist", is(retval))
+  retval
 })
 
 
@@ -112,3 +116,92 @@ setOldClass("FulltextData")
 
 #' @rdname as.fulltextlist
 setMethod("as.fulltextlist", "FulltextData", function(x, ...) x$data)
+
+
+#' Manage Data for fulltext annotation und display widget.
+#' 
+#' @rdname fulltextlist-methods
+#' @param input An object that can be turned into a fulltexttable using \code{as.fulltexttable}.
+#' @param annotations A \code{data.frame} that needs to have columns "color",
+#'   "start" and "end".
+#' @param column The column the examine.
+#' @param name New name to assign.
+#' @param regex A regular expression to detect whether a tag should be changed.
+#' @param old The old tag.
+#' @param value Visibility status to assign.
+#' @param new The new tag.
+#' @param tooltips A named list or character vector with the tooltips to be
+#'   displayed. The names of the list/vector are expected to be tokens.
+#' @param ... Further arguments.
+#' 
+#' 
+#' @export FulltextData
+#' @rdname FulltextData
+#' @name FulltextData
+#' @examples 
+#' library(polmineR)
+#' k <- corpus("GERMAPARLMINI") %>%
+#'   subset(speaker == "Volker Kauder") %>%
+#'   subset(date == "2009-11-10")
+#'   
+#' F <- FulltextData$new(k, display = "block")
+#' m <- cpos(k, query = "Opposition")
+#' anno <- data.frame(color = "yellow", start = m[,1], end = m[,2])
+#' # F$tooltips(tooltips = list(Opposition = "A", Regierung = "B"))
+
+
+
+
+#' @description The \code{name<-} replace method can be used ...
+#' @rdname fulltextlist-methods
+#' @importFrom polmineR name name<-
+#' @exportMethod name<-
+setReplaceMethod("name", signature = "fulltextlist", function(x, value){
+  lapply(seq_along(x), function(i){x[[i]]$attributes$name <- name; x})
+})
+
+#' @rdname fulltextlist-methods
+#' @exportMethod name
+setMethod("name", signature = "fulltextlist", function(x){
+  unique(sapply(self$data, function(x) x$attributes$name))
+}
+
+
+setGeneric("")
+
+    #' @description 
+    #' Assign new name
+    retag = function(regex, old, new){
+      lapply(
+        seq_along(self$data),
+        function(i) if (grepl(regex, self$data[[i]]$tokenstream$token[1])) self$data[[i]]$element <- new 
+      )
+      invisible(self)
+    },
+    
+    #' @description 
+    #' Split up table
+    split = function(column = "token", regex){
+      df <- do.call(rbind, lapply(self$data, function(x) x$tokenstream))
+      breaks <- cut(
+        1:nrow(df),
+        unique(c(grep(regex, self$data[[column]]), nrow(self$data))),
+        right = FALSE
+      )
+      lapply(split(df, breaks), function(x) FulltextData$new(as.fulltextlist(x)))
+    },
+    
+    #' @description 
+    #' Set visibility status.
+    set_display = function(value = c("block", "none")){
+      lapply(seq_along(self$data), function(i) self$data[[i]]$attributes$style <- sprintf("display:%s", value))
+      invisible(self)
+    },
+    
+    #' @description 
+    #' Get visibility status.
+    get_display = function(){
+      unique(sapply(self$data, function(x) strsplit(x$attributes$style, ":")[[1]][[2]]))
+    }
+  )
+)

@@ -41,7 +41,7 @@ Call Leightweight Annotation Widget.
 library(polmineR)
 use("polmineR")
 P <- partition("GERMAPARLMINI", speaker = "Volker Kauder", date = "2009-11-10")
-if (interactive()) Y <- annotate(P, headline = "Volker Kauder (CDU)")
+if (interactive()) Y <- annotate(P)
 
 D <- as.fulltextlist(P)
 D$annotations <- sample_annotation

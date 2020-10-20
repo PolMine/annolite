@@ -13,7 +13,6 @@ Imports:
     shiny,
     shinyjs,
     shinyWidgets,
-    R6,
     polmineR (>= 0.8.0.9006),
     RcppCWB,
     methods,
@@ -37,8 +36,7 @@ Collate:
     'annotate.R'
     'annotator.R'
     'utils.R'
-    'as.fulltexttable.R'
-    'as.fulltextlist.R'
+    'fulltextlist.R'
     'dialog.R'
     'fulltext.R'
 RoxygenNote: 7.1.1

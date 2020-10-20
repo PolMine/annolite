@@ -83,13 +83,19 @@ sp <- corpus("GERMAPARLMINI") %>% subset(speaker == "Volker Kauder" & date == "2
 The data that is passed to the JavaScript that generates the output. Expected to be a list of lists that provide data on sections of text. Each of the sub-lists is to be a named list of a character vector with the HTML element the section will be wrapped into, and  a `data.frame` (or a list) with a column "token", and a column "id".
 
 ```{r, eval = TRUE}
-KauderSpeech <- FulltextData$new(sp, headline = "Volker Kauder (CDU)")
+KauderSpeech <- FulltextData$new(sp)
 ```
 
 So let us see the result ... 
 
 ```{r, eval = TRUE}
 fulltext(KauderSpeech, box = TRUE)
+```
+
+```{r}
+m <- cpos(sp, query = "Opposition")
+anno <- data.frame(color = "yellow", start = m[,1], end = m[,2])
+fulltext(KauderSpeech, annotations = anno, box = TRUE)
 ```
 
 

@@ -42,9 +42,6 @@ HTMLWidgets.widget({
     return {
       renderValue: function(x) {
         
-        if (x.settings.crosstalk_key){
-          console.log("This is renderValue")
-        };
         ct_filter.setGroup(x.settings.crosstalk_group);
         ct_sel.setGroup(x.settings.crosstalk_group);
         
@@ -52,14 +49,26 @@ HTMLWidgets.widget({
         if (x.settings.box){ container.style.border = "1px solid #ddd"; };
         
 
-        var txt = "";
-        for (var i = 0; i < x.data.token.length; i++){
-            txt += x.data.tag_before[i];
-            txt += x.data.token[i];
-            txt += x.data.tag_after[i];
+        // identical with annotator.js
+        for (var i = 0; i < x.data.paragraphs.length; i++){
+            var p = "<" + x.data.paragraphs[i].element + ">";
+            for (var j = 0; j < x.data.paragraphs[i].tokenstream.token.length; j++){
+              p += '<span>' + x.data.paragraphs[i].tokenstream.whitespace[j] + '</span>';
+              p += '<span id="' + x.data.paragraphs[i].tokenstream.id[j] + '">'
+              p += x.data.paragraphs[i].tokenstream.token[j] + '</span>';
+            }
+            p += "</" + x.data.paragraphs[i].element + ">";
+            container.innerHTML += p;
         };
         
-        container.innerHTML = container.innerHTML + txt;
+        // identical with annotator.js, but without event listener
+        for (var i = 0; i < x.data.annotations.start.length; i++){
+          for (var id = x.data.annotations.start[i]; id <= x.data.annotations.end[i]; id++){
+            el = document.getElementById(id.toString())
+            el.style.backgroundColor = x.data.annotations.color[i];
+          };
+        };
+        
       },
       
       resize: function(width, height) {
