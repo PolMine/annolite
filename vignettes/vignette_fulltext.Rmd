@@ -13,8 +13,7 @@ editor_options:
 
 ## Purpose
 
-
-The ´fulltext´-package includes a lightweight htmlwidget for fulltext output.
+The annolite-package includes a lightweight htmlwidget for fulltext output.
 
 ## Getting Started
 
@@ -24,44 +23,6 @@ library(tokenizers)
 library(annolite)
 library(polmineR)
 library(crosstalk)
-```
-
-
-## From tidytext to fulltext
-
-```{r, eval = TRUE}
-emma_tokenized_paragraphs <- cut(1:length(emma), c(1, grep("^\\s*$", emma), length(emma))) %>%
-  split(janeaustenr::emma, f = .) %>%
-  lapply(paste, collapse = " ") %>%
-  tokenizers::tokenize_words(lowercase = FALSE, strip_punct = FALSE)
-```
-
-```{r}
-for (i in rev(which(sapply(emma_tokenized_paragraphs, length) == 0))){
-  emma_tokenized_paragraphs[[i]] <- NULL
-}
-
-EmmaFulltextParas <- lapply(emma_tokenized_paragraphs, function(p) FulltextData$new(p))
-
-for (i in seq_along(EmmaFulltextParas)){
-  EmmaFulltextParas[[i]]$retag(regex = "CHAPTER", old = "para", new = "h2")
-}
-```
-
-```{r}
-EmmaFulltext <- FulltextData$new(EmmaFulltextParas)
-EmmaFulltextChapters <- EmmaFulltext$split(regex = "CHAPTER", column = "token")
-```
-
-```{r}
-for (i in seq_along(EmmaFulltextChapters)){
-  EmmaFulltextChapters[[i]]$rename(name = sprintf("Chapter %d", i))
-}
-```
-
-
-```{r, eval = TRUE}
-fulltext(EmmaFulltextChapters[[1]])
 ```
 
 
@@ -83,26 +44,66 @@ sp <- corpus("GERMAPARLMINI") %>% subset(speaker == "Volker Kauder" & date == "2
 The data that is passed to the JavaScript that generates the output. Expected to be a list of lists that provide data on sections of text. Each of the sub-lists is to be a named list of a character vector with the HTML element the section will be wrapped into, and  a `data.frame` (or a list) with a column "token", and a column "id".
 
 ```{r, eval = TRUE}
-KauderSpeech <- FulltextData$new(sp)
+k <- fulltextlist(sp)
 ```
 
 So let us see the result ... 
 
 ```{r, eval = TRUE}
-fulltext(KauderSpeech, box = TRUE)
+fulltext(k)
 ```
 
 ```{r}
 m <- cpos(sp, query = "Opposition")
 anno <- data.frame(color = "yellow", start = m[,1], end = m[,2])
-fulltext(KauderSpeech, annotations = anno, box = TRUE)
+fulltext(k, annotations = anno, box = TRUE)
+```
+
+Add a headline
+
+```{r}
+h2 <- fulltextlist(c("Volker", "Kauder", "(CDU)"), element = "h2")
+fulltext(c(h2, k))
+```
+
+
+
+
+## From tidytext to fulltext
+
+```{r, eval = TRUE}
+emma_chapters <- split(
+  emma,
+  cut(1L:length(emma), c(1L, grep("^CHAPTER.*$", emma), length(emma)), right = FALSE)
+)
+emma_chapters[[1]] <- NULL
+
+chapters <- lapply(
+  seq_along(emma_chapters),
+  function(i){
+    chapter <- emma_chapters[[i]]
+    breaks <- cut(1L:length(chapter), unique(c(1, grep("^\\s*$", chapter), length(chapter))))
+    paras <- lapply(split(chapter, f = breaks), paste, collapse = " ")
+    for (j in rev(which(sapply(paras, nchar) == 0L))) paras[[j]] <- NULL
+    paras_tokenized <- tokenizers::tokenize_words(paras, lowercase = FALSE, strip_punct = FALSE)
+    y <- do.call(c, lapply(paras_tokenized, fulltextlist, element = "p"))
+    name(y) <- sprintf("Chapter %s", i)
+    y
+  }
+)
+```
+
+
+```{r, eval = TRUE}
+fulltext(chapters[[1]])
 ```
 
 
 ## Crosstalking
 
 ```{r, eval = TRUE}
-fulltext(EmmaFulltextChapters)
+ch <- chapters[1:5]
+fulltext(ch)
 ```
 
 

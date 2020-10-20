@@ -34,6 +34,7 @@ HTMLWidgets.widget({
       tokens.forEach((token) => { token.style.display = "none"; })
       previously_selected_subcorpus = ct_filter.filteredKeys;
       
+      console.log("ct_filter.filteredKeys");
       tokens = document.getElementsByName(ct_filter.filteredKeys);
       tokens.forEach((token) => { token.style.display = "block";})
 
@@ -51,11 +52,9 @@ HTMLWidgets.widget({
 
         // identical with annotator.js
         for (var i = 0; i < x.data.paragraphs.length; i++){
-            var p = "<" + x.data.paragraphs[i].element + ">";
+            var p = "<" + x.data.paragraphs[i].element + " style='" + x.data.paragraphs[i].attributes.style +"' name='" + x.data.paragraphs[i].attributes.name + "'>";
             for (var j = 0; j < x.data.paragraphs[i].tokenstream.token.length; j++){
-              p += '<span>' + x.data.paragraphs[i].tokenstream.whitespace[j] + '</span>';
-              p += '<span id="' + x.data.paragraphs[i].tokenstream.id[j] + '">'
-              p += x.data.paragraphs[i].tokenstream.token[j] + '</span>';
+              p += '<span>' + x.data.paragraphs[i].tokenstream.whitespace[j] + '</span>' + '<span id="' + x.data.paragraphs[i].tokenstream.id[j] + '">' + x.data.paragraphs[i].tokenstream.token[j] + '</span>';
             }
             p += "</" + x.data.paragraphs[i].element + ">";
             container.innerHTML += p;

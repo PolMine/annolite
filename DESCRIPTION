@@ -31,7 +31,6 @@ LazyData: yes
 License: GPL-3
 Encoding: UTF-8
 Collate:
-    'FulltextData.R'
     'annolite.R'
     'annotate.R'
     'annotator.R'

@@ -2,15 +2,14 @@
 % Please edit documentation in R/fulltext.R
 \name{fulltext}
 \alias{fulltext}
-\alias{fulltext.fulltextlist}
-\alias{fulltext.SharedData}
-\alias{fulltext.FulltextData}
-\alias{fulltext.list}
+\alias{fulltext,fulltextlist-method}
+\alias{fulltext,SharedData-method}
+\alias{fulltext,list-method}
 \title{Fulltext output htmlwidget.}
 \usage{
-fulltext(x, annotations, width = NULL, height = NULL, box = TRUE, group = NULL)
+fulltext(x, ...)
 
-\method{fulltext}{fulltextlist}(
+\S4method{fulltext}{fulltextlist}(
   x,
   annotations = NULL,
   width = "100\%",
@@ -19,7 +18,7 @@ fulltext(x, annotations, width = NULL, height = NULL, box = TRUE, group = NULL)
   group = NULL
 )
 
-\method{fulltext}{SharedData}(
+\S4method{fulltext}{SharedData}(
   x,
   annotations = NULL,
   width = "100\%",
@@ -28,16 +27,7 @@ fulltext(x, annotations, width = NULL, height = NULL, box = TRUE, group = NULL)
   group = x$groupName()
 )
 
-\method{fulltext}{FulltextData}(
-  x,
-  annotations = NULL,
-  width = "100\%",
-  height = NULL,
-  box = TRUE,
-  group = NULL
-)
-
-\method{fulltext}{list}(
+\S4method{fulltext}{list}(
   x,
   annotations = NULL,
   width = "100\%",
@@ -48,6 +38,8 @@ fulltext(x, annotations, width = NULL, height = NULL, box = TRUE, group = NULL)
 }
 \arguments{
 \item{x}{The data.}
+
+\item{...}{Further arguments to be defined by individual methods.}
 
 \item{annotations}{A table with annotations.}
 
