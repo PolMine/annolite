@@ -21,7 +21,7 @@ annolite <- function(data, width = NULL, height = NULL, dialog = NULL, box = TRU
   
   # If data is a named list, JavaScript will receive an object, and not an array, as required.
   if (!is.null(names(data[["paragraphs"]]))) data[["paragraphs"]] <- unname(data[["paragraphs"]])
-  if (is.null(data[["annotations"]])) data[["annotations"]] <- .annotations()
+  if (is.null(data[["annotations"]])) data[["annotations"]] <- annotationstable()
   
   createWidget(
     "annolite",

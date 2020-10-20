@@ -20,7 +20,7 @@ setGeneric("fulltext", function(x, ...) standardGeneric("fulltext"))
 #' @rdname fulltext
 #' @exportMethod fulltext
 setMethod("fulltext", "fulltextlist", function(x, annotations = NULL, width = "100%", height = NULL, box = TRUE, group = NULL, crosstalk = FALSE) {
-  if (is.null(annotations)) annotations <- .annotations()
+  if (is.null(annotations)) annotations <- annotationstable()
   createWidget(
     "annolite",
     package = "annolite",
