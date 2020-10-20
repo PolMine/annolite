@@ -1,9 +1,10 @@
 #' Call Leightweight Annotation Widget.
 #' 
-#' @param input Either a \code{annotatordata} object or an object that can be
+#' @param x Either a \code{fulltextlist} object or an object that can be
 #'   brought in shape using the \code{fulltextlist} method.
-#' @param width The width of the annotator htmlwidget.
-#' @param height The height of the annotator htmlwidget.
+#' @param annotations A \code{annotationstable}, optionally.
+#' @param width The width of the annolite htmlwidget.
+#' @param height The height of the annolite htmlwidget.
 #' @param dialog Specification of the dialog box.
 #' @param file If a \code{character} vector, a filename to save table with
 #'   annotations to disk whenever a new annotation is added. If the filename
@@ -32,11 +33,11 @@
 #' D$annotations <- sample_annotation
 #' if (interactive()) Y <- annotate(D)
 #' }
-annotate <- function(input, width = NULL, height = NULL, dialog = list(choices = dialog_radio_buttons(keep = "yellow", drop = "orange")), file = NULL, ...) { 
+annotate <- function(x, annotations = NULL, width = NULL, height = NULL, dialog = list(choices = dialog_radio_buttons(keep = "yellow", drop = "orange")), file = NULL, ...) { 
   
-  input <- fulltextlist(input, ...)
+  x <- fulltextlist(x, ...)
   
-  TXT <- annotator(input, width = width, height = height, dialog = dialog, box = FALSE)
+  TXT <- annolite(data = list(paragraphs = x, annotations = annotations), width = width, height = height, dialog = dialog, box = FALSE)
   
   values <- reactiveValues()
 
@@ -45,7 +46,7 @@ annotate <- function(input, width = NULL, height = NULL, dialog = list(choices =
     miniTabstripPanel(
       miniTabPanel(
         "Text", icon = icon("file"),
-        miniContentPanel( annotatorOutput("annotator"))
+        miniContentPanel( annoliteOutput("annolite"))
       ),
       miniTabPanel(
         "Annotations", icon = icon("table"),
@@ -57,7 +58,7 @@ annotate <- function(input, width = NULL, height = NULL, dialog = list(choices =
   
   server <- function(input, output, session) {
     
-    output$annotator <- renderAnnotator(TXT)
+    output$annolite <- renderAnnolite(TXT)
     
     observeEvent(
       input$annotations_created,

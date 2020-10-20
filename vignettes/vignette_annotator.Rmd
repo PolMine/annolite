@@ -93,7 +93,7 @@ ch1_data <- list(
 ```
 
 ```{r}
-annotator(ch1_data, dialog = FALSE, box = TRUE, width = 650)
+annolite(ch1_data, dialog = FALSE, box = TRUE, width = 650)
 ```
 
 
@@ -129,7 +129,7 @@ D <- fulltextlist(P)
 ## Getting the output
 
 ```{r}
-annotator(D, box = TRUE, width = 650)
+annolite(list(paragraphs = D, annotations = NULL), box = TRUE, width = 650)
 ```
 
 ## Perspectives

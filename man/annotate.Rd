@@ -5,7 +5,8 @@
 \title{Call Leightweight Annotation Widget.}
 \usage{
 annotate(
-  input,
+  x,
+  annotations = NULL,
   width = NULL,
   height = NULL,
   dialog = list(choices = dialog_radio_buttons(keep = "yellow", drop = "orange")),
@@ -14,12 +15,14 @@ annotate(
 )
 }
 \arguments{
-\item{input}{Either a \code{annotatordata} object or an object that can be
+\item{x}{Either a \code{fulltextlist} object or an object that can be
 brought in shape using the \code{fulltextlist} method.}
 
-\item{width}{The width of the annotator htmlwidget.}
+\item{annotations}{A \code{annotationstable}, optionally.}
 
-\item{height}{The height of the annotator htmlwidget.}
+\item{width}{The width of the annolite htmlwidget.}
+
+\item{height}{The height of the annolite htmlwidget.}
 
 \item{dialog}{Specification of the dialog box.}
 

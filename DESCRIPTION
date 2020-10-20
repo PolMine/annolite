@@ -33,7 +33,6 @@ Encoding: UTF-8
 Collate:
     'annolite.R'
     'annotate.R'
-    'annotator.R'
     'utils.R'
     'fulltextlist.R'
     'dialog.R'

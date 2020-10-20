@@ -6,28 +6,74 @@ HTMLWidgets.widget({
   
   factory: function(el, width, height) {
     
+    el.style.overflow = "scroll";
+    el.style.padding = "5px";
+
+    var container = el;
+    
+    // begin annotator mode only
     document.annotations = {};
     document.annotationsCreated = 0;
     var getSelectionText; // needs to be defined globally
     var annotationCompleted;
+    // end annotator mode only
     
-    el.style.overflow = "scroll";
-    el.style.padding = "5px";
-    var container = el;
+    // begin display mode only
+    var selected_subcorpus;
+    var previously_selected_subcorpus;
+    var tokens;
     
+    var ct_sel = new crosstalk.SelectionHandle();
+    ct_sel.on("change", function(e) {
+      tokens = document.getElementsByName(previously_selected_subcorpus);
+      tokens.forEach((token) => {
+        token.style.display = "none";
+      })
+      previously_selected_subcorpus = e.value;
+      
+      tokens = document.getElementsByName(e.value);
+      tokens.forEach((token) => {
+        token.style.display = "block";
+      })
+
+    });
     
+    // presumably the FilterHandle can be removed:
+    // FilterHandle cannot be used due to design
+    var ct_filter = new crosstalk.FilterHandle();
+    ct_filter.on("change", function(e) {
+      tokens = document.getElementsByName(previously_selected_subcorpus);
+      tokens.forEach((token) => { token.style.display = "none"; })
+      previously_selected_subcorpus = ct_filter.filteredKeys;
+      
+      console.log("ct_filter.filteredKeys");
+      tokens = document.getElementsByName(ct_filter.filteredKeys);
+      tokens.forEach((token) => { token.style.display = "block";})
+    });
+
+    // end display mode only
+
 
     return {
       renderValue: function(x) {
         
-        document.annotations = x.data.annotations;
         if (x.settings.box){ container.style.border = "1px solid #ddd"; };
+        
+        // begin display mode
+        ct_filter.setGroup(x.settings.crosstalk_group);
+        ct_sel.setGroup(x.settings.crosstalk_group);
+        // end display mode 
+
+        // begin annotator mode
+        document.annotations = x.data.annotations;
+        // end annotator mode
 
         for (var i = 0; i < x.data.paragraphs.length; i++){
-            var p = "<" + x.data.paragraphs[i].element + ">";
+            
+            // adding style and name relevant only for display mode
+            var p = "<" + x.data.paragraphs[i].element + " style='" + x.data.paragraphs[i].attributes.style +"' name='" + x.data.paragraphs[i].attributes.name + "'>";
             for (var j = 0; j < x.data.paragraphs[i].tokenstream.token.length; j++){
-              p += '<span>' + x.data.paragraphs[i].tokenstream.whitespace[j] + '</span>';
-              p += '<span id="' + x.data.paragraphs[i].tokenstream.id[j] + '">' + x.data.paragraphs[i].tokenstream.token[j] + '</span>';
+              p += '<span>' + x.data.paragraphs[i].tokenstream.whitespace[j] + '</span>' + '<span id="' + x.data.paragraphs[i].tokenstream.id[j] + '">' + x.data.paragraphs[i].tokenstream.token[j] + '</span>';
             }
             p += "</" + x.data.paragraphs[i].element + ">";
             container.innerHTML += p;
@@ -37,21 +83,20 @@ HTMLWidgets.widget({
           for (var id = x.data.annotations.start[i]; id <= x.data.annotations.end[i]; id++){
             el = document.getElementById(id.toString())
             el.style.backgroundColor = x.data.annotations.color[i];
+            // begin : should be conditional on annotator mode
             el.addEventListener('contextmenu', function(ev) {
               ev.preventDefault();
               alert('success!');
               return false;
             }, true);
+            // end: should be conditional on annotator mode
           };
         };
         
         function bootboxCallback(result) {
     
-          console.log(result);
-    
           if (result == null){
       
-            console.log("cancelled");
             // remove data that has been added by even handler
             document.annotations.text.pop();
             document.annotations.start.pop();

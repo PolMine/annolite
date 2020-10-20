@@ -5,15 +5,31 @@
 \alias{annolite}
 \alias{annolite-package}
 \alias{sample_annotation}
-\title{R-Package 'annolite'.}
+\title{Annolite htmlwidget.}
 \format{
 An object of class \code{data.frame} with 4 rows and 6 columns.
 }
 \usage{
+annolite(data, width = NULL, height = NULL, dialog = NULL, box = TRUE)
+
 sample_annotation
 }
+\arguments{
+\item{data}{The data that is passed to the JavaScript that generates the output. Expected to be
+a list of lists that provide data on sections of text. Each of the sub-lists is to be a named
+list of a character vector with the HTML element the section will be wrapped into, and 
+a \code{data.frame} (or a list) with a column "token", and a column "id".}
+
+\item{width}{The width of the widget.}
+
+\item{height}{The height of the widget.}
+
+\item{dialog}{The dialog.}
+
+\item{box}{Logical, whether to put text into a box.}
+}
 \description{
-Leightweight fulltext display and annotation HTML widget.
+Annolite htmlwidget.
 }
 \author{
 Andreas Blaette

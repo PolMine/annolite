@@ -5,6 +5,8 @@
 #' @param width The width of the widget.
 #' @param group Name of the crosstalk group, see ....
 #' @param height The height of the widget.
+#' @param crosstalk A \code{logial} value, whether to enable crosstalk in
+#'   htmlwidget.
 #' @param box Logical, whether to put text into a box.
 #' @param ... Further arguments to be defined by individual methods.
 #' @importFrom htmlwidgets createWidget sizingPolicy
@@ -17,14 +19,20 @@ setGeneric("fulltext", function(x, ...) standardGeneric("fulltext"))
 
 #' @rdname fulltext
 #' @exportMethod fulltext
-setMethod("fulltext", "fulltextlist", function(x, annotations = NULL, width = "100%", height = NULL, box = TRUE, group = NULL) {
+setMethod("fulltext", "fulltextlist", function(x, annotations = NULL, width = "100%", height = NULL, box = TRUE, group = NULL, crosstalk = FALSE) {
   if (is.null(annotations)) annotations <- .annotations()
   createWidget(
-    "fulltext",
+    "annolite",
     package = "annolite",
     x = list(
       data = list(paragraphs = x, annotations = annotations),
-      settings = list(box = box, crosstalk_key = NULL, crosstalk_group = group)
+      settings = list(
+        annotationMode = FALSE,
+        crosstalk = crosstalk,
+        box = box,
+        crosstalk_key = NULL,
+        crosstalk_group = group
+      )
     ),
     width = width,
     height = height,
@@ -45,12 +53,12 @@ setOldClass("SharedData")
 
 #' @rdname fulltext
 #' @exportMethod fulltext
-setMethod("fulltext", "SharedData", function(x, annotations = NULL, width = "100%", height = NULL, box = TRUE, group = x$groupName()) {
+setMethod("fulltext", "SharedData", function(x, annotations = NULL, width = "100%", height = NULL, box = TRUE, group = x$groupName(), crosstalk = TRUE) {
   fulltext(
     x = x$origData(),
     annotations = annotations,
     width = width, height = height, box = box,
-    group = group
+    group = group, crosstalk = TRUE
   )
 })
 
@@ -62,7 +70,6 @@ setMethod("fulltext", "list", function(x, annotations = NULL, width = "100%", he
   
   document_ids <- sapply(x, name)
   
-  # x <- lapply(x, function(fli){display(fli) <- "block"; fli})
   x_flat <- do.call(c, x)
   display(x_flat) <- "none"
 
@@ -81,6 +88,6 @@ setMethod("fulltext", "list", function(x, annotations = NULL, width = "100%", he
   bscols(
     widths = c(4,8),
     doc_datatable_sd,
-    fulltext(x_sd, width = width, height = height, box = box)
+    fulltext(x_sd, annotations = annotations, width = width, height = height, box = box, crosstalk = TRUE)
   )
 })

@@ -15,7 +15,8 @@ fulltext(x, ...)
   width = "100\%",
   height = NULL,
   box = TRUE,
-  group = NULL
+  group = NULL,
+  crosstalk = FALSE
 )
 
 \S4method{fulltext}{SharedData}(
@@ -24,7 +25,8 @@ fulltext(x, ...)
   width = "100\%",
   height = NULL,
   box = TRUE,
-  group = x$groupName()
+  group = x$groupName(),
+  crosstalk = TRUE
 )
 
 \S4method{fulltext}{list}(
@@ -50,6 +52,9 @@ fulltext(x, ...)
 \item{box}{Logical, whether to put text into a box.}
 
 \item{group}{Name of the crosstalk group, see ....}
+
+\item{crosstalk}{A \code{logial} value, whether to enable crosstalk in
+htmlwidget.}
 }
 \description{
 Fulltext output htmlwidget.
