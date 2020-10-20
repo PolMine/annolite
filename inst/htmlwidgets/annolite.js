@@ -1,6 +1,6 @@
 HTMLWidgets.widget({
   
-  name: "annotator",
+  name: "annolite",
   
   type: "output",
   
@@ -11,47 +11,43 @@ HTMLWidgets.widget({
 
     var container = el;
     
-    // begin annotator mode only
-    document.annotations = {};
-    document.annotationsCreated = 0;
-    var getSelectionText; // needs to be defined globally
-    var annotationCompleted;
-    // end annotator mode only
-    
-    // begin display mode only
-    var selected_subcorpus;
-    var previously_selected_subcorpus;
-    var tokens;
-    
-    var ct_sel = new crosstalk.SelectionHandle();
-    ct_sel.on("change", function(e) {
-      tokens = document.getElementsByName(previously_selected_subcorpus);
-      tokens.forEach((token) => {
-        token.style.display = "none";
-      })
-      previously_selected_subcorpus = e.value;
-      
-      tokens = document.getElementsByName(e.value);
-      tokens.forEach((token) => {
-        token.style.display = "block";
-      })
+    // if (x.settings.annotationMode){
+      document.annotations = {};
+      document.annotationsCreated = 0;
+      var getSelectionText; // needs to be defined globally
+      var annotationCompleted;
+    // }
 
-    });
+    // if (x.settings.crosstalk){
+      var selected_subcorpus;
+      var previously_selected_subcorpus;
+      var tokens;
+    
+      var ct_sel = new crosstalk.SelectionHandle();
+      ct_sel.on("change", function(e) {
+        tokens = document.getElementsByName(previously_selected_subcorpus);
+        tokens.forEach((token) => {token.style.display = "none";})
+        previously_selected_subcorpus = e.value;
+      
+        tokens = document.getElementsByName(e.value);
+        tokens.forEach((token) => {token.style.display = "block";})
+
+      });
     
     // presumably the FilterHandle can be removed:
     // FilterHandle cannot be used due to design
-    var ct_filter = new crosstalk.FilterHandle();
-    ct_filter.on("change", function(e) {
-      tokens = document.getElementsByName(previously_selected_subcorpus);
-      tokens.forEach((token) => { token.style.display = "none"; })
-      previously_selected_subcorpus = ct_filter.filteredKeys;
+      var ct_filter = new crosstalk.FilterHandle();
+      ct_filter.on("change", function(e) {
+        tokens = document.getElementsByName(previously_selected_subcorpus);
+        tokens.forEach((token) => { token.style.display = "none"; })
+        previously_selected_subcorpus = ct_filter.filteredKeys;
       
-      console.log("ct_filter.filteredKeys");
-      tokens = document.getElementsByName(ct_filter.filteredKeys);
-      tokens.forEach((token) => { token.style.display = "block";})
-    });
+        console.log("ct_filter.filteredKeys");
+        tokens = document.getElementsByName(ct_filter.filteredKeys);
+        tokens.forEach((token) => { token.style.display = "block";})
+      });
+    // }
 
-    // end display mode only
 
 
     return {
@@ -59,14 +55,12 @@ HTMLWidgets.widget({
         
         if (x.settings.box){ container.style.border = "1px solid #ddd"; };
         
-        // begin display mode
-        ct_filter.setGroup(x.settings.crosstalk_group);
-        ct_sel.setGroup(x.settings.crosstalk_group);
-        // end display mode 
+        if (x.settings.crosstalk){
+          ct_filter.setGroup(x.settings.crosstalk_group);
+          ct_sel.setGroup(x.settings.crosstalk_group);
+        }
 
-        // begin annotator mode
         document.annotations = x.data.annotations;
-        // end annotator mode
 
         for (var i = 0; i < x.data.paragraphs.length; i++){
             
@@ -83,13 +77,13 @@ HTMLWidgets.widget({
           for (var id = x.data.annotations.start[i]; id <= x.data.annotations.end[i]; id++){
             el = document.getElementById(id.toString())
             el.style.backgroundColor = x.data.annotations.color[i];
-            // begin : should be conditional on annotator mode
-            el.addEventListener('contextmenu', function(ev) {
-              ev.preventDefault();
-              alert('success!');
-              return false;
-            }, true);
-            // end: should be conditional on annotator mode
+            if (x.settings.annotationMode){
+              el.addEventListener('contextmenu', function(ev) {
+                ev.preventDefault();
+                alert('success!');
+                return false;
+              }, true);
+            }
           };
         };
         
