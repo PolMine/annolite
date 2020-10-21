@@ -2,7 +2,7 @@
 % Please edit documentation in R/annotationstable.R
 \name{annotationstable}
 \alias{annotationstable}
-\title{Create empty annotationstable}
+\title{Create annotationstable}
 \usage{
 annotationstable(
   text = character(),
@@ -14,18 +14,45 @@ annotationstable(
 )
 }
 \arguments{
-\item{text}{character}
+\item{text}{A \code{character} vector.}
 
-\item{code}{character}
+\item{code}{A \code{character} vector.}
 
-\item{color}{character}
+\item{color}{A \code{character} vector.}
 
-\item{annotation}{character}
+\item{annotation}{A \code{character} vector.}
 
-\item{start}{integer}
+\item{start}{A \code{integer} vector}
 
-\item{end}{integer}
+\item{end}{integer A \code{integer} vector.}
 }
 \description{
-Create empty annotationstable
+The annolite package uses an \code{annotationstable} to store and manage the
+annotations of an document. An \code{annotationstable} object is a S3
+superclass of a \code{data.frame}. An \code{annotationstable} is a
+\code{data.frame} with the following columns:
+\itemize{
+\item \emph{text}: The original text that has been selected to serve as a basis
+for an annotation. Note that text selection is not required to cover whole
+words. Parts of words may have been selected.
+\item \emph{code}: A code that has been assigned to an annotated passage of text.
+Available codes need to be predefined before an annotation exercise.
+\item \emph{color}: The color used to highlight annotated token sequences. Each
+color needs to reflect one code.
+\item \emph{annotation}: An explanatory note on the code that has been assigned.
+\item \emph{start}: ID of the first token that has been annotated. If the
+annotated document is a subcorpus of a CWB corpus, the token ID is the
+\code{integer} corpus position.
+\item \emph{end}: ID of the last token that has been annotated. If the annotated
+document is a subcorpus of a CWB corpus, the token ID is the \code{integer}
+corpus position.
+}
+
+The function \code{annotationstable()} serves as a constructor for an
+\code{annotationstable}. If called without arguments, an empty
+\code{annotationstable} is returned. If called with arguments, all input
+vectors need to have the same length.
+}
+\examples{
+empty_annotationstable <- annotationstable()
 }

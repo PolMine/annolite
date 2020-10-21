@@ -39,3 +39,4 @@ Collate:
     'fulltext.R'
     'annotationstable.R'
 RoxygenNote: 7.1.1
+Roxygen: list(markdown = TRUE)
