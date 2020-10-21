@@ -16,8 +16,6 @@
 #'   miniTabstripPanel miniTabPanel
 #' @importFrom shiny tags runGadget paneViewer textAreaInput observeEvent
 #'   stopApp reactiveValues icon observe
-#' @importFrom shinyjs useShinyjs extendShinyjs js
-#' @importFrom shinyWidgets prettyRadioButtons
 #' @importFrom methods is
 #' @importFrom DT dataTableOutput renderDataTable datatable
 #' @importFrom utils write.table
