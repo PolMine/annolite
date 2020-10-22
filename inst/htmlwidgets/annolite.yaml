@@ -12,3 +12,9 @@ dependencies:
     src: "htmlwidgets/lib/bootbox"
     version: 5.4.0
     script: bootbox.min.js
+  - name: annolite
+    src: "htmlwidgets/lib/css"
+    version: 0.0.0.9008
+    stylesheet:
+      - markdown7.css
+      - tooltips.css
