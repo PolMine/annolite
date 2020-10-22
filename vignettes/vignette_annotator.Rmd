@@ -19,7 +19,7 @@ The purpose of the ´annolite´-package is to offer a htmlwidget to reconstruct 
 
 ## Getting Started
 
-```{r}
+```{r, eval = TRUE}
 library(janeaustenr)
 library(tokenizers)
 library(annolite)
@@ -27,7 +27,7 @@ library(annolite)
 
 ## From tidytext to fulltext
 
-```{r}
+```{r, eval = FALSE}
 emma_txt <- janeaustenr::emma[grep("^CHAPTER\\s+.*?$", janeaustenr::emma)[1]:length(janeaustenr::emma)]
 chapter_beginnings <- grep("^CHAPTER\\s+.*?$", emma_txt)
 chapters <- split(
@@ -92,7 +92,7 @@ ch1_data <- list(
 )
 ```
 
-```{r}
+```{r, eval = FALSE}
 annolite(ch1_data, dialog = FALSE, box = TRUE, width = 650)
 ```
 
