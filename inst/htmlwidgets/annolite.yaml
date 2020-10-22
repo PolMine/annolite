@@ -1,9 +1,14 @@
 dependencies:
-  - name: markdown_css
-    src: htmlwidgets/lib
-    version: 0.1.0
-    script:
-      - plugins/bootbox.min.js
-    stylesheet:
-      - css/markdown7.css
-      - css/tooltips.css
+  - name: jquery
+    src: "htmlwidgets/lib/jquery"
+    version: 3.4.1
+    script: jquery.min.js
+  - name: bootstrap
+    src: "htmlwidgets/lib/bootstrap"
+    version: 3.3.7
+    script: bootstrap.min.js
+    stylesheet: bootstrap.min.css
+  - name: bootbox
+    src: "htmlwidgets/lib/bootbox"
+    version: 5.4.0
+    script: bootbox.min.js

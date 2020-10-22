@@ -31,6 +31,15 @@ a \code{data.frame} (or a list) with a column "token", and a column "id".}
 \description{
 Annolite htmlwidget.
 }
+\examples{
+library(polmineR)
+P <- partition("GERMAPARLMINI", speaker = "Volker Kauder", date = "2009-11-10")
+annolite(
+  data = list(paragraphs = fulltextlist(P), annotations = annotationstable()),
+  width = "100\%",
+  dialog = list(choices = dialog_radio_buttons(keep = "yellow", drop = "orange"))
+)
+}
 \author{
 Andreas Blaette
 }

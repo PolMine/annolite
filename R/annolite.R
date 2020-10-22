@@ -9,11 +9,20 @@
 #' @param dialog The dialog.
 #' @param box Logical, whether to put text into a box.
 #' @importFrom htmlwidgets createWidget sizingPolicy
+#' @importFrom crosstalk crosstalkLibs
 #' @export annolite
 #' @aliases annolite-package annolite
 #' @docType package
 #' @name annolite
 #' @rdname annolite
+#' @examples 
+#' library(polmineR)
+#' P <- partition("GERMAPARLMINI", speaker = "Volker Kauder", date = "2009-11-10")
+#' y <- annolite(
+#'   data = list(paragraphs = fulltextlist(P), annotations = annotationstable()),
+#'   width = "100%",
+#'   dialog = list(choices = dialog_radio_buttons(keep = "yellow", drop = "orange"))
+#' )
 #' @author Andreas Blaette
 annolite <- function(data, width = NULL, height = NULL, dialog = NULL, box = TRUE) {
   
@@ -39,13 +48,24 @@ annolite <- function(data, width = NULL, height = NULL, dialog = NULL, box = TRU
     ),
     width = width,
     height = height,
-    sizingPolicy(browser.fill = TRUE,
-                 viewer.defaultHeight = 800L,
-                 browser.defaultHeight = 800L,
-                 viewer.fill = TRUE,
-                 knitr.figure = FALSE,
-                 knitr.defaultWidth = 800L,
-                 knitr.defaultHeight = 400L
+    dependencies = list(
+      htmltools::htmlDependency(
+        name = "crosstalk", 
+        version = packageVersion("crosstalk"),
+        package = "crosstalk",
+        src = "www",
+        script = "js/crosstalk.min.js",
+        stylesheet = "css/crosstalk.css"
+        )
+      ),
+    sizingPolicy(
+      browser.fill = TRUE,
+      viewer.defaultHeight = 800L,
+      browser.defaultHeight = 800L,
+      viewer.fill = TRUE,
+      knitr.figure = FALSE,
+      knitr.defaultWidth = 800L,
+      knitr.defaultHeight = 400L
     )
   )
 }
