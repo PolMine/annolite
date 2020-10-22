@@ -97,3 +97,6 @@ renderAnnolite <- function(expr, env = parent.frame(), quoted = FALSE) {
 
 #' @rdname annolite
 "sample_annotation"
+
+#' @rdname annolite
+"emma_chapters_tokenized"

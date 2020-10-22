@@ -69,7 +69,7 @@ fulltext(c(h2, k))
 
 
 
-## From tidytext to fulltext
+## Creating fulltext
 
 ```{r, eval = TRUE}
 emma_chapters <- split(
@@ -78,15 +78,14 @@ emma_chapters <- split(
 )
 emma_chapters[[1]] <- NULL
 
-chapters <- lapply(
-  seq_along(emma_chapters),
+emma_chapters <- lapply(
+  seq_along(emma_chapters_tokenized),
   function(i){
-    chapter <- emma_chapters[[i]]
-    breaks <- cut(1L:length(chapter), unique(c(1, grep("^\\s*$", chapter), length(chapter))))
-    paras <- lapply(split(chapter, f = breaks), paste, collapse = " ")
-    for (j in rev(which(sapply(paras, nchar) == 0L))) paras[[j]] <- NULL
-    paras_tokenized <- tokenizers::tokenize_words(paras, lowercase = FALSE, strip_punct = FALSE)
-    y <- do.call(c, lapply(paras_tokenized, fulltextlist, element = "p"))
+    fulltextlist_paras <- lapply(
+      emma_chapters_tokenized[[i]],
+      fulltextlist, element = "p"
+    )
+    y <- do.call(c, fulltextlist_paras)
     name(y) <- sprintf("Chapter %s", i)
     y
   }
@@ -95,15 +94,14 @@ chapters <- lapply(
 
 
 ```{r, eval = TRUE}
-fulltext(chapters[[1]])
+fulltext(emma_chapters[[1]])
 ```
 
 
 ## Crosstalking
 
 ```{r, eval = TRUE}
-ch <- chapters[1:5]
-fulltext(ch)
+fulltext(emma_chapters[1:5])
 ```
 
 

@@ -19,8 +19,6 @@ Imports:
     crosstalk
 Suggests:
     knitr,
-    janeaustenr,
-    tokenizers,
     magrittr,
     rmarkdown,
     webshot

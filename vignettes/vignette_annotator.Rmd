@@ -27,73 +27,16 @@ library(annolite)
 
 ## From tidytext to fulltext
 
-```{r, eval = FALSE}
-emma_txt <- janeaustenr::emma[grep("^CHAPTER\\s+.*?$", janeaustenr::emma)[1]:length(janeaustenr::emma)]
-chapter_beginnings <- grep("^CHAPTER\\s+.*?$", emma_txt)
-chapters <- split(
-  emma_txt,
-  cut(
-    1L:length(emma_txt),
-    c(chapter_beginnings, length(emma_txt)),
-    include.lowest = TRUE, right = FALSE
-  )
-)
-
-reconstruct_paragraphs <- function(x){
-  paras <- split(
-    x, 
-    cut(
-      1L:length(x),
-      unique(c(1L, grep("^\\s*$", x), length(x))),
-      include.lowest = TRUE, right = FALSE
-    )
-  )
-  paras <- lapply(paras, function(x) x[x != ""])
-  for (i in rev(which(lapply(paras, length) == 0))) paras[[i]] <- NULL
-  sapply(paras, function(p) paste(p, collapse = " "))
-}
-
-chs <- lapply(chapters, reconstruct_paragraphs)
-
-as_paragraphdata <- function(x){
-  paras_tok <- tokenizers::tokenize_words(x, lowercase = FALSE, strip_punct = FALSE)
-  df1 <- lapply(
-    1:length(paras_tok),
-    function(i) data.frame(token = paras_tok[[i]], para = i)
-  )
-  df2 <- do.call(rbind, df1)
-  df2[["id"]] <- 1L:nrow(df2)
-  para_list <- split(df2, f = df2[["para"]])
-  
-  lapply(
-    para_list,
-    function(x) list(element = "p", tokenstream = x[, c("id", "token")])
-  )
-}
-
-ch1_paragraphs <- as_paragraphdata(chs[[1]])
-ch1_paragraphs[[1]][["element"]] <- "h3"
-ch1_paragraphs <- c(
-  list(list(
-    element = "h2",
-    tokenstream = data.frame(token = c("Jane", "Austen", "-", "Emma"), id = 10001L:10004L)
-    )),
-  ch1_paragraphs
-)
-ch1_data <- list(
-  paragraphs = ch1_paragraphs,
-  annotations = data.frame(
-      text = character(),
-      code = character(),
-      annotation = character(),
-      id_left = integer(),
-      id_right = integer()
-  )
-)
+```{r, eval = TRUE}
+emma_ch1 <- do.call(c, lapply(emma_chapters_tokenized[[1]], fulltextlist, element = "p"))
 ```
 
-```{r, eval = FALSE}
-annolite(ch1_data, dialog = FALSE, box = TRUE, width = 650)
+```{r, eval = TRUE}
+annolite(
+  list(paragraphs = emma_ch1, annotations = annotationstable()),
+  dialog = list(choices = dialog_radio_buttons(positive = "green", negative = "red")),
+  box = TRUE, width = 650
+)
 ```
 
 
