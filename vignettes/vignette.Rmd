@@ -1,5 +1,5 @@
 ---
-title: "Introducing 'annolite'. A Leightweight Fulltext Display and Annotation Tool"
+title: "Introducing 'annolite'. A Leightweight Fulltext Display and Annotation Toolset"
 author: "Andreas Blätte (andreas.blaette@uni-due.de)"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -9,26 +9,35 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
   chunk_output_type: console
+bibliography: references.bib
 ---
 
 
 ## Purpose
 
-The purpose of the ´annolite´-package is to offer a htmlwidget to reconstruct a formatted fulltext output from input data of tokenized text. To provide the basis for an annotation tool that can detect the corpus positions of annotations, each token is supplemented with (invisible) additional information, such as corpus positions.
+Using large-scale corpora in text-based research comes often evokes the hope that automated content analysis and "distant reading" [@Moretti2013] will facilitate generalizations that can not be attained by the close qualitative analysis of a limited number of texts. Yet as supervised machine learning requires training data that very need to be prepared by way of text annotation, the requirement to work with individual texts is not gone. And if we accept the call to "validate, validate, validate" [@Grimmer2013] to reach sound research results, i.e. to corroborate quantitative findings by qualitative means, those who have a quantitative take on texts still need tools for inspecting and annotating texts qualitatively.
+
+The requirement to integrate quantitative and qualitative approaches to text is not new.  Indeed, there is a breadth of tools for text annotation, or for "coding" texts, as it is mostly called in the social sciences. In the context of information science and computational linguistics, server-based solutions such as brat, WebAnno or INCEpTION are powerful tools for complex text annotation tasks. In the social sciences, ATLAS.ti and MAXQDA dominate the market for the computer-assisted analysis of qualitative data. These are commercial products, to be installed locally, that offer a rich functionality for coding text. So why yet another tool for text analysis?
+
+The open source `annolite` R package offers a leightweight fulltext display and text annotation toolset designed to be used with RStudio. Its functionality is much more limited than the powerful server-based solutions  or the commercial products. But for a set of common, straight-forward text annotation scenarios that have low-level technical requirements - if using the computer for text annotation is essentially like working with printed copies texts using a set of highlighters, possibly writing comments on the margins with a pencil -, `annolite` will offer the functionality that is sufficient. If your annotation task is basic, `annolite` has the advantages that it is is open source, easy to install, and designed to be integrated seamlessly into a pure R workflow.
+
+The technical essence of the package is the htmlwidget `annolite`. The R functionality of the package exposes the htmlwidget (which is written in JavaScript) to the R environment and ensures the communication, i.e. the transfer of data, between R and JavaScript. A shiny gadget launched using the `annotate()` method can be used to annotate a text document within the RStudio environment. The gadget returns a `annotationstable` object which can easily be processed within R. Furthermore, `annolite`  transperency of the research process. The `annolite` htmlwidget can be used to embed the fulltext display of an annotated text in the analysis or the research report you write as an Rmarkdown document. Compared to existing tools for text annotation, the added value of `annolite` is that you have a seamless integration of simple text annotation tasks in a pure R workflow and that you create maximum transparency on the annotation step in a research project by embedding texts and annotations in a html documment written in Rmarkdown.
 
 
-## Getting Started
+
+
+## Installation and getting started
 
 ```{r, eval = TRUE}
 library(annolite)
 ```
 
+
 ## From tidytext to fulltext
 
 ```{r, eval = TRUE}
 emma_ch1 <- do.call(
-  c,
-  lapply(emma_chapters_tokenized[[1]], fulltextlist, element = "p")
+  c, lapply(emma_chapters_tokenized[[1]], fulltextlist, element = "p")
 )
 ```
 
@@ -164,5 +173,11 @@ fulltext(emma_chapters[1:5])
 
 
 ## Perspectives
+
+For complex annotation tasks: INcePTION
+
+I can imagine very well that you could run annolite on a server. 
+
+
 
 Enjoy! 
