@@ -19,75 +19,138 @@ Using large-scale corpora in text-based research comes often evokes the hope tha
 
 The requirement to integrate quantitative and qualitative approaches to text is not new.  Indeed, there is a breadth of tools for text annotation, or for "coding" texts, as it is mostly called in the social sciences. In the context of information science and computational linguistics, server-based solutions such as brat, WebAnno or INCEpTION are powerful tools for complex text annotation tasks. In the social sciences, ATLAS.ti and MAXQDA dominate the market for the computer-assisted analysis of qualitative data. These are commercial products, to be installed locally, that offer a rich functionality for coding text. So why yet another tool for text analysis?
 
-The open source `annolite` R package offers a leightweight fulltext display and text annotation toolset designed to be used with RStudio. Its functionality is much more limited than the powerful server-based solutions  or the commercial products. But for a set of common, straight-forward text annotation scenarios that have low-level technical requirements - if using the computer for text annotation is essentially like working with printed copies texts using a set of highlighters, possibly writing comments on the margins with a pencil -, `annolite` will offer the functionality that is sufficient. If your annotation task is basic, `annolite` has the advantages that it is is open source, easy to install, and designed to be integrated seamlessly into a pure R workflow.
+The open source **annolite** R package offers a leightweight fulltext display and text annotation toolset designed to be used with RStudio. Its functionality is much more limited than the powerful server-based solutions  or the commercial products. But for a set of common, straight-forward text annotation scenarios that have low-level technical requirements - if using the computer for text annotation is essentially like working with printed copies texts using a set of highlighters, possibly writing comments on the margins with a pencil -, **annolite** will offer the functionality that is sufficient. If your annotation task is basic, **annolite** has the advantages that it is is open source, easy to install, and designed to be integrated seamlessly into a pure R workflow.
 
-The technical essence of the package is the htmlwidget `annolite`. The R functionality of the package exposes the htmlwidget (which is written in JavaScript) to the R environment and ensures the communication, i.e. the transfer of data, between R and JavaScript. A shiny gadget launched using the `annotate()` method can be used to annotate a text document within the RStudio environment. The gadget returns a `annotationstable` object which can easily be processed within R. Furthermore, `annolite`  transperency of the research process. The `annolite` htmlwidget can be used to embed the fulltext display of an annotated text in the analysis or the research report you write as an Rmarkdown document. Compared to existing tools for text annotation, the added value of `annolite` is that you have a seamless integration of simple text annotation tasks in a pure R workflow and that you create maximum transparency on the annotation step in a research project by embedding texts and annotations in a html documment written in Rmarkdown.
-
-
+The technical essence of the package is the htmlwidget **annolite**. The R functionality of the package exposes the htmlwidget (which is written in JavaScript) to the R environment and ensures the communication, i.e. the transfer of data, between R and JavaScript. A shiny gadget launched using the `annotate()` method can be used to annotate a text document within the RStudio environment. The gadget returns a `annotationstable` object which can easily be processed within R. Furthermore, **annolite**  transperency of the research process. The **annolite** htmlwidget can be used to embed the fulltext display of an annotated text in the analysis or the research report you write as an Rmarkdown document. Compared to existing tools for text annotation, the added value of **annolite** is that you have a seamless integration of simple text annotation tasks in a pure R workflow and that you create maximum transparency on the annotation step in a research project by embedding texts and annotations in a html documment written in Rmarkdown.
 
 
 ## Installation and getting started
+
+The **annolite** package is a GitHub-only package at this stage. You can install it from the GitHub presence of the PolMine Project as follows:
+
+```{r install_annolite_github_master, eval = FALSE}
+remotes::install_github("PolMine/annolite")
+```
+
+To install the development version of **annolite**, install the package from the **dev** branch of the repository.
+
+```{r install_annolite_github_dev, eval = FALSE}
+remotes::install_github("PolMine/annolite", ref = "dev")
+```
+
+To check whether **annolite** has been installed succesfully, load it in you R session. 
 
 ```{r, eval = TRUE}
 library(annolite)
 ```
 
+There are no messages **annolite** will generate by default. Note hat the name of the `annotate()` method suggests itself for annotation tasks (which may be substantively very different). The name used by other packages, too. Most importantly, if you rely on the **NLP** package and have loaded it before loading **annolite** you might see the message "The following object is masked from ‘package:NLP’: annotate". In this case, prepend the package name followed by two collons to use the `annotate()` method of the **annolite** package, i.e. call `annolite::annotate()`.
 
-## From tidytext to fulltext
 
-```{r, eval = TRUE}
-emma_ch1 <- do.call(
-  c, lapply(emma_chapters_tokenized[[1]], fulltextlist, element = "p")
-)
+## The two uses of the annolite htmlwidget
+
+There are two different uses of the `annolite` [htmlwidget](https://www.htmlwidgets.org/):
+
+1. **Annotation Mode:** It can be used to create highlighter & pencil-style annotations. This scenario requires embedding the *annolite*-htmlwidget into an interactive environment. The package includes a [Shiny Gadget](https://shiny.rstudio.com/articles/gadgets.html) called through the `annotate()`-function. The gadget returns an `annotationstable` object to be processed in the R session.
+
+2. **Display Mode:** The `annolite` htmlwidget can be used to inspect a document and its annotations. The htmlwidget will (a) reconstruct the fulltext, (b) highlight tokens that have been annotad using the color that has been designated for a code and (c) include tooltips with the comment that has been written on an annotation. The htmlwidget can be displayed as a html page generated in the R session (using RStudio's Viewer pane if you use the IDE), and it can be included in html documents generated from Rmarkdown. A special feature is that one single htmlwidget can report the annotations of multiple documents. 
+
+
+## Data structures 
+
+The package defines two different core classes to represent the fulltext of a document and associated annotations. 
+
+
+### The `fulltextlist` class
+
+The S3 class `fulltextlist` is a list of lists with information on the content and the formatting of the chunks of text that make up a document. The class and its data structure are designed such that it can be generated from any kind of text input and transferred seamlessly to JavaScript. This is why fulltext is represented by a simple S3 class.
+
+The lists that make up the `fulltextlist` class are the chunks of text that make up a text documment. Each chunk is a list with the following building blocks:
+
+- **element**: A length-one character vector defining the html element that will define the layout of a chunk of text when it is assembled by the htmlwidget (e.g. "h1" for level 1 headline, "p" or "para" for plain paragraphs)
+
+- **attributes**: A named character vector defining attributes of the element and the values of the attributes. Attributes used at this stage are "style" with the values "display:block" or "display:none", and "name". The attribute "name" is relevant when multiple documents are displayed in one combined HTML element.
+
+- **tokenstream**: The actual text of each chunk of text (a headline, a paragraph, or any other region of text) is represented by a `data.frame` in a tokenized, tabular format. This `data.frame` needs to include a column `id` with a unique token id (used to match annotations and tokens), a colum `token` with the wordform to be displayed, and a column `whitespace` that includes the whitespace to be prepended to a token.
+
+The `fulltextlist()` method serves as a the constructor for the `fulltextlist` class. It is flexible and will facilitate working with *annolite* without strong assumptions on the data structure you should offer. The method accepts different inputs. The most elementary input is a list of character vectors. 
+
+Jane Austen's novel *Emma* is a popular text for teaching text analysis with R. It is part of the R package [janeaustenr](https://CRAN.R-project.org/package=janeaustenr) and is part of the examples used for the tidy approach to text mining using the (see [Julia Silge and David Robinson's book Text Mining with R](https://www.tidytextmining.com/)). This package includes the book as sample data, a list of the chapters of *Emma* that are lists of character vectors representing tokenized paragraphs. The data looks as follows.
+
+```{r emma_first_paragraph}
+emma_chapters_tokenized[[1]][[1]]
 ```
 
-```{r, eval = TRUE}
-annolite(
-  list(paragraphs = emma_ch1, annotations = annotationstable()),
-  dialog = list(choices = dialog_radio_buttons(positive = "green", negative = "red")),
-  box = TRUE, width = 650
-)
+To turn the first chapter of emma into a `fulltextlist`, supply the `fulltextlist()` method with the list of character vectors with the tokenized paragraphs as input.
+
+```{r}
+emma_ch1 <- do.call(c, lapply(emma_chapters_tokenized[[1]], fulltextlist, element = "p"))
 ```
 
+The object `emma_ch1` is the list of chunks introduced before. To illustrate, we inspect the first chunk. 
 
-## Initialization
+```{r}
+emma_ch1[[1]]
+```
 
-We introduce the annolite package by example. In addition to the annolite package, we need the polmineR package which includes the GERMAPARLMINI corpus.
+Having the `fulltextlist` object is enough to generate a htmlwidget that 
+
+```{r}
+annolite(data = list(paragraphs = emma_ch1))
+```
+
+To learn more about the using the `fulltextlist()` method and its flexibility, consult the documentation (`?fulltextlist`).
+
+The functionality to include fulltext based on the `fulltextlist` class in an Rmarkdown may be convenient at times. But *annolite*  is about annotating text and this requires a furter data structure to manage annotations. This is the purpose of the the `annotationstable` class. 
+
+
+### The `annotationstable` class
+
+The `annotationstable` class is a S3 superclass of a `data.frame`. So it is and behaves like a `data.frame`, but using the class is useful for being able to define specified methods. An `annotationsstable` has the columns "text", "code", "color", "annotation" , "start" and "end". This captures all the information generated when annotating a document using *annolite*.  
+
+To convey what this table looks like, inspect the `sample_annotation` object that is included as sample annotation in the package.
+
+```{r}
+sample_annotation
+```
+
+Note that what you see in the column "text" is the text selection when creating an annotation that does not necessarily cover entire words. The token ids in this table are fairly high numbers because these are (arbitrary) annotations of a speech given by Volker Kauder as part of the GermaParl - a fairly small subset of a much larger corpus.
+
+To learn more about the `annotationstable`, see the documentation of the `annotationstable()` function (`?annotationstable`) that serves as a constructor of an (empty) `annotationstable`.
+
+
+## Annotation Mode
+
+To annotate text documents using *annolite*, the package includes a Shiny Gadget that has the `annolite` htmlwidget at its core. The gadget is called using the function `annotate()`, with a `fulltextlist` of the document to be annotated as input. If annotations have already been made, supply the respective `annotationstable` as argument `annotations`. The gadget is designed to be used in an interactive RStudio session. It will be run in the Viewer pane of RStudio and the `annotationstable` with your (new) annotations will be returned when the gadget is closed.
+
 
 ```{r}
 library(polmineR)
-use("polmineR")
 ```
-
-
-## The speech to reconstruct
 
 The example aims at outputting one particular speech. We take a speech held by Voker Kauder in the German Bundestag.
 
 ```{r}
-P <- partition("GERMAPARLMINI", speaker = "Volker Kauder", date = "2009-11-10")
+kauder_speech <- corpus("GERMAPARLMINI") %>% subset(speaker == "Volker Kauder" & date == "2009-11-10")
 ```
-
-
-## Input data for the widget
 
 The data that is passed to the JavaScript that generates the output. Expected to be a list of lists that provide data on sections of text. Each of the sub-lists is to be a named list of a character vector with the HTML element the section will be wrapped into, and  a `data.frame` (or a list) with a column "token", and a column "id".
 
 ```{r}
-D <- fulltextlist(P)
+D <- fulltextlist(kauder_speech)
 ```
 
-
-## Getting the output
 
 ```{r}
 annolite(list(paragraphs = D, annotations = NULL), box = TRUE, width = 650)
 ```
 
 
-## fulltext functionality
 
-## Getting Started
+## Display Mode
+
+
+
 
 ```{r, eval = TRUE}
 library(annolite)
@@ -101,7 +164,7 @@ library(crosstalk)
 We introduce the fulltext package by example. In addition to the fulltext package, we need the polmineR package which includes the GERMAPARLMINI corpus.
 
 ```{r, eval = TRUE}
-library(polmineR)
+
 use("polmineR")
 ```
 
@@ -171,6 +234,16 @@ fulltext(emma_chapters[[1]])
 fulltext(emma_chapters[1:5])
 ```
 
+
+## Implementation and technical remarks
+
+Note  that the package deviates from the orignal intentions of the authors of htmlwidgets and the crosstalk functionality in two respect:
+
+* htmlwidgets original intention to expose existing JavaScript libraries. The JavaScript code of htmlwidgets is usually a binding for the existing JavaScript library. Here, the JavaScript has been written exclusively for the annolite package.
+
+* crosstalk designed to connect data.frames. 
+
+* S3 fulltextlist class, but S4 fulltextlist() method as constructor
 
 ## Perspectives
 
