@@ -5,14 +5,24 @@
 \alias{annolite}
 \alias{annolite-package}
 \alias{sample_annotation}
+\alias{emma_chapters_tokenized}
+\alias{secretary_general_2000}
 \title{Annolite htmlwidget.}
 \format{
 An object of class \code{data.frame} with 4 rows and 6 columns.
+
+An object of class \code{list} of length 55.
+
+An object of class \code{fulltextlist} (inherits from \code{list}, \code{vector}) of length 21.
 }
 \usage{
 annolite(data, width = NULL, height = NULL, dialog = NULL, box = TRUE)
 
 sample_annotation
+
+emma_chapters_tokenized
+
+secretary_general_2000
 }
 \arguments{
 \item{data}{The data that is passed to the JavaScript that generates the output. Expected to be
@@ -34,7 +44,7 @@ Annolite htmlwidget.
 \examples{
 library(polmineR)
 P <- partition("GERMAPARLMINI", speaker = "Volker Kauder", date = "2009-11-10")
-annolite(
+y <- annolite(
   data = list(paragraphs = fulltextlist(P), annotations = annotationstable()),
   width = "100\%",
   dialog = list(choices = dialog_radio_buttons(keep = "yellow", drop = "orange"))

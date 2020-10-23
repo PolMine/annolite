@@ -100,3 +100,6 @@ renderAnnolite <- function(expr, env = parent.frame(), quoted = FALSE) {
 
 #' @rdname annolite
 "emma_chapters_tokenized"
+
+#' @rdname annolite
+"secretary_general_2000"

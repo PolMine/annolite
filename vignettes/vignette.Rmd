@@ -137,72 +137,39 @@ kauder_speech <- corpus("GERMAPARLMINI") %>% subset(speaker == "Volker Kauder" &
 The data that is passed to the JavaScript that generates the output. Expected to be a list of lists that provide data on sections of text. Each of the sub-lists is to be a named list of a character vector with the HTML element the section will be wrapped into, and  a `data.frame` (or a list) with a column "token", and a column "id".
 
 ```{r}
-D <- fulltextlist(kauder_speech)
+kauder_speech_ftxt <- fulltextlist(kauder_speech)
 ```
 
+Everything is prepared now to call the htmlwidget.
 
 ```{r}
-annolite(list(paragraphs = D, annotations = NULL), box = TRUE, width = 650)
+annolite(list(paragraphs = kauder_speech_ftxt, annotations = NULL))
 ```
 
+To put the htmlwidget to real use, it needs to be embedded into a Shiny Gadget that will administer the interface between R and JavaScript and that will prepare and return an `annotationstable` to the R session. The Shiny Gadget is launched by calling the `annotate()` on the `fulltextlist` for a document. 
 
+To tailor the buttons according to your needs, use `dialog_radio_buttons()`, see the following code.
+
+```{r, eval = FALSE}
+dialog <- dialog <- list(
+  choices = dialog_radio_buttons(
+    organization = "yellow",
+    document = "lightgreen"
+  )
+)
+```
+
+Now everything is ready to launch the gadget. 
+
+```{r,eval = FALSE}
+annotab <- annotate(secretary_general_2000, dialog = dialog)
+```
+
+It is not possible to embed a Shiny Gadget into a standalone html document. The following "movie" conveys a sense of the annotation process.
+
+![](img/demo.gif)
 
 ## Display Mode
-
-
-
-
-```{r, eval = TRUE}
-library(annolite)
-library(polmineR)
-library(crosstalk)
-```
-
-
-## From a polmineR subcorpus to fulltext
-
-We introduce the fulltext package by example. In addition to the fulltext package, we need the polmineR package which includes the GERMAPARLMINI corpus.
-
-```{r, eval = TRUE}
-
-use("polmineR")
-```
-
-The example aims at outputting one particular speech. We take a speech held by Voker Kauder in the German Bundestag.
-
-```{r, eval = TRUE}
-sp <- corpus("GERMAPARLMINI") %>% subset(speaker == "Volker Kauder" & date == "2009-11-10")
-```
-
-The data that is passed to the JavaScript that generates the output. Expected to be a list of lists that provide data on sections of text. Each of the sub-lists is to be a named list of a character vector with the HTML element the section will be wrapped into, and  a `data.frame` (or a list) with a column "token", and a column "id".
-
-```{r, eval = TRUE}
-k <- fulltextlist(sp)
-```
-
-So let us see the result ... 
-
-```{r, eval = TRUE}
-fulltext(k)
-```
-
-```{r}
-m <- cpos(sp, query = "Opposition")
-anno <- data.frame(color = "yellow", start = m[,1], end = m[,2])
-fulltext(k, annotations = anno, box = TRUE)
-```
-
-Add a headline
-
-```{r}
-h2 <- fulltextlist(c("Volker", "Kauder", "(CDU)"), element = "h2")
-fulltext(c(h2, k))
-```
-
-
-
-
-## Creating fulltext
 
 ```{r, eval = TRUE}
 emma_chapters_tokenized2 <- emma_chapters_tokenized
