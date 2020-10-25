@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Call Leightweight Annotation Widget. — annotate • annolite</title>
+<title>Changelog • annolite</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,7 @@
 
 
 
-<meta property="og:title" content="Call Leightweight Annotation Widget. — annotate" />
-<meta property="og:description" content="Call Leightweight Annotation Widget." />
+<meta property="og:title" content="Changelog" />
 
 
 
@@ -59,7 +58,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-topic">
+    <div class="container template-news">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -118,83 +117,40 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Call Leightweight Annotation Widget.</h1>
-    
-    <div class="hidden name"><code>annotate.Rd</code></div>
+      <h1 data-toc-skip>Changelog <small></small></h1>
+      
     </div>
 
-    <div class="ref-description">
-    <p>Call Leightweight Annotation Widget.</p>
-    </div>
-
-    <pre class="usage"><span class='fu'>annotate</span>(
-  <span class='no'>x</span>,
-  <span class='kw'>annotations</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>height</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>dialog</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>choices</span> <span class='kw'>=</span> <span class='fu'><a href='dialog.html'>dialog_radio_buttons</a></span>(<span class='kw'>keep</span> <span class='kw'>=</span> <span class='st'>"yellow"</span>, <span class='kw'>drop</span> <span class='kw'>=</span> <span class='st'>"orange"</span>)),
-  <span class='kw'>file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='no'>...</span>
-)</pre>
-
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>Either a <code>fulltextlist</code> object or an object that can be
-brought in shape using the <code>fulltextlist</code> method.</p></td>
-    </tr>
-    <tr>
-      <th>annotations</th>
-      <td><p>A <code>annotationstable</code>, optionally.</p></td>
-    </tr>
-    <tr>
-      <th>width</th>
-      <td><p>The width of the annolite htmlwidget.</p></td>
-    </tr>
-    <tr>
-      <th>height</th>
-      <td><p>The height of the annolite htmlwidget.</p></td>
-    </tr>
-    <tr>
-      <th>dialog</th>
-      <td><p>Specification of the dialog box.</p></td>
-    </tr>
-    <tr>
-      <th>file</th>
-      <td><p>If a <code>character</code> vector, a filename to save table with
-annotations to disk whenever a new annotation is added. If the filename
-ends with ".rds", a RDS file is saved. In all other cases, a csv file
-is generated.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Further arguments passed into call of <code>fulltextlist</code>.</p></td>
-    </tr>
-    </table>
-
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A <code>data.frame</code> with annotations is returned invisibly.</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>polmineR</span>)
-<span class='fu'><a href='https://rdrr.io/pkg/polmineR/man/use.html'>use</a></span>(<span class='st'>"polmineR"</span>)
-<span class='no'>P</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/polmineR/man/partition.html'>partition</a></span>(<span class='st'>"GERMAPARLMINI"</span>, <span class='kw'>speaker</span> <span class='kw'>=</span> <span class='st'>"Volker Kauder"</span>, <span class='kw'>date</span> <span class='kw'>=</span> <span class='st'>"2009-11-10"</span>)
-<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()) <span class='no'>Y</span> <span class='kw'>&lt;-</span> <span class='fu'>annotate</span>(<span class='no'>P</span>)
-
-<span class='no'>D</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fulltextlist.html'>fulltextlist</a></span>(<span class='no'>P</span>)
-<span class='no'>D</span>$<span class='no'>annotations</span> <span class='kw'>&lt;-</span> <span class='no'>sample_annotation</span>
-<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()) <span class='no'>Y</span> <span class='kw'>&lt;-</span> <span class='fu'>annotate</span>(<span class='no'>D</span>)
-}</div></pre>
+    <div id="annolite-0009005-7" class="section level1">
+<h1 class="page-header" data-toc-text="0.0.0.9005-7">
+<a href="#annolite-0009005-7" class="anchor"></a>annolite 0.0.0.9005-7</h1>
+<ul>
+<li>An error when running R CMD check resulting from a limitation of polmineR to be loaded multiple times is resolved by commenting out the example of <code>as.fulltext</code>.</li>
+<li>Mixed up special characters are displayed correctly now (#2).</li>
+<li>The <code>as.fulltextdata()</code> function has been turned into a (S3) method, it is defined for plpr_partition objects and <code>subcorpus</code> objects.</li>
+<li>In the dialogue opened for annotation, the first radio button is checked by default (not the last) (#3)</li>
+<li>The <code>data.frame</code> returned by the annotation widget now reports the code in the column “code”. Previously, the colour of the code had been reported.</li>
+<li>Columns “id_left” and “id_right” in the annotations table have been renamed and are “start” and “end” now.</li>
+<li>The bug that occurred when cancelling the annotation dialogue is resolved.</li>
+<li>Including whitespace on the left or right of an annotation provoked a creash - resolved (#4).</li>
+<li>The R function <code>dialog_default_callback()</code> that defined a default callback function for the bootbox dialogue has been removed. The default JavaScript callback function it defined had grown so complicated that it is unlikely that modificiations “on the fly” are possible and likely.</li>
+<li>The htmlwidget included in the package has been renamed as “annotator” (previously: “fulltext”).</li>
+<li>The <code>as.fulltextdata()</code> has been renamed as <code>as.annotatordata</code>.</li>
+<li>Calling the annotator widget is faster, resulting from an improved JavaScript implemention.</li>
+<li>Argument <code>headline</code> of the <code>as.annotatordata()</code> method has now default value <code>NULL</code>, it is not necessary to provide argument.</li>
+<li>The README was totally outdated and the bulk of the content has been removed.</li>
+<li>Methods <code>as.fulltexttable()</code>, R6 Class <code>FulltextData</code> and the <code><a href="../reference/fulltext.html">fulltext()</a></code> function have been integrated into annolite package from fulltext package.</li>
+<li>The CSS file markdown7.css included in the fulltext package supersedes the equally-named file in annolite, assuming that the fullext package has seen relevant updates.</li>
+</ul>
+</div>
   </div>
+
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
+
 </div>
 
 

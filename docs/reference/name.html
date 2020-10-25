@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Call Leightweight Annotation Widget. — annotate • annolite</title>
+<title>Manage names of fulltextlist — name&lt;-,fulltextlist-method • annolite</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Call Leightweight Annotation Widget. — annotate" />
-<meta property="og:description" content="Call Leightweight Annotation Widget." />
+<meta property="og:title" content="Manage names of fulltextlist — name&lt;-,fulltextlist-method" />
+<meta property="og:description" content="Manage names of fulltextlist" />
 
 
 
@@ -118,76 +118,41 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Call Leightweight Annotation Widget.</h1>
+    <h1>Manage names of fulltextlist</h1>
     
-    <div class="hidden name"><code>annotate.Rd</code></div>
+    <div class="hidden name"><code>name.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Call Leightweight Annotation Widget.</p>
+    <p>Manage names of fulltextlist</p>
     </div>
 
-    <pre class="usage"><span class='fu'>annotate</span>(
-  <span class='no'>x</span>,
-  <span class='kw'>annotations</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>height</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>dialog</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>choices</span> <span class='kw'>=</span> <span class='fu'><a href='dialog.html'>dialog_radio_buttons</a></span>(<span class='kw'>keep</span> <span class='kw'>=</span> <span class='st'>"yellow"</span>, <span class='kw'>drop</span> <span class='kw'>=</span> <span class='st'>"orange"</span>)),
-  <span class='kw'>file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='co'># S4 method for fulltextlist</span>
+<span class='fu'><a href='https://rdrr.io/r/base/name.html'>name</a></span>(<span class='no'>x</span>) <span class='kw'>&lt;-</span> <span class='no'>value</span>
+
+<span class='co'># S4 method for fulltextlist</span>
+<span class='fu'><a href='https://rdrr.io/r/base/name.html'>name</a></span>(<span class='no'>x</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>Either a <code>fulltextlist</code> object or an object that can be
-brought in shape using the <code>fulltextlist</code> method.</p></td>
+      <td><p>A <code>fulltextlist</code> object.</p></td>
     </tr>
     <tr>
-      <th>annotations</th>
-      <td><p>A <code>annotationstable</code>, optionally.</p></td>
-    </tr>
-    <tr>
-      <th>width</th>
-      <td><p>The width of the annolite htmlwidget.</p></td>
-    </tr>
-    <tr>
-      <th>height</th>
-      <td><p>The height of the annolite htmlwidget.</p></td>
-    </tr>
-    <tr>
-      <th>dialog</th>
-      <td><p>Specification of the dialog box.</p></td>
-    </tr>
-    <tr>
-      <th>file</th>
-      <td><p>If a <code>character</code> vector, a filename to save table with
-annotations to disk whenever a new annotation is added. If the filename
-ends with ".rds", a RDS file is saved. In all other cases, a csv file
-is generated.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Further arguments passed into call of <code>fulltextlist</code>.</p></td>
+      <th>value</th>
+      <td><p>The value to assign.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A <code>data.frame</code> with annotations is returned invisibly.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>polmineR</span>)
-<span class='fu'><a href='https://rdrr.io/pkg/polmineR/man/use.html'>use</a></span>(<span class='st'>"polmineR"</span>)
-<span class='no'>P</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/polmineR/man/partition.html'>partition</a></span>(<span class='st'>"GERMAPARLMINI"</span>, <span class='kw'>speaker</span> <span class='kw'>=</span> <span class='st'>"Volker Kauder"</span>, <span class='kw'>date</span> <span class='kw'>=</span> <span class='st'>"2009-11-10"</span>)
-<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()) <span class='no'>Y</span> <span class='kw'>&lt;-</span> <span class='fu'>annotate</span>(<span class='no'>P</span>)
-
-<span class='no'>D</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fulltextlist.html'>fulltextlist</a></span>(<span class='no'>P</span>)
-<span class='no'>D</span>$<span class='no'>annotations</span> <span class='kw'>&lt;-</span> <span class='no'>sample_annotation</span>
-<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()) <span class='no'>Y</span> <span class='kw'>&lt;-</span> <span class='fu'>annotate</span>(<span class='no'>D</span>)
+<span class='no'>li</span> <span class='kw'>&lt;-</span> <span class='fu'>corpus</span>(<span class='st'>"REUTERS"</span>) <span class='kw'>%&gt;%</span>  <span class='fu'><a href='https://rdrr.io/r/base/subset.html'>subset</a></span>(<span class='no'>id</span> <span class='kw'>==</span> <span class='st'>"127"</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='fulltextlist.html'>fulltextlist</a></span>()
+<span class='fu'><a href='https://rdrr.io/r/base/name.html'>name</a></span>(<span class='no'>li</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/name.html'>name</a></span>(<span class='no'>li</span>) <span class='kw'>&lt;-</span> <span class='st'>"reuters127"</span>
+<span class='fu'><a href='https://rdrr.io/r/base/name.html'>name</a></span>(<span class='no'>li</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

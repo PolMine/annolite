@@ -103,3 +103,9 @@ renderAnnolite <- function(expr, env = parent.frame(), quoted = FALSE) {
 
 #' @rdname annolite
 "secretary_general_2000"
+
+#' @rdname annolite
+"unga_migrationspeeches_fulltext"
+
+#' @rdname annolite
+"unga_migrationspeeches_anntationstable"

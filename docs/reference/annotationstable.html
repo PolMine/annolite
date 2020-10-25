@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Call Leightweight Annotation Widget. — annotate • annolite</title>
+<title>Create annotationstable — annotationstable • annolite</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,31 @@
 
 
 
-<meta property="og:title" content="Call Leightweight Annotation Widget. — annotate" />
-<meta property="og:description" content="Call Leightweight Annotation Widget." />
+<meta property="og:title" content="Create annotationstable — annotationstable" />
+<meta property="og:description" content="The annolite package uses an annotationstable to store and manage the
+annotations of an document. An annotationstable object is a S3
+superclass of a data.frame. An annotationstable is a
+data.frame with the following columns:
+text: The original text that has been selected to serve as a basis
+for an annotation. Note that text selection is not required to cover whole
+words. Parts of words may have been selected.
+code: A code that has been assigned to an annotated passage of text.
+Available codes need to be predefined before an annotation exercise.
+color: The color used to highlight annotated token sequences. Each
+color needs to reflect one code.
+annotation: An explanatory note on the code that has been assigned.
+start: ID of the first token that has been annotated. If the
+annotated document is a subcorpus of a CWB corpus, the token ID is the
+integer corpus position.
+end: ID of the last token that has been annotated. If the annotated
+document is a subcorpus of a CWB corpus, the token ID is the integer
+corpus position.
+
+
+The function annotationstable() serves as a constructor for an
+annotationstable. If called without arguments, an empty
+annotationstable is returned. If called with arguments, all input
+vectors need to have the same length." />
 
 
 
@@ -118,77 +141,79 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Call Leightweight Annotation Widget.</h1>
+    <h1>Create annotationstable</h1>
     
-    <div class="hidden name"><code>annotate.Rd</code></div>
+    <div class="hidden name"><code>annotationstable.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Call Leightweight Annotation Widget.</p>
+    <p>The annolite package uses an <code>annotationstable</code> to store and manage the
+annotations of an document. An <code>annotationstable</code> object is a S3
+superclass of a <code>data.frame</code>. An <code>annotationstable</code> is a
+<code>data.frame</code> with the following columns:</p><ul>
+<li><p><em>text</em>: The original text that has been selected to serve as a basis
+for an annotation. Note that text selection is not required to cover whole
+words. Parts of words may have been selected.</p></li>
+<li><p><em>code</em>: A code that has been assigned to an annotated passage of text.
+Available codes need to be predefined before an annotation exercise.</p></li>
+<li><p><em>color</em>: The color used to highlight annotated token sequences. Each
+color needs to reflect one code.</p></li>
+<li><p><em>annotation</em>: An explanatory note on the code that has been assigned.</p></li>
+<li><p><em>start</em>: ID of the first token that has been annotated. If the
+annotated document is a subcorpus of a CWB corpus, the token ID is the
+<code>integer</code> corpus position.</p></li>
+<li><p><em>end</em>: ID of the last token that has been annotated. If the annotated
+document is a subcorpus of a CWB corpus, the token ID is the <code>integer</code>
+corpus position.</p></li>
+</ul>
+
+<p>The function <code>annotationstable()</code> serves as a constructor for an
+<code>annotationstable</code>. If called without arguments, an empty
+<code>annotationstable</code> is returned. If called with arguments, all input
+vectors need to have the same length.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>annotate</span>(
-  <span class='no'>x</span>,
-  <span class='kw'>annotations</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>height</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>dialog</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>choices</span> <span class='kw'>=</span> <span class='fu'><a href='dialog.html'>dialog_radio_buttons</a></span>(<span class='kw'>keep</span> <span class='kw'>=</span> <span class='st'>"yellow"</span>, <span class='kw'>drop</span> <span class='kw'>=</span> <span class='st'>"orange"</span>)),
-  <span class='kw'>file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='no'>...</span>
+    <pre class="usage"><span class='fu'>annotationstable</span>(
+  <span class='kw'>text</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
+  <span class='kw'>code</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
+  <span class='kw'>color</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
+  <span class='kw'>annotation</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
+  <span class='kw'>start</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>integer</a></span>(),
+  <span class='kw'>end</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>integer</a></span>()
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>Either a <code>fulltextlist</code> object or an object that can be
-brought in shape using the <code>fulltextlist</code> method.</p></td>
+      <th>text</th>
+      <td><p>A <code>character</code> vector.</p></td>
     </tr>
     <tr>
-      <th>annotations</th>
-      <td><p>A <code>annotationstable</code>, optionally.</p></td>
+      <th>code</th>
+      <td><p>A <code>character</code> vector.</p></td>
     </tr>
     <tr>
-      <th>width</th>
-      <td><p>The width of the annolite htmlwidget.</p></td>
+      <th>color</th>
+      <td><p>A <code>character</code> vector.</p></td>
     </tr>
     <tr>
-      <th>height</th>
-      <td><p>The height of the annolite htmlwidget.</p></td>
+      <th>annotation</th>
+      <td><p>A <code>character</code> vector.</p></td>
     </tr>
     <tr>
-      <th>dialog</th>
-      <td><p>Specification of the dialog box.</p></td>
+      <th>start</th>
+      <td><p>A <code>integer</code> vector</p></td>
     </tr>
     <tr>
-      <th>file</th>
-      <td><p>If a <code>character</code> vector, a filename to save table with
-annotations to disk whenever a new annotation is added. If the filename
-ends with ".rds", a RDS file is saved. In all other cases, a csv file
-is generated.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Further arguments passed into call of <code>fulltextlist</code>.</p></td>
+      <th>end</th>
+      <td><p>integer A <code>integer</code> vector.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A <code>data.frame</code> with annotations is returned invisibly.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>polmineR</span>)
-<span class='fu'><a href='https://rdrr.io/pkg/polmineR/man/use.html'>use</a></span>(<span class='st'>"polmineR"</span>)
-<span class='no'>P</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/polmineR/man/partition.html'>partition</a></span>(<span class='st'>"GERMAPARLMINI"</span>, <span class='kw'>speaker</span> <span class='kw'>=</span> <span class='st'>"Volker Kauder"</span>, <span class='kw'>date</span> <span class='kw'>=</span> <span class='st'>"2009-11-10"</span>)
-<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()) <span class='no'>Y</span> <span class='kw'>&lt;-</span> <span class='fu'>annotate</span>(<span class='no'>P</span>)
-
-<span class='no'>D</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fulltextlist.html'>fulltextlist</a></span>(<span class='no'>P</span>)
-<span class='no'>D</span>$<span class='no'>annotations</span> <span class='kw'>&lt;-</span> <span class='no'>sample_annotation</span>
-<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()) <span class='no'>Y</span> <span class='kw'>&lt;-</span> <span class='fu'>annotate</span>(<span class='no'>D</span>)
-}</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>empty_annotationstable</span> <span class='kw'>&lt;-</span> <span class='fu'>annotationstable</span>()</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

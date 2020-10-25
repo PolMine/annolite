@@ -7,6 +7,8 @@
 \alias{sample_annotation}
 \alias{emma_chapters_tokenized}
 \alias{secretary_general_2000}
+\alias{unga_migrationspeeches_fulltext}
+\alias{unga_migrationspeeches_anntationstable}
 \title{Annolite htmlwidget.}
 \format{
 An object of class \code{data.frame} with 4 rows and 6 columns.
@@ -14,6 +16,10 @@ An object of class \code{data.frame} with 4 rows and 6 columns.
 An object of class \code{list} of length 55.
 
 An object of class \code{fulltextlist} (inherits from \code{list}, \code{vector}) of length 21.
+
+An object of class \code{list} of length 25.
+
+An object of class \code{annotationstable} (inherits from \code{data.frame}, \code{list}, \code{oldClass}, \code{vector}) with 1844 rows and 6 columns.
 }
 \usage{
 annolite(data, width = NULL, height = NULL, dialog = NULL, box = TRUE)
@@ -23,6 +29,10 @@ sample_annotation
 emma_chapters_tokenized
 
 secretary_general_2000
+
+unga_migrationspeeches_fulltext
+
+unga_migrationspeeches_anntationstable
 }
 \arguments{
 \item{data}{The data that is passed to the JavaScript that generates the output. Expected to be
