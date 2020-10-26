@@ -4,25 +4,49 @@
 \name{annolite}
 \alias{annolite}
 \alias{annolite-package}
+\alias{annolite,fulltexttable-method}
+\alias{annolite,SharedData-method}
 \alias{sample_annotation}
 \alias{emma_chapters_tokenized}
 \alias{secretary_general_2000}
 \alias{unga_migrationspeeches_fulltext}
 \alias{unga_migrationspeeches_anntationstable}
-\title{Annolite htmlwidget.}
+\title{Instantiate annolite htmlwidget.}
 \format{
 An object of class \code{data.frame} with 4 rows and 6 columns.
 
 An object of class \code{list} of length 55.
 
-An object of class \code{fulltextlist} (inherits from \code{list}, \code{vector}) of length 21.
+An object of class \code{fulltexttable} (inherits from \code{data.frame}, \code{list}, \code{oldClass}, \code{vector}) with 21 rows and 4 columns.
 
-An object of class \code{list} of length 25.
+An object of class \code{fulltexttable} (inherits from \code{data.frame}, \code{list}, \code{oldClass}, \code{vector}) with 178 rows and 4 columns.
 
-An object of class \code{annotationstable} (inherits from \code{data.frame}, \code{list}, \code{oldClass}, \code{vector}) with 1844 rows and 6 columns.
+An object of class \code{annotationstable} (inherits from \code{data.frame}, \code{list}, \code{oldClass}, \code{vector}) with 2041 rows and 6 columns.
 }
 \usage{
-annolite(data, width = NULL, height = NULL, dialog = NULL, box = TRUE)
+annolite(x, ...)
+
+\S4method{annolite}{fulltexttable}(
+  x,
+  annotations = annotationstable(),
+  dialog = NULL,
+  width = "100\%",
+  height = NULL,
+  box = TRUE,
+  crosstalk = FALSE,
+  layout = "filter",
+  group = "fulltext"
+)
+
+\S4method{annolite}{SharedData}(
+  x,
+  annotations = NULL,
+  width = "100\%",
+  height = NULL,
+  box = TRUE,
+  group = x$groupName(),
+  crosstalk = TRUE
+)
 
 sample_annotation
 
@@ -35,27 +59,36 @@ unga_migrationspeeches_fulltext
 unga_migrationspeeches_anntationstable
 }
 \arguments{
-\item{data}{The data that is passed to the JavaScript that generates the output. Expected to be
-a list of lists that provide data on sections of text. Each of the sub-lists is to be a named
-list of a character vector with the HTML element the section will be wrapped into, and
-a \code{data.frame} (or a list) with a column "token", and a column "id".}
+\item{x}{A \code{fulltexttable}.}
+
+\item{...}{Further arguments}
+
+\item{annotations}{A \code{annotationstable}.}
+
+\item{dialog}{The dialog.}
 
 \item{width}{The width of the widget.}
 
 \item{height}{The height of the widget.}
 
-\item{dialog}{The dialog.}
-
 \item{box}{Logical, whether to put text into a box.}
+
+\item{crosstalk}{\code{logical}, whether to use crosstalk}
+
+\item{layout}{Relevant for crosstalk mode}
+
+\item{group}{crosstalk group}
 }
 \description{
-Annolite htmlwidget.
+Instantiate annolite htmlwidget.
 }
 \examples{
 library(polmineR)
-P <- partition("GERMAPARLMINI", speaker = "Volker Kauder", date = "2009-11-10")
+sc <- corpus("GERMAPARLMINI") \%>\%
+  subset(speaker == "Volker Kauder" & date == "2009-11-10")
+tab <- fulltexttable(sc)
 y <- annolite(
-  data = list(paragraphs = fulltextlist(P), annotations = annotationstable()),
+  x = tab, annotations = annotationstable(),
   width = "100\%",
   dialog = list(choices = dialog_radio_buttons(keep = "yellow", drop = "orange"))
 )

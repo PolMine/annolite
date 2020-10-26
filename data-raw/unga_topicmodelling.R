@@ -23,12 +23,11 @@ unga_speeches_mig <- unga_speeches[[mig_speeches]]
 
 unga_migrationspeeches_fulltext <- lapply(
   seq_along(unga_speeches_mig),
-  function(i){
-    y <- fulltextlist(unga_speeches_mig[[i]])
-    name(y) <- mig_speeches[[i]]
-    y
-  }
+  function(i) fulltexttable(unga_speeches_mig[[i]], name = mig_speeches[[i]])
 )
+
+unga_migrationspeeches_fulltext <- do.call(rbind, unga_migrationspeeches_fulltext)
+
 
 # Create annotationstable
 
@@ -47,7 +46,8 @@ unga_migrationspeeches_anntationstable <- annotationstable(
 save(
   unga_migrationspeeches_fulltext,
   unga_migrationspeeches_anntationstable,
-  file = "~/Lab/github/annolite/data/unga_migrationspeeches.RData"
+  file = "~/Lab/github/annolite/data/unga_migrationspeeches.RData",
+  compress = "xz"
 )
 
 

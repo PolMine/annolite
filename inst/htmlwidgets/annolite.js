@@ -60,19 +60,10 @@ HTMLWidgets.widget({
           ct_sel.setGroup(x.settings.crosstalk_group);
         }
 
+        container.innerHTML += x.data.fulltext;
+
         document.annotations = x.data.annotations;
 
-        for (var i = 0; i < x.data.paragraphs.length; i++){
-            
-            // adding style and name relevant only for display mode
-            var p = "<" + x.data.paragraphs[i].element + " style='" + x.data.paragraphs[i].attributes.style +"' name='" + x.data.paragraphs[i].attributes.name + "'>";
-            for (var j = 0; j < x.data.paragraphs[i].tokenstream.token.length; j++){
-              p += '<span>' + x.data.paragraphs[i].tokenstream.whitespace[j] + '</span>' + '<span id="' + x.data.paragraphs[i].tokenstream.id[j] + '">' + x.data.paragraphs[i].tokenstream.token[j] + '</span>';
-            }
-            p += "</" + x.data.paragraphs[i].element + ">";
-            container.innerHTML += p;
-        };
-        
         for (var i = 0; i < x.data.annotations.start.length; i++){
           for (var id = x.data.annotations.start[i]; id <= x.data.annotations.end[i]; id++){
             el = document.getElementById(id.toString())

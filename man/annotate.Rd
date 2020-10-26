@@ -6,7 +6,7 @@
 \usage{
 annotate(
   x,
-  annotations = NULL,
+  annotations = annotationstable(),
   width = NULL,
   height = NULL,
   dialog = list(choices = dialog_radio_buttons(keep = "yellow", drop = "orange")),
@@ -15,8 +15,8 @@ annotate(
 )
 }
 \arguments{
-\item{x}{Either a \code{fulltextlist} object or an object that can be
-brought in shape using the \code{fulltextlist} method.}
+\item{x}{Either a \code{fulltexttable} object or an object that can be
+brought in shape using the \code{fulltexttable} method.}
 
 \item{annotations}{A \code{annotationstable}, optionally.}
 
@@ -31,7 +31,7 @@ annotations to disk whenever a new annotation is added. If the filename
 ends with ".rds", a RDS file is saved. In all other cases, a csv file
 is generated.}
 
-\item{...}{Further arguments passed into call of \code{fulltextlist}.}
+\item{...}{Further arguments passed into call of \code{fulltexttable}.}
 }
 \value{
 A \code{data.frame} with annotations is returned invisibly.
@@ -46,7 +46,7 @@ use("polmineR")
 P <- partition("GERMAPARLMINI", speaker = "Volker Kauder", date = "2009-11-10")
 if (interactive()) Y <- annotate(P)
 
-D <- fulltextlist(P)
+D <- fulltexttable(P)
 D$annotations <- sample_annotation
 if (interactive()) Y <- annotate(D)
 }

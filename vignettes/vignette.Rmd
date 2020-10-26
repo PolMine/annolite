@@ -46,7 +46,7 @@ remotes::install_github("PolMine/annolite", ref = "dev")
 
 To check whether **annolite** has been installed succesfully, load it in you R session. 
 
-```{r, eval = TRUE}
+```{r load_annolite, eval = TRUE}
 library(annolite)
 ```
 
@@ -81,19 +81,19 @@ emma_chapters_tokenized[[1]][[1]]
 To turn the first chapter of emma into a `fulltextlist`, supply the `fulltextlist()` method with the list of character vectors with the tokenized paragraphs as input.
 
 ```{r}
-emma_ch1 <- do.call(c, lapply(emma_chapters_tokenized[[1]], fulltextlist, element = "p"))
+emma_ch1 <- fulltexttable(emma_chapters_tokenized[[1]])
 ```
 
 The object `emma_ch1` is the list of chunks introduced before. To illustrate, we inspect the first chunk. 
 
 ```{r}
-emma_ch1[[1]]
+emma_ch1[1,]
 ```
 
 Having the `fulltextlist` object is enough to generate a htmlwidget that 
 
 ```{r}
-annolite(data = list(paragraphs = emma_ch1))
+annolite(emma_ch1)
 ```
 
 To learn more about the using the `fulltextlist()` method and its flexibility, consult the documentation (`?fulltextlist`).
@@ -128,19 +128,20 @@ library(polmineR)
 The example aims at outputting one particular speech. We take a speech held by Voker Kauder in the German Bundestag.
 
 ```{r}
-kauder_speech <- corpus("GERMAPARLMINI") %>% subset(speaker == "Volker Kauder" & date == "2009-11-10")
+kauder_speech <- corpus("GERMAPARLMINI") %>%
+  subset(speaker == "Volker Kauder" & date == "2009-11-10")
 ```
 
 The data that is passed to the JavaScript that generates the output. Expected to be a list of lists that provide data on sections of text. Each of the sub-lists is to be a named list of a character vector with the HTML element the section will be wrapped into, and  a `data.frame` (or a list) with a column "token", and a column "id".
 
 ```{r}
-kauder_speech_ftxt <- fulltextlist(kauder_speech)
+kauder_speech_ftxt <- fulltexttable(kauder_speech)
 ```
 
 Everything is prepared now to call the htmlwidget.
 
 ```{r}
-annolite(list(paragraphs = kauder_speech_ftxt, annotations = NULL))
+annolite(kauder_speech_ftxt)
 ```
 
 To put the htmlwidget to real use, it needs to be embedded into a Shiny Gadget that will administer the interface between R and JavaScript and that will prepare and return an `annotationstable` to the R session. The Shiny Gadget is launched by calling the `annotate()` on the `fulltextlist` for a document. 
@@ -176,16 +177,12 @@ The code to create an `annolite` htmlwidget and the result can be embedded in Rm
 
 The package includes a minimal dataset with annotations on the speech of Volker Kauder that served as an example initially (object `sample_annotation`). This is how you create the htmlwidget and include it in the document.
 
-```{r}
+```{r, eval = TRUE}
 kauder_speech_flist <- corpus("GERMAPARLMINI") %>%
   subset(speaker == "Volker Kauder" & date == "2009-11-10") %>%
-  fulltextlist()
+  fulltexttable()
 
-annolite(
-  data = list(
-    paragraphs = kauder_speech_flist,
-    annotations = sample_annotation)
-)
+annolite(kauder_speech_flist, annotations = sample_annotation)
 ```
 
 
@@ -198,13 +195,7 @@ Technically, the HTML element you can use to inspect multiple annotated document
 The `annolite()` method will prepare this output. But this time, the input needs to be a list of `fulltextlist` objects with defined names. We use the chapters of emma as an example and start with preparing the list of `fulltextlist` objects. Each of these objects in the list will include the fulltext of a chapter.
 
 ```{r, eval = TRUE}
-emma_chapters <- lapply(
-  emma_chapters_tokenized,
-  function(ch){
-    fulltextlist_paras <- lapply(ch, fulltextlist, element = "p")
-    do.call(c, fulltextlist_paras)
-  }
-)
+emma_chapters <- lapply(emma_chapters_tokenized, fulltexttable)
 ```
 
 The interaction between the table and the `annolite` htmlwidget requires that the name compontent is a non-empty character vector. So we iterate through the chapters again and fill the name component of the `fulltextlist` objects.
@@ -213,7 +204,7 @@ The interaction between the table and the `annolite` htmlwidget requires that th
 emma_chapters <- lapply(
   seq_along(emma_chapters),
   function(i){
-    name(emma_chapters[[i]]) <- sprintf("Chapter %s", i)
+    emma_chapters[[i]][["name"]] <- sprintf("Chapter %s", i)
     emma_chapters[[i]]
   }
 )
@@ -222,13 +213,13 @@ emma_chapters <- lapply(
 This is an example where you fill find the name ...
 
 ```{r}
-emma_chapters[[2]][[1]][["attributes"]][["name"]]
+unique(emma_chapters[[2]][["name"]])
 ```
 
 The input required for an html element with a table to select documents and a documeent viewer is fully prepared. In this example, we limit the input to the first five chapters of *Emma* to be somewhat parsimonious with the data to be included in the vignette.
 
 ```{r, eval = TRUE}
-fulltext(emma_chapters[1:5])
+annolite(do.call(rbind, emma_chapters), group = "emma")
 ```
 
 
@@ -244,9 +235,10 @@ The *annolite* widget can get you this kind of output which may be very useful t
 
 
 ```{r}
-fulltext(
+annolite(
   x = unga_migrationspeeches_fulltext,
-  annotations = unga_migrationspeeches_anntationstable
+  annotations = unga_migrationspeeches_anntationstable,
+  group = "unga"
 )
 ```
 

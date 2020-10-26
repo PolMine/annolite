@@ -19,5 +19,9 @@ emma_chapters_tokenized <- lapply(
   }
 )
 
-save(emma_chapters_tokenized, file = "~/Lab/github/annolite/data/emma.RData")
+save(
+  emma_chapters_tokenized,
+  file = "~/Lab/github/annolite/data/emma.RData",
+  compress = "bzip2"
+)
 

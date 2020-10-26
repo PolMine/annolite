@@ -1,8 +1,8 @@
 Package: annolite
 Type: Package
 Title: Leightweight Fulltext Display and Annotation Tools
-Version: 0.0.0.9009
-Date: 2020-10-22
+Version: 0.0.0.9010
+Date: 2020-10-27
 Authors@R: person("Andreas", "Blaette", role = c("aut", "cre"), email = "andreas.blaette@uni-due.de")
 Description: The package includes an htmlwidget 'fulltext' and a shiny gadget to inspect the fulltext of (sub-)corpora, and for coding and adding free-text memos. 
 Depends:
@@ -30,9 +30,8 @@ Collate:
     'annolite.R'
     'annotate.R'
     'utils.R'
-    'fulltextlist.R'
+    'fulltexttable.R'
     'dialog.R'
-    'fulltext.R'
     'annotationstable.R'
 RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
