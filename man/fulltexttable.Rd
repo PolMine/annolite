@@ -40,26 +40,21 @@ or "none". Should usually be "block"}
 Convert object to input for fulltext (table format).
 }
 \examples{
-\dontrun{
-x <- corpus("REUTERS") \%>\% subset(id == "127")
-fli <- fulltexttable(x)
-}
-\dontrun{
-p <- partition("REUTERS", id = "127")
-fli <- fulltexttable(p)
-}
-\dontrun{
 library(polmineR)
 use("polmineR")
+x <- corpus("REUTERS") \%>\% subset(id == "127")
+tbl <- fulltexttable(x)
+p <- partition("REUTERS", id = "127")
+fli <- fulltexttable(p)
+library(polmineR)
+use("polmineR")
+
 x <- corpus("GERMAPARLMINI")
 sp <- subset(x, speaker == "Volker Kauder" & date == "2009-11-10")
 y <- fulltexttable(sp)
-}
-\dontrun{
 x <- corpus("GERMAPARLMINI")
 sp <-  subset(x, speaker == "Volker Kauder" & date == "2009-11-10")
 y <- fulltexttable(sp)
 headline <- fulltexttable(x = c("Volker", "Kauder", "(CDU)"), element = "h2")
 y2 <- c(headline, y)
-}
 }

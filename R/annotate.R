@@ -21,16 +21,11 @@
 #' @importFrom utils write.table
 #' @export annotate
 #' @examples
-#' \dontrun{
 #' library(polmineR)
 #' use("polmineR")
 #' P <- partition("GERMAPARLMINI", speaker = "Volker Kauder", date = "2009-11-10")
 #' if (interactive()) Y <- annotate(P)
-#' 
-#' D <- fulltexttable(P)
-#' D$annotations <- sample_annotation
-#' if (interactive()) Y <- annotate(D)
-#' }
+#' if (interactive()) Y <- annotate(D, annotations = sample_annotation)
 annotate <- function(x, annotations = annotationstable(), width = NULL, height = NULL, dialog = list(choices = dialog_radio_buttons(keep = "yellow", drop = "orange")), file = NULL, ...) { 
   
   x <- fulltexttable(x, ...)

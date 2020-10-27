@@ -40,14 +40,9 @@ A \code{data.frame} with annotations is returned invisibly.
 Call Leightweight Annotation Widget.
 }
 \examples{
-\dontrun{
 library(polmineR)
 use("polmineR")
 P <- partition("GERMAPARLMINI", speaker = "Volker Kauder", date = "2009-11-10")
 if (interactive()) Y <- annotate(P)
-
-D <- fulltexttable(P)
-D$annotations <- sample_annotation
-if (interactive()) Y <- annotate(D)
-}
+if (interactive()) Y <- annotate(D, annotations = sample_annotation)
 }

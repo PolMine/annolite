@@ -11,7 +11,7 @@ Imports:
     htmlwidgets,
     miniUI,
     shiny,
-    polmineR (>= 0.8.0.9006),
+    polmineR (>= 0.8.5.9007),
     RcppCWB,
     methods,
     DT,

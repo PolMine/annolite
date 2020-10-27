@@ -21,10 +21,10 @@ setGeneric("fulltexttable", function(x, ...) standardGeneric("fulltexttable"))
 #' @rdname fulltexttable
 #' @exportMethod fulltexttable
 #' @examples 
-#' \dontrun{
+#' library(polmineR)
+#' use("polmineR")
 #' x <- corpus("REUTERS") %>% subset(id == "127")
-#' fli <- fulltexttable(x)
-#' }
+#' tbl <- fulltexttable(x)
 setMethod("fulltexttable", "subcorpus", function(x, display = "block", name = ""){
   retval <- data.frame(
     name = rep(name, times = nrow(x@cpos)),
@@ -55,10 +55,8 @@ setMethod("fulltexttable", "subcorpus", function(x, display = "block", name = ""
 
 #' @rdname fulltexttable
 #' @examples
-#' \dontrun{
 #' p <- partition("REUTERS", id = "127")
 #' fli <- fulltexttable(p)
-#' }
 setMethod("fulltexttable", "partition", function(x, display = "block", name = ""){
   fulltexttable(as(x, "subcorpus"), display = display, name = name)
 })
@@ -66,13 +64,12 @@ setMethod("fulltexttable", "partition", function(x, display = "block", name = ""
 
 #' @rdname fulltexttable
 #' @examples
-#' \dontrun{
 #' library(polmineR)
 #' use("polmineR")
+#' 
 #' x <- corpus("GERMAPARLMINI")
 #' sp <- subset(x, speaker == "Volker Kauder" & date == "2009-11-10")
 #' y <- fulltexttable(sp)
-#' }
 setMethod("fulltexttable", "plpr_subcorpus", function(x, display = "block", name = ""){
   retval <- callNextMethod()
   interjection_strucs <- RcppCWB::cl_cpos2struc(x@cpos[,1], corpus = x@corpus, s_attribute = "interjection")
@@ -85,13 +82,11 @@ setMethod("fulltexttable", "plpr_subcorpus", function(x, display = "block", name
 #' @param element An element to assign
 #' @rdname fulltexttable
 #' @examples 
-#' \dontrun{
 #' x <- corpus("GERMAPARLMINI")
 #' sp <-  subset(x, speaker == "Volker Kauder" & date == "2009-11-10")
 #' y <- fulltexttable(sp)
 #' headline <- fulltexttable(x = c("Volker", "Kauder", "(CDU)"), element = "h2")
 #' y2 <- c(headline, y)
-#' }
 setMethod("fulltexttable", "character", function(x, display = "block", element = "para", name = ""){
   if (length(x) == 0L) return(NULL)
   retval <- data.frame(
