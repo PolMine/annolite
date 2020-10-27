@@ -1,10 +1,13 @@
 #' Instantiate annolite htmlwidget.
 #' 
-#' @param x A `fulltexttable`.
-#' @param annotations A `annotationstable`.
-#' @param width The width of the widget.
-#' @param height The height of the widget.
-#' @param buttons Definition of buttons (named list).
+#' @param x Either a \code{fulltexttable} object or an object that can be
+#'   brought in shape using the \code{fulltexttable} method.
+#' @param annotations A \code{annotationstable}, optionally.
+#' @param width The width of the annolite htmlwidget.
+#' @param height The height of the annolite htmlwidget.
+#' @param buttons Named `list` of length-one `character` vectorss to specify
+#'   labels of codes and colors that are assigned (names are codes, values
+#'   colors).
 #' @param box Logical, whether to put text into a box.
 #' @param group crosstalk group
 #' @param layout Relevant for crosstalk mode

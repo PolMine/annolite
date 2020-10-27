@@ -1,13 +1,5 @@
 #' Call Leightweight Annotation Widget.
 #' 
-#' @param x Either a \code{fulltexttable} object or an object that can be
-#'   brought in shape using the \code{fulltexttable} method.
-#' @param annotations A \code{annotationstable}, optionally.
-#' @param width The width of the annolite htmlwidget.
-#' @param height The height of the annolite htmlwidget.
-#' @param buttons Named `list` of length-one `character` vectorss to specify
-#'   labels of codes and colors that are assigned (names are codes, values
-#'   colors).
 #' @param file If a \code{character} vector, a filename to save table with
 #'   annotations to disk whenever a new annotation is added. If the filename
 #'   ends with ".rds", a RDS file is saved. In all other cases, a csv file
@@ -22,6 +14,7 @@
 #' @importFrom DT dataTableOutput renderDataTable datatable
 #' @importFrom utils write.table
 #' @export annotate
+#' @inheritParams annolite
 #' @examples
 #' library(polmineR)
 #' use("polmineR")

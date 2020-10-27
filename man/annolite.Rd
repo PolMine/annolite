@@ -59,17 +59,20 @@ unga_migrationspeeches_fulltext
 unga_migrationspeeches_anntationstable
 }
 \arguments{
-\item{x}{A \code{fulltexttable}.}
+\item{x}{Either a \code{fulltexttable} object or an object that can be
+brought in shape using the \code{fulltexttable} method.}
 
 \item{...}{Further arguments}
 
-\item{annotations}{A \code{annotationstable}.}
+\item{annotations}{A \code{annotationstable}, optionally.}
 
-\item{buttons}{Definition of buttons (named list).}
+\item{buttons}{Named \code{list} of length-one \code{character} vectorss to specify
+labels of codes and colors that are assigned (names are codes, values
+colors).}
 
-\item{width}{The width of the widget.}
+\item{width}{The width of the annolite htmlwidget.}
 
-\item{height}{The height of the widget.}
+\item{height}{The height of the annolite htmlwidget.}
 
 \item{box}{Logical, whether to put text into a box.}
 
