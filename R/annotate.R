@@ -5,7 +5,9 @@
 #' @param annotations A \code{annotationstable}, optionally.
 #' @param width The width of the annolite htmlwidget.
 #' @param height The height of the annolite htmlwidget.
-#' @param dialog Specification of the dialog box.
+#' @param buttons Named `list` of length-one `character` vectorss to specify
+#'   labels of codes and colors that are assigned (names are codes, values
+#'   colors).
 #' @param file If a \code{character} vector, a filename to save table with
 #'   annotations to disk whenever a new annotation is added. If the filename
 #'   ends with ".rds", a RDS file is saved. In all other cases, a csv file
@@ -26,11 +28,11 @@
 #' P <- partition("GERMAPARLMINI", speaker = "Volker Kauder", date = "2009-11-10")
 #' if (interactive()) Y <- annotate(P)
 #' if (interactive()) Y <- annotate(D, annotations = sample_annotation)
-annotate <- function(x, annotations = annotationstable(), width = NULL, height = NULL, dialog = list(choices = dialog_radio_buttons(keep = "yellow", drop = "orange")), file = NULL, ...) { 
+annotate <- function(x, annotations = annotationstable(), width = NULL, height = NULL, buttons = list(keep = "yellow", drop = "orange"), file = NULL, ...) { 
   
   x <- fulltexttable(x, ...)
   
-  TXT <- annolite(x = x, annotations = annotations, width = width, height = height, dialog = dialog, box = FALSE)
+  TXT <- annolite(x = x, annotations = annotations, width = width, height = height, buttons = buttons, box = FALSE)
   
   values <- reactiveValues()
 

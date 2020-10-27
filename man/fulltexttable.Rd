@@ -25,24 +25,30 @@ fulltexttable(x, ...)
 \S4method{fulltexttable}{list}(x, display = "block", element = "para", name = "")
 }
 \arguments{
-\item{x}{An input object to be converted.}
+\item{x}{Object to be converted to \code{fulltexttable}. Can be a \code{character}
+vector with tokens of a chunk of text, or a \code{list} of \code{character} vectors
+representing chunks. Alternatively, objects used in the polmineR package
+can be processed (\code{subcorpus}, \code{partition}, \code{plpr_subcorpus}).}
 
 \item{...}{Further arguments defined by methods.}
 
 \item{display}{The initial value of the html style argument. Either "block"
-or "none". Should usually be "block"}
+or "none". Should usually be "block" by default so that text is displayed.}
 
-\item{name}{An id inserted into tags.}
+\item{name}{A lenght-one \code{character} vector assigned to column "name" of
+\code{fulltexttable}. Used as name attribute of elements wrapping chunks of text
+to make selections between different documents. Defaults to "" as it will
+not be used unless crosstalk is used to skip through documents.}
 
 \item{element}{An element to assign}
 }
 \description{
-The \code{fulltexttable} class is superclass of the traditional \code{data.frame} to
-represent the information to show the fulltext of a document as layouted
-HTML. Rows of a \code{fulltexttable} represent chunks of text (paragraphs,
-headlines, blockquotes) that are formatted according to information defined
-by the columns of the table. A \code{fulltexttable} has the following
-columns:
+The \code{fulltexttable} class is a superclass of the traditional \code{data.frame} to
+represent the information to show the fulltext of a document (or documents)
+as layouted HTML. Rows of a \code{fulltexttable} represent chunks of text
+(paragraphs, headlines, blockquotes) that are formatted according to
+information defined by the columns of the table. A \code{fulltexttable} has the
+following columns:
 \itemize{
 \item \emph{name}: A \code{character} vector, serves as an identifier to distinguish the
 content of different documents. Defaults to "", but required to be defined
@@ -61,6 +67,8 @@ into the cells of the \code{fulltexttable}. The HTML for fulltext display will b
 generated from this data upon calling the \emph{annolite} HTML widget. Keeping the
 fulltext data in the nested \code{data.frame} ensures that data can be changed at
 all times.
+The \code{fulltexttable()} method is used to construct a \code{fulltexttable} from
+different input objects.
 }
 }
 \examples{

@@ -31,7 +31,6 @@ Collate:
     'annotate.R'
     'utils.R'
     'fulltexttable.R'
-    'dialog.R'
     'annotationstable.R'
 RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)

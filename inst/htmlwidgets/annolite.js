@@ -59,6 +59,18 @@ HTMLWidgets.widget({
           ct_filter.setGroup(x.settings.crosstalk_group);
           ct_sel.setGroup(x.settings.crosstalk_group);
         }
+        
+        var buttons = 'Add Annotation<hr/><div id="selection" class="btn-group" data-toggle="buttons">';
+        for (var i = 0; i < Object.keys(x.settings.buttons).length; i++){
+          buttons += '<label class="radio-inline"><input type="radio" name="radioGroup" value="';
+          buttons += x.settings.buttons[Object.keys(x.settings.buttons)[i]];
+          buttons += '"';
+          if (i == 0) buttons += ' checked';
+          buttons += '>';
+          buttons += Object.keys(x.settings.buttons)[i] + '</label>';
+        };
+        buttons += '</div>';
+        console.log(buttons);
 
         container.innerHTML += x.data.fulltext;
 
@@ -127,7 +139,7 @@ HTMLWidgets.widget({
             } else {
               
               bootbox.prompt({
-                title: x.settings.codeSelection,
+                title: buttons,
                 inputType: 'textarea',
                 callback: bootboxCallback
               });

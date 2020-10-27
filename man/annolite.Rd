@@ -29,7 +29,7 @@ annolite(x, ...)
 \S4method{annolite}{fulltexttable}(
   x,
   annotations = annotationstable(),
-  dialog = NULL,
+  buttons = list(keep = "yellow", drop = "lightgreen"),
   width = "100\%",
   height = NULL,
   box = TRUE,
@@ -65,7 +65,7 @@ unga_migrationspeeches_anntationstable
 
 \item{annotations}{A \code{annotationstable}.}
 
-\item{dialog}{The dialog.}
+\item{buttons}{Definition of buttons (named list).}
 
 \item{width}{The width of the widget.}
 
@@ -90,7 +90,7 @@ tab <- fulltexttable(sc)
 y <- annolite(
   x = tab, annotations = annotationstable(),
   width = "100\%",
-  dialog = list(choices = dialog_radio_buttons(keep = "yellow", drop = "orange"))
+  buttons = list(keep = "yellow", drop = "orange")
 )
 }
 \author{

@@ -4,7 +4,7 @@
 #' @param annotations A `annotationstable`.
 #' @param width The width of the widget.
 #' @param height The height of the widget.
-#' @param dialog The dialog.
+#' @param buttons Definition of buttons (named list).
 #' @param box Logical, whether to put text into a box.
 #' @param group crosstalk group
 #' @param layout Relevant for crosstalk mode
@@ -26,7 +26,7 @@
 #' y <- annolite(
 #'   x = tab, annotations = annotationstable(),
 #'   width = "100%",
-#'   dialog = list(choices = dialog_radio_buttons(keep = "yellow", drop = "orange"))
+#'   buttons = list(keep = "yellow", drop = "orange")
 #' )
 #' @author Andreas Blaette
 setGeneric("annolite", function(x, ...) standardGeneric("annolite"))
@@ -34,7 +34,7 @@ setGeneric("annolite", function(x, ...) standardGeneric("annolite"))
 setOldClass("fulltexttable")
 
 #' @rdname annolite
-setMethod("annolite", "fulltexttable", function(x, annotations = annotationstable(), dialog = NULL, width = "100%", height = NULL,  box = TRUE, crosstalk = FALSE, layout = "filter", group = "fulltext") {
+setMethod("annolite", "fulltexttable", function(x, annotations = annotationstable(), buttons = list(keep = "yellow", drop = "lightgreen"), width = "100%", height = NULL,  box = TRUE, crosstalk = FALSE, layout = "filter", group = "fulltext") {
   
   if (length(unique(x[["name"]])) == 1L){
     y <- createWidget(
@@ -47,10 +47,8 @@ setMethod("annolite", "fulltexttable", function(x, annotations = annotationstabl
           crosstalk = crosstalk,
           crosstalk_key = NULL,
           crosstalk_group = group,
-          dialog = if (is.null(dialog)) FALSE else TRUE,
           box = box,
-          codeSelection = if (!is.null(dialog)) if ("choices" %in% names(dialog)) dialog[["choices"]],
-          callbackFunction = if (!is.null(dialog)) if ("callback" %in% names(dialog)) htmlwidgets::JS(dialog[["callback"]])
+          buttons = buttons
         )
       ),
       width = width,

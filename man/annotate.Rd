@@ -9,7 +9,7 @@ annotate(
   annotations = annotationstable(),
   width = NULL,
   height = NULL,
-  dialog = list(choices = dialog_radio_buttons(keep = "yellow", drop = "orange")),
+  buttons = list(keep = "yellow", drop = "orange"),
   file = NULL,
   ...
 )
@@ -24,7 +24,9 @@ brought in shape using the \code{fulltexttable} method.}
 
 \item{height}{The height of the annolite htmlwidget.}
 
-\item{dialog}{Specification of the dialog box.}
+\item{buttons}{Named \code{list} of length-one \code{character} vectorss to specify
+labels of codes and colors that are assigned (names are codes, values
+colors).}
 
 \item{file}{If a \code{character} vector, a filename to save table with
 annotations to disk whenever a new annotation is added. If the filename
