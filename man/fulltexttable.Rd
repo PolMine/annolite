@@ -8,7 +8,7 @@
 \alias{fulltexttable,character-method}
 \alias{fulltexttable,fulltexttable-method}
 \alias{fulltexttable,list-method}
-\title{Convert object to input for fulltext (table format).}
+\title{Generate fulltexttable}
 \usage{
 fulltexttable(x, ...)
 
@@ -37,11 +37,36 @@ or "none". Should usually be "block"}
 \item{element}{An element to assign}
 }
 \description{
-Convert object to input for fulltext (table format).
+The \code{fulltexttable} class is superclass of the traditional \code{data.frame} to
+represent the information to show the fulltext of a document as layouted
+HTML. Rows of a \code{fulltexttable} represent chunks of text (paragraphs,
+headlines, blockquotes) that are formatted according to information defined
+by the columns of the table. A \code{fulltexttable} has the following
+columns:
+\itemize{
+\item \emph{name}: A \code{character} vector, serves as an identifier to distinguish the
+content of different documents. Defaults to "", but required to be defined
+when different documents are to be combined in one \code{fulltexttable} and
+crosstalk is used to filter, or to select documents for display.
+\item \emph{element}: The HTML element that wraps the tokens of a chunk of text that
+are formatted according CSS instructions. For ordinary paragraphs, the
+element 'para' should be used rathen than 'p' to avoid conclicts between
+(potentially) CSSs.
+\item \emph{style}: Content of the style attribute of the element. Used at this stage
+to set the display mode. Defaults to "block" (chunk is displayed), but needs
+to be "display:none" when crossstalk is used to filter documents, or to make
+selections.
+\item \emph{tokenstream}: A list of three-column \code{data.frame} objects that are nested
+into the cells of the \code{fulltexttable}. The HTML for fulltext display will be
+generated from this data upon calling the \emph{annolite} HTML widget. Keeping the
+fulltext data in the nested \code{data.frame} ensures that data can be changed at
+all times.
+}
 }
 \examples{
 library(polmineR)
 use("polmineR")
+
 x <- corpus("REUTERS") \%>\% subset(id == "127")
 tbl <- fulltexttable(x)
 p <- partition("REUTERS", id = "127")

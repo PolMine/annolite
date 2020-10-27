@@ -1,4 +1,10 @@
-#' Customization for bootbox prompt dialog.
+#' Customize bootbox prompt dialog.
+#' 
+#' Auxiliary function to prepare HTML code to customize radio buttons and
+#' possible selections as well as colors assigned to codes in the
+#' [bootbox](http://bootboxjs.com/) prompt dialog that opens when text is
+#' selected. The return value of the function is a `character` vector
+#' with HTML. It is designed to be infused into JavaScript.
 #' 
 #' @export dialog_radio_buttons
 #' @rdname dialog

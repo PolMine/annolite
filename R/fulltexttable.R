@@ -1,11 +1,43 @@
 setOldClass("fulltexttable")
 
-#' Convert object to input for fulltext (table format).
+#' Generate fulltexttable
 #' 
-#' @param name An id inserted into tags.
+#' The `fulltexttable` class is a superclass of the traditional `data.frame` to
+#' represent the information to show the fulltext of a document (or documents)
+#' as layouted HTML. Rows of a `fulltexttable` represent chunks of text
+#' (paragraphs, headlines, blockquotes) that are formatted according to
+#' information defined by the columns of the table. A `fulltexttable` has the
+#' following columns:
+#' - *name*: A `character` vector, serves as an identifier to distinguish the
+#' content of different documents. Defaults to "", but required to be defined
+#' when different documents are to be combined in one `fulltexttable` and
+#' crosstalk is used to filter, or to select documents for display.
+#' - *element*: The HTML element that wraps the tokens of a chunk of text that
+#' are formatted according CSS instructions. For ordinary paragraphs, the
+#' element 'para' should be used rathen than 'p' to avoid conclicts between
+#' (potentially) CSSs.
+#' - *style*: Content of the style attribute of the element. Used at this stage
+#' to set the display mode. Defaults to "block" (chunk is displayed), but needs
+#' to be "display:none" when crossstalk is used to filter documents, or to make
+#' selections.
+#' - *tokenstream*: A list of three-column `data.frame` objects that are nested 
+#' into the cells of the `fulltexttable`. The HTML for fulltext display will be 
+#' generated from this data upon calling the *annolite* HTML widget. Keeping the 
+#' fulltext data in the nested `data.frame` ensures that data can be changed at
+#' all times.
+#' The `fulltexttable()` method is used to construct a `fulltexttable` from
+#' different input objects.
+#' 
+#' @param x Object to be converted to `fulltexttable`. Can be a `character`
+#'   vector with tokens of a chunk of text, or a `list` of `character` vectors
+#'   representing chunks. Alternatively, objects used in the polmineR package
+#'   can be processed (`subcorpus`, `partition`, `plpr_subcorpus`).
+#' @param name A lenght-one `character` vector assigned to column "name" of
+#'   `fulltexttable`. Used as name attribute of elements wrapping chunks of text
+#'   to make selections between different documents. Defaults to "" as it will
+#'   not be used unless crosstalk is used to skip through documents.
 #' @param display The initial value of the html style argument. Either "block"
-#'   or "none". Should usually be "block"
-#' @param x An input object to be converted.
+#'   or "none". Should usually be "block" by default so that text is displayed.
 #' @param ... Further arguments defined by methods.
 #' @export fulltexttable
 #' @rdname fulltexttable
@@ -23,6 +55,7 @@ setGeneric("fulltexttable", function(x, ...) standardGeneric("fulltexttable"))
 #' @examples 
 #' library(polmineR)
 #' use("polmineR")
+#' 
 #' x <- corpus("REUTERS") %>% subset(id == "127")
 #' tbl <- fulltexttable(x)
 setMethod("fulltexttable", "subcorpus", function(x, display = "block", name = ""){

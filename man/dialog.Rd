@@ -2,7 +2,7 @@
 % Please edit documentation in R/dialog.R
 \name{dialog_radio_buttons}
 \alias{dialog_radio_buttons}
-\title{Customization for bootbox prompt dialog.}
+\title{Customize bootbox prompt dialog.}
 \usage{
 dialog_radio_buttons(...)
 }
@@ -10,5 +10,5 @@ dialog_radio_buttons(...)
 \item{...}{Definition of options in radio button group: Arguments are options, values are colors.}
 }
 \description{
-Customization for bootbox prompt dialog.
+Customize bootbox prompt dialog.
 }
