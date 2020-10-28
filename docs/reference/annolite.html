@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Annolite htmlwidget. — annolite • annolite</title>
+<title>Instantiate annolite htmlwidget — annolite • annolite</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,16 @@
 
 
 
-<meta property="og:title" content="Annolite htmlwidget. — annolite" />
-<meta property="og:description" content="Annolite htmlwidget." />
+<meta property="og:title" content="Instantiate annolite htmlwidget — annolite" />
+<meta property="og:description" content="The HTML widget annolite is the core of the package and the annolite()
+method is the constructor to generate it. The widget is designed for two
+basic uses: (a) The widget's annotation mode offers a pure R workflow for
+basic text annotation tasks. In this scenario, it is used within a Shiny
+Gadget called via annotate(). (b) The widget's display mode is designed to
+inspect the fulltext of a document with highlighted annotations either in an
+interactive R session or embedded in Rmarkdown documents. The widget is
+supports crosstalk, enabling the interactive selection among a set of
+documents within an HTML document generated from Rmarkdown." />
 
 
 
@@ -72,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">annolite</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9009</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9010</span>
       </span>
     </div>
 
@@ -118,16 +126,48 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Annolite htmlwidget.</h1>
+    <h1>Instantiate annolite htmlwidget</h1>
     
     <div class="hidden name"><code>annolite.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Annolite htmlwidget.</p>
+    <p>The HTML widget <em>annolite</em> is the core of the package and the <code>annolite()</code>
+method is the constructor to generate it. The widget is designed for two
+basic uses: (a) The widget's annotation mode offers a pure R workflow for
+basic text annotation tasks. In this scenario, it is used within a Shiny
+Gadget called via <code><a href='annotate.html'>annotate()</a></code>. (b) The widget's display mode is designed to
+inspect the fulltext of a document with highlighted annotations either in an
+interactive R session or embedded in Rmarkdown documents. The widget is
+supports crosstalk, enabling the interactive selection among a set of
+documents within an HTML document generated from Rmarkdown.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>annolite</span>(<span class='no'>data</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>height</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dialog</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>box</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+    <pre class="usage"><span class='fu'>annolite</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+
+<span class='co'># S4 method for fulltexttable</span>
+<span class='fu'>annolite</span>(
+  <span class='no'>x</span>,
+  <span class='kw'>annotations</span> <span class='kw'>=</span> <span class='fu'><a href='annotationstable.html'>annotationstable</a></span>(),
+  <span class='kw'>buttons</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>keep</span> <span class='kw'>=</span> <span class='st'>"yellow"</span>, <span class='kw'>drop</span> <span class='kw'>=</span> <span class='st'>"lightgreen"</span>),
+  <span class='kw'>width</span> <span class='kw'>=</span> <span class='st'>"100%"</span>,
+  <span class='kw'>height</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>box</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>crosstalk</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>layout</span> <span class='kw'>=</span> <span class='st'>"filter"</span>,
+  <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"fulltext"</span>
+)
+
+<span class='co'># S4 method for SharedData</span>
+<span class='fu'>annolite</span>(
+  <span class='no'>x</span>,
+  <span class='kw'>annotations</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>width</span> <span class='kw'>=</span> <span class='st'>"100%"</span>,
+  <span class='kw'>height</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>box</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>x</span>$<span class='fu'>groupName</span>(),
+  <span class='kw'>crosstalk</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+)
 
 <span class='no'>sample_annotation</span>
 
@@ -143,27 +183,53 @@
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>data</th>
-      <td><p>The data that is passed to the JavaScript that generates the output. Expected to be
-a list of lists that provide data on sections of text. Each of the sub-lists is to be a named
-list of a character vector with the HTML element the section will be wrapped into, and
-a <code>data.frame</code> (or a list) with a column "token", and a column "id".</p></td>
+      <th>x</th>
+      <td><p>Either a <code>fulltexttable</code> object or an object that can be
+transformed to a <code>fulltexttable</code> using the <code><a href='fulltexttable.html'>fulltexttable()</a></code> method.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Further arguments</p></td>
+    </tr>
+    <tr>
+      <th>annotations</th>
+      <td><p>An optional <code>annotationstable</code> object. If supplied,
+existing annotations will be highlighted in the fulltext displayed.
+Defaults to an empty <code>annotationstable</code> generated by calling
+<code><a href='annotationstable.html'>annotationstable()</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>buttons</th>
+      <td><p>Named <code>list</code> of length-one <code>character</code> vectors to specify
+labels of codes and colors that are assigned (names are codes, values
+colors).</p></td>
     </tr>
     <tr>
       <th>width</th>
-      <td><p>The width of the widget.</p></td>
+      <td><p>The width of the annolite htmlwidget.</p></td>
     </tr>
     <tr>
       <th>height</th>
-      <td><p>The height of the widget.</p></td>
-    </tr>
-    <tr>
-      <th>dialog</th>
-      <td><p>The dialog.</p></td>
+      <td><p>The height of the annolite htmlwidget.</p></td>
     </tr>
     <tr>
       <th>box</th>
-      <td><p>Logical, whether to put text into a box.</p></td>
+      <td><p>Length-one <code>logical</code> value, whether draw box around HTML widget
+with fulltext display.</p></td>
+    </tr>
+    <tr>
+      <th>crosstalk</th>
+      <td><p><code>logical</code>, whether to use crosstalk</p></td>
+    </tr>
+    <tr>
+      <th>layout</th>
+      <td><p>Relevant for crosstalk mode</p></td>
+    </tr>
+    <tr>
+      <th>group</th>
+      <td><p>An identifier for a Crosstalk group. HTML widgets within one
+Crosstalk group can communicate with each other, see documentation of the
+argument <code>group</code> of <code><a href='https://rdrr.io/pkg/crosstalk/man/SharedData.html'>crosstalk::SharedData</a></code>. Defaults to "fulltext".</p></td>
     </tr>
     </table>
 
@@ -171,16 +237,19 @@ a <code>data.frame</code> (or a list) with a column "token", and a column "id".<
 
     <p>An object of class <code>data.frame</code> with 4 rows and 6 columns.</p>
 <p>An object of class <code>list</code> of length 55.</p>
-<p>An object of class <code>fulltextlist</code> (inherits from <code>list</code>, <code>vector</code>) of length 21.</p>
-<p>An object of class <code>list</code> of length 25.</p>
-<p>An object of class <code>annotationstable</code> (inherits from <code>data.frame</code>, <code>list</code>, <code>oldClass</code>, <code>vector</code>) with 1844 rows and 6 columns.</p>
+<p>An object of class <code>fulltexttable</code> (inherits from <code>data.frame</code>, <code>list</code>, <code>oldClass</code>, <code>vector</code>) with 21 rows and 4 columns.</p>
+<p>An object of class <code>fulltexttable</code> (inherits from <code>data.frame</code>, <code>list</code>, <code>oldClass</code>, <code>vector</code>) with 178 rows and 4 columns.</p>
+<p>An object of class <code>annotationstable</code> (inherits from <code>data.frame</code>, <code>list</code>, <code>oldClass</code>, <code>vector</code>) with 2041 rows and 6 columns.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>polmineR</span>)
-<span class='no'>P</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/polmineR/man/partition.html'>partition</a></span>(<span class='st'>"GERMAPARLMINI"</span>, <span class='kw'>speaker</span> <span class='kw'>=</span> <span class='st'>"Volker Kauder"</span>, <span class='kw'>date</span> <span class='kw'>=</span> <span class='st'>"2009-11-10"</span>)</div><div class='output co'>#&gt; <span class='message'>... get encoding: latin1</span></div><div class='output co'>#&gt; <span class='message'>... get cpos and strucs</span></div><div class='input'><span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'>annolite</span>(
-  <span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>paragraphs</span> <span class='kw'>=</span> <span class='fu'><a href='fulltextlist.html'>fulltextlist</a></span>(<span class='no'>P</span>), <span class='kw'>annotations</span> <span class='kw'>=</span> <span class='fu'><a href='annotationstable.html'>annotationstable</a></span>()),
+<span class='no'>sc</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/polmineR/man/corpus-class.html'>corpus</a></span>(<span class='st'>"GERMAPARLMINI"</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/polmineR/man/subset.html'>subset</a></span>(<span class='no'>speaker</span> <span class='kw'>==</span> <span class='st'>"Volker Kauder"</span> <span class='kw'>&amp;</span> <span class='no'>date</span> <span class='kw'>==</span> <span class='st'>"2009-11-10"</span>)
+<span class='no'>tab</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fulltexttable.html'>fulltexttable</a></span>(<span class='no'>sc</span>)
+<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'>annolite</span>(
+  <span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>tab</span>, <span class='kw'>annotations</span> <span class='kw'>=</span> <span class='fu'><a href='annotationstable.html'>annotationstable</a></span>(),
   <span class='kw'>width</span> <span class='kw'>=</span> <span class='st'>"100%"</span>,
-  <span class='kw'>dialog</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>choices</span> <span class='kw'>=</span> <span class='fu'><a href='dialog.html'>dialog_radio_buttons</a></span>(<span class='kw'>keep</span> <span class='kw'>=</span> <span class='st'>"yellow"</span>, <span class='kw'>drop</span> <span class='kw'>=</span> <span class='st'>"orange"</span>))
+  <span class='kw'>buttons</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>keep</span> <span class='kw'>=</span> <span class='st'>"yellow"</span>, <span class='kw'>drop</span> <span class='kw'>=</span> <span class='st'>"orange"</span>)
 )</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
