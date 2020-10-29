@@ -16,7 +16,7 @@ unga_lda <- readRDS(lda_tmp_local)
 topic_term_matrix <- topicmodels::get_terms(unga_lda, k = 50)
 
 document_topics <- topicmodels::get_topics(unga_lda, k = 1)
-mig_speeches <- names(document_topics)[document_topics == 105][1:25]
+mig_speeches <- names(document_topics)[document_topics == 105][1:10]
 
 unga_speeches <- as.speeches("UNGA", s_attribute_date = "date", s_attribute_name = "speaker")
 unga_speeches_mig <- unga_speeches[[mig_speeches]]
