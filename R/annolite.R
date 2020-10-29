@@ -80,95 +80,54 @@ setMethod("annolite", "fulltexttable", function(x, annotations = annotationstabl
       )
     }
   }
-
-  if (length(unique(x[["name"]])) == 1L){
-    y <- createWidget(
-      "annolite",
-      package = "annolite",
-      x = list(
-        data = list(fulltext = htmlize(x), annotations = annotations),
-        settings = list(
-          crosstalk = crosstalk,
-          crosstalk_key = if (isTRUE(crosstalk)) "name" else NULL,
-          crosstalk_group = group,
-          box = box,
-          buttons = buttons
-        )
-      ),
-      width = width,
-      height = height,
-      dependencies = list(
-        htmltools::htmlDependency(
-          name = "crosstalk", 
-          version = packageVersion("crosstalk"),
-          package = "crosstalk",
-          src = "www",
-          script = "js/crosstalk.min.js",
-          stylesheet = "css/crosstalk.css"
-        )
-      ),
-      sizingPolicy(
-        browser.fill = TRUE,
-        viewer.defaultHeight = 800L,
-        browser.defaultHeight = 800L,
-        viewer.fill = TRUE,
-        knitr.figure = FALSE,
-        knitr.defaultWidth = 800L,
-        knitr.defaultHeight = 400L
+  
+  createWidget(
+    "annolite",
+    package = "annolite",
+    x = list(
+      data = list(fulltext = htmlize(x), annotations = annotations),
+      settings = list(
+        crosstalk = crosstalk,
+        crosstalk_key = if (isTRUE(crosstalk)) "name" else NULL,
+        crosstalk_group = group,
+        box = box,
+        buttons = buttons
       )
+    ),
+    width = width,
+    height = height,
+    dependencies = if (crosstalk) list(
+      htmltools::htmlDependency(
+        name = "crosstalk", 
+        version = packageVersion("crosstalk"),
+        package = "crosstalk",
+        src = "www",
+        script = "js/crosstalk.min.js",
+        stylesheet = "css/crosstalk.css"
+      )
+    ) else NULL,
+    sizingPolicy(
+      browser.fill = TRUE,
+      viewer.defaultHeight = 800L,
+      browser.defaultHeight = 800L,
+      viewer.fill = TRUE,
+      knitr.figure = FALSE,
+      knitr.defaultWidth = 800L,
+      knitr.defaultHeight = 400L
     )
-  } else {
-    x[["style"]] <- rep("display:none", times = nrow(x))
-    x_sd <- crosstalk::SharedData$new(x, ~name, group = group) 
-    if (layout == "filter"){
-      y <- bscols(
-        widths = c(3,9), device = "lg",
-        crosstalk::filter_select(id = "select_text", label = "Selection", sharedData = x_sd, group = ~name, multiple = FALSE),
-        htmlwidgets::createWidget(
-          "annolite",
-          package = "annolite",
-          x = list(
-            data = list(fulltext = htmlize(x), annotations = annotations),
-            settings = list(
-              annotationMode = FALSE,
-              crosstalk = TRUE,
-              box = box,
-              crosstalk_key = "name",
-              crosstalk_group = group
-            )
-          ),
-          width = width, 
-          height = height,
-          dependencies = crosstalk::crosstalkLibs()
-        )
-      )
-    } else {
-      doc_datatable_sd <- DT::datatable(
-        crosstalk::SharedData$new(data.frame(document_id = x[["name"]]), ~document_id, group = group),
-        options = list(lengthChange = TRUE, pageLength = 8L, pagingType = "simple", dom = "tp"),
-        rownames = NULL, width = "100%", selection = "single"
-      )
-      
-      y <- bscols(
-        widths = c(4,8),
-        doc_datatable_sd,
-        annolite(x_sd, annotations = annotations, width = width, height = height, box = box, crosstalk = TRUE)
-      )
-    }
-  }
-  y
+  )
 })
 
 setOldClass("SharedData")
 
 #' @rdname annolite
 #' @exportMethod annolite
-setMethod("annolite", "SharedData", function(x, annotations = NULL, width = "100%", height = NULL, box = TRUE, group = x$groupName(), crosstalk = TRUE) {
+setMethod("annolite", "SharedData", function(x, annotations = NULL, width = "100%", height = NULL, box = TRUE) {
   annolite(
     x = x$origData(),
-    annotations = annotations,
+    annotations = annotations, buttons = FALSE,
     width = width, height = height, box = box,
-    group = group, crosstalk = TRUE
+    group = x$groupName(), crosstalk = TRUE
   )
 })
 

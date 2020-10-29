@@ -182,12 +182,22 @@ emma_chapters <- lapply(
     emma_chapters[[i]]
   }
 )
+emma <- do.call(rbind, emma_chapters)
 ```
 
-This is all that is required to generate a HTML element with text selection functionality.
+This is the preparatory work to generate a HTML element with text selection functionality.
 
 ```{r, eval = TRUE}
-annolite(do.call(rbind, emma_chapters), group = "emma", buttons = FALSE)
+emma[["style"]] <- "display:none"
+emma_sd <- crosstalk::SharedData$new(emma, ~name, group = "emma") 
+crosstalk::bscols(
+  widths = c(3,9),
+  crosstalk::filter_select(
+    id = "select_text", label = "Selection",
+    sharedData = emma_sd, group = ~name, multiple = FALSE
+  ),
+  annolite(emma_sd, annotations = annotationstable())
+)
 ```
 
 Note that we need to define a crosstalk group ("emma") here. There is another HTML element using crosstalk below and we need to ensure that communications do not get mixed up between elements.
@@ -202,12 +212,36 @@ For instance, the display mode of the *annolite* widget can be used to qualitati
 
 The *annolite* widget can get you this kind of output which may be very useful to evaluate topic models. In the example we use to exemplify this usage, a topic model (k = 180) is computed for the speeches in the United Nations General Assembly. Topic 105 might be indicative for a thematic focus on international migration. To evaluate this preliminary association, the following HTML element can be used - you can skip through the speeches that went into the computation of the topic model, the terms indicative for topic 105 (first 50 terms only) are highlighted in yellow. Note that to maintain a reasonable size of the vignette, only 10 documents are included here.
 
+```{r}
+migspeeches <- unga_migrationspeeches_fulltext
+migspeeches[["style"]] <- "display:none"
+migspeeches_sd <- crosstalk::SharedData$new(migspeeches, ~name, group = "migspeeches") 
+
+crosstalk::bscols(
+  widths = c(3,9),
+  crosstalk::filter_select(
+    id = "ABCD", label = "Selection",
+    sharedData = migspeeches_sd, group = ~name, multiple = FALSE
+  ),
+  annolite(migspeeches_sd, annotations = unga_migrationspeeches_anntationstable)
+)
+```
 
 ```{r}
-annolite(
-  x = unga_migrationspeeches_fulltext,
-  annotations = unga_migrationspeeches_anntationstable,
-  group = "unga"
+doc_datatable_sd <- DT::datatable(
+  crosstalk::SharedData$new(
+    data.frame("DocumentID" = unique(migspeeches[["name"]])),
+    ~DocumentID, group = "migspeeches2"
+  ),
+  options = list(lengthChange = TRUE, pageLength = 6L, pagingType = "simple", dom = "tp"),
+  rownames = NULL, width = "100%", selection = "single"
+)
+migspeeches_sd2 <- crosstalk::SharedData$new(migspeeches, ~name, group = "migspeeches2") 
+
+crosstalk::bscols(
+  widths = c(4,8),
+  doc_datatable_sd,
+  annolite(migspeeches_sd2, annotations = unga_migrationspeeches_anntationstable)
 )
 ```
 
