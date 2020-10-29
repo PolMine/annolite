@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Render annolite htmlwidget in shiny apps. — annoliteOutput • annolite</title>
+<title>Jane Austen's Emma — emma_chapters_tokenized • annolite</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,10 @@
 
 
 
-<meta property="og:title" content="Render annolite htmlwidget in shiny apps. — annoliteOutput" />
-<meta property="og:description" content="Render annolite htmlwidget in shiny apps." />
+<meta property="og:title" content="Jane Austen's Emma — emma_chapters_tokenized" />
+<meta property="og:description" content="For explaining how a fulltexttable can be generated from any kind
+of textual data, the package includes the tokenized text of the first
+five chapters of Jane Austen's novel Emma." />
 
 
 
@@ -118,49 +120,28 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Render annolite htmlwidget in shiny apps.</h1>
+    <h1>Jane Austen's Emma</h1>
     
-    <div class="hidden name"><code>shiny.Rd</code></div>
+    <div class="hidden name"><code>emma.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Render annolite htmlwidget in shiny apps.</p>
+    <p>For explaining how a <code>fulltexttable</code> can be generated from any kind
+of textual data, the package includes the tokenized text of the first
+five chapters of Jane Austen's novel <em>Emma</em>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>annoliteOutput</span>(<span class='no'>outputId</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='st'>"100%"</span>, <span class='kw'>height</span> <span class='kw'>=</span> <span class='st'>"100%"</span>)
+    <pre class="usage"><span class='no'>emma_chapters_tokenized</span></pre>
 
-<span class='fu'>renderAnnolite</span>(<span class='no'>expr</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>(), <span class='kw'>quoted</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>outputId</th>
-      <td><p>Output variable to read the value from.</p></td>
-    </tr>
-    <tr>
-      <th>width</th>
-      <td><p>The width of the widget.</p></td>
-    </tr>
-    <tr>
-      <th>height</th>
-      <td><p>The height of the widget.</p></td>
-    </tr>
-    <tr>
-      <th>expr</th>
-      <td><p>An expression (...).</p></td>
-    </tr>
-    <tr>
-      <th>env</th>
-      <td><p>The environment in which to evaluate expr.</p></td>
-    </tr>
-    <tr>
-      <th>quoted</th>
-      <td><p>Is expr a quoted expression (with quote())? This is useful if
-you want to save an expression in a variable.</p></td>
-    </tr>
-    </table>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
+    <p>A list of lists of character vectors. Each list of character vectors
+represents a chapter of Emma.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>To inspect the code that has been used to prepare the object, see the file
+'emma.R' in the data-raw subdirectory of the package.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
