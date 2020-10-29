@@ -1,14 +1,16 @@
-#' Instantiate annolite htmlwidget
+#' Create annolite htmlwidget
 #' 
 #' The HTML widget *annolite* is the core of the package and the `annolite()`
-#' method is the constructor to generate it. The widget is designed for two
-#' basic uses: (a) The widget's annotation mode offers a pure R workflow for
-#' basic text annotation tasks. In this scenario, it is used within a Shiny
-#' Gadget called via `annotate()`. (b) The widget's display mode is designed to
-#' inspect the fulltext of a document with highlighted annotations either in an
-#' interactive R session or embedded in Rmarkdown documents. The widget is
-#' supports crosstalk, enabling the interactive selection among a set of
-#' documents within an HTML document generated from Rmarkdown.
+#' method is the constructor to generate it. The widget targets two
+#' basic uses:
+#' 1. The widget's *annotation mode* offers a pure R workflow for basic text
+#' annotation tasks. In this scenario, it is used within a Shiny Gadget called
+#' via `annotate()`.#
+#' 2. The widget's *display mode* is designed to inspect the fulltext of a
+#' document with highlighted annotations either in an interactive R session or
+#' embedded in Rmarkdown documents. The widget's support of crosstalk enables
+#' the interactive selection among a set of documents within an HTML document
+#' generated from Rmarkdown.
 #' 
 #' @param x Either a `fulltexttable` object or an object that can be
 #'   transformed to a `fulltexttable` using the `fulltexttable()` method.
@@ -172,17 +174,45 @@ renderAnnolite <- function(expr, env = parent.frame(), quoted = FALSE) {
 }
 
 
-#' @rdname annolite
+#' Sample annotation of a speech given by Volker Kauder
+#' @rdname kauder_sample_annotation
 "sample_annotation"
 
-#' @rdname annolite
+#' Jane Austen's novel Emma (tokenized)
+#' 
+#' The novels written by Jane Austen are popular data to illustrate text mining
+#' applications readily available via the R package
+#' [janeaustenr](https://CRAN.R-project.org/package=janeaustenr). To convey how
+#' `annolite` may be used in the context of the tidytext approach (see [the book
+#' by Julia Silge and David Robinson](https://www.tidytextmining.com/)), the
+#' package includes a pre-processed object with the chapters of the novel Emma.
+#' 
+#' @format A `list`
+#' @family datasets included in the annolite package
+#' @rdname emma
 "emma_chapters_tokenized"
 
-#' @rdname annolite
+#' Sample documents and annotations from the UN General Assembly
+#' 
+#' The package includes three pieces of data derived from the corpus of speeches
+#' given in the UN General Assembly (UNGA corpus, [available at
+#' Zenodo](https://zenodo.org/record/3831472#.X5nMp1kxlZ0)).
+#' 
+#' The file
+#' [unga_topicmodelling.R](https://github.com/PolMine/annolite/blob/master/data-raw/unga_topicmodelling.R)
+#' in the data-raw folder of the package has been used to create the data
+#' objects.
+#' 
+#' @rdname undocs
+#' @family datasets included in the annolite package
+#' @format The object `secretary_general_2000` is a `fulltexttable`.
 "secretary_general_2000"
 
-#' @rdname annolite
+#' @format The object `unga_migrationspeechess_fulltext` is a `fulltexttable` 
+#' @rdname undocs
 "unga_migrationspeeches_fulltext"
 
-#' @rdname annolite
+#' @format The object `unga_migrationspeeches_annotationstable` is an
+#'   `annotationstable`.
+#' @rdname undocs
 "unga_migrationspeeches_anntationstable"

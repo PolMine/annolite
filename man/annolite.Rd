@@ -6,23 +6,7 @@
 \alias{annolite-package}
 \alias{annolite,fulltexttable-method}
 \alias{annolite,SharedData-method}
-\alias{sample_annotation}
-\alias{emma_chapters_tokenized}
-\alias{secretary_general_2000}
-\alias{unga_migrationspeeches_fulltext}
-\alias{unga_migrationspeeches_anntationstable}
-\title{Instantiate annolite htmlwidget}
-\format{
-An object of class \code{data.frame} with 4 rows and 6 columns.
-
-An object of class \code{list} of length 55.
-
-An object of class \code{fulltexttable} (inherits from \code{data.frame}, \code{list}, \code{oldClass}, \code{vector}) with 21 rows and 4 columns.
-
-An object of class \code{fulltexttable} (inherits from \code{data.frame}, \code{list}, \code{oldClass}, \code{vector}) with 178 rows and 4 columns.
-
-An object of class \code{annotationstable} (inherits from \code{data.frame}, \code{list}, \code{oldClass}, \code{vector}) with 2041 rows and 6 columns.
-}
+\title{Create annolite htmlwidget}
 \usage{
 annolite(x, ...)
 
@@ -47,16 +31,6 @@ annolite(x, ...)
   group = x$groupName(),
   crosstalk = TRUE
 )
-
-sample_annotation
-
-emma_chapters_tokenized
-
-secretary_general_2000
-
-unga_migrationspeeches_fulltext
-
-unga_migrationspeeches_anntationstable
 }
 \arguments{
 \item{x}{Either a \code{fulltexttable} object or an object that can be
@@ -90,14 +64,18 @@ argument \code{group} of \code{crosstalk::SharedData}. Defaults to "fulltext".}
 }
 \description{
 The HTML widget \emph{annolite} is the core of the package and the \code{annolite()}
-method is the constructor to generate it. The widget is designed for two
-basic uses: (a) The widget's annotation mode offers a pure R workflow for
-basic text annotation tasks. In this scenario, it is used within a Shiny
-Gadget called via \code{annotate()}. (b) The widget's display mode is designed to
-inspect the fulltext of a document with highlighted annotations either in an
-interactive R session or embedded in Rmarkdown documents. The widget is
-supports crosstalk, enabling the interactive selection among a set of
-documents within an HTML document generated from Rmarkdown.
+method is the constructor to generate it. The widget targets two
+basic uses:
+\enumerate{
+\item The widget's \emph{annotation mode} offers a pure R workflow for basic text
+annotation tasks. In this scenario, it is used within a Shiny Gadget called
+via \code{annotate()}.#
+\item The widget's \emph{display mode} is designed to inspect the fulltext of a
+document with highlighted annotations either in an interactive R session or
+embedded in Rmarkdown documents. The widget's support of crosstalk enables
+the interactive selection among a set of documents within an HTML document
+generated from Rmarkdown.
+}
 }
 \examples{
 library(polmineR)
@@ -113,4 +91,3 @@ y <- annolite(
 \author{
 Andreas Blaette
 }
-\keyword{datasets}

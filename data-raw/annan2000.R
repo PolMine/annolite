@@ -1,13 +1,15 @@
 library(polmineR)
 library(annolite)
 
-ftab <- corpus("UNGA") %>%
+secretary_general_2000 <- corpus("UNGA") %>%
   subset(date == "2000-04-03") %>%
   subset(speaker == "The Secretary-General") %>% 
   fulltexttable()
-ftab[["tokenstream"]] <- lapply(ftab[["tokenstream"]], function(x)x[c(-1, -nrow(x)),])
 
-secretary_general_2000 <- ftab
+secretary_general_2000[["tokenstream"]] <- lapply(
+  secretary_general_2000[["tokenstream"]],
+  function(x) x[c(-1, -nrow(x)),]
+)
 
 save(
   secretary_general_2000,
