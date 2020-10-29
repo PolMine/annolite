@@ -6,23 +6,7 @@
 \alias{annolite-package}
 \alias{annolite,fulltexttable-method}
 \alias{annolite,SharedData-method}
-\alias{secretary_general_2000_annotations}
-\alias{emma_chapters_tokenized}
-\alias{secretary_general_2000_speech}
-\alias{unga_migrationspeeches_fulltext}
-\alias{unga_migrationspeeches_anntationstable}
 \title{Instantiate annolite htmlwidget}
-\format{
-An object of class \code{data.frame} with 66 rows and 6 columns.
-
-An object of class \code{list} of length 5.
-
-An object of class \code{fulltexttable} (inherits from \code{data.frame}, \code{list}, \code{oldClass}, \code{vector}) with 21 rows and 4 columns.
-
-An object of class \code{fulltexttable} (inherits from \code{data.frame}, \code{list}, \code{oldClass}, \code{vector}) with 52 rows and 4 columns.
-
-An object of class \code{annotationstable} (inherits from \code{data.frame}, \code{list}, \code{oldClass}, \code{vector}) with 867 rows and 6 columns.
-}
 \usage{
 annolite(x, ...)
 
@@ -47,16 +31,6 @@ annolite(x, ...)
   group = x$groupName(),
   crosstalk = TRUE
 )
-
-secretary_general_2000_annotations
-
-emma_chapters_tokenized
-
-secretary_general_2000_speech
-
-unga_migrationspeeches_fulltext
-
-unga_migrationspeeches_anntationstable
 }
 \arguments{
 \item{x}{Either a \code{fulltexttable} object or an object that can be
@@ -99,9 +73,9 @@ basic uses: (a) The widget's annotation mode offers a pure R workflow for
 basic text annotation tasks. In this scenario, it is used within a Shiny
 Gadget called via \code{annotate()}. (b) The widget's display mode is designed to
 inspect the fulltext of a document with highlighted annotations either in an
-interactive R session or embedded in Rmarkdown documents. The widget is
-supports crosstalk, enabling the interactive selection among a set of
-documents within an HTML document generated from Rmarkdown.
+interactive R session or embedded in Rmarkdown documents. The widget supports
+crosstalk, enabling the interactive selection among a set of documents within
+an HTML document generated from Rmarkdown.
 }
 \examples{
 library(polmineR)
@@ -117,4 +91,3 @@ y <- annolite(
 \author{
 Andreas Blaette
 }
-\keyword{datasets}

@@ -6,9 +6,9 @@
 #' basic text annotation tasks. In this scenario, it is used within a Shiny
 #' Gadget called via `annotate()`. (b) The widget's display mode is designed to
 #' inspect the fulltext of a document with highlighted annotations either in an
-#' interactive R session or embedded in Rmarkdown documents. The widget is
-#' supports crosstalk, enabling the interactive selection among a set of
-#' documents within an HTML document generated from Rmarkdown.
+#' interactive R session or embedded in Rmarkdown documents. The widget supports
+#' crosstalk, enabling the interactive selection among a set of documents within
+#' an HTML document generated from Rmarkdown.
 #' 
 #' @param x Either a `fulltexttable` object or an object that can be
 #'   transformed to a `fulltexttable` using the `fulltexttable()` method.
@@ -198,17 +198,64 @@ renderAnnolite <- function(expr, env = parent.frame(), quoted = FALSE) {
 }
 
 
-#' @rdname annolite
-"secretary_general_2000_annotations"
-
-#' @rdname annolite
-"emma_chapters_tokenized"
-
-#' @rdname annolite
+#' Annotated speech of Kofi Annan
+#' 
+#' The package includes the fulltext of Kofi Annan's speech opening the 2000
+#' Millennium Summit (object `secretary_general_2000_speech`) and a sample
+#' annotation of the speech (object `secretary_general_2000_annotations`).
+#' 
+#' @format The object `secretary_general_2000_speech` is a `fulltexttable`, see
+#'   documentation object \code{\link{fulltexttable}} for an explanation of the
+#'   data structure. To inspect the code that has been used to prepare the
+#'   `fulltexttable`, see the file 'annan2000.R' in the data-raw subdirectory of
+#'   the package.
+#' @rdname sg2000
 "secretary_general_2000_speech"
 
-#' @rdname annolite
+#' @format The object `secretary_general_2000_annotations` is a
+#'   `annotationstable`, see documentation obje \code{\link{annotationstable}}
+#'   for an explanation of the data structure. To inspect the code that has been
+#'   used to prepare the `annotationstable`, see the file 'annan2000.R' in the
+#'   data-raw subdirectory of the package.
+#' @rdname sg2000
+"secretary_general_2000_annotations"
+
+
+#' Jane Austen's Emma
+#' 
+#' For explaining how a `fulltexttable` can be generated from any kind 
+#' of textual data, the package includes the tokenized text of the first
+#' five chapters of Jane Austen's novel *Emma*.
+#' 
+#' To inspect the code that has been used to prepare the object, see the file
+#' 'emma.R' in the data-raw subdirectory of the package.
+#' 
+#' @format A list of lists of character vectors. Each list of character vectors
+#'   represents a chapter of Emma.
+#' @rdname emma
+"emma_chapters_tokenized"
+
+#' Speeches on migration in the UN General Assembly
+#' 
+#' To illustrate how the *annolite* HTML widget can be used for evaluating a
+#' topic model, i.e. for inspecting documents where a topic is present among the
+#' m first topics, the package includes a set of UN General Assembly speeches
+#' (presumably) addressing migration affairs (object
+#' `unga_migrationspeeches_fulltext`) and an `annotationstable` (object
+#' `unga_migrationspeeches_anntationstable`) to highlight tokens indicative of
+#' the migration topic.
+#' 
+#' To inspect the code that has been used to prepare the object, see the file
+#' 'unga_topicmodelling.R' in the data-raw subdirectory of the package.
+#' 
+#' @format The object `unga_migrationspeeches_fulltext` is a `fulltexttable`,
+#'   see the documentation of the function `fulltexttable` for an explanation 
+#'   of the data structure of the class `fulltexttable`.
+#' @rdname unga_migrationspeeches
 "unga_migrationspeeches_fulltext"
 
-#' @rdname annolite
+#' @format The object `unga_migrationspeeches_anntationstable` is a
+#'   `anntationstable`, see the documentation of the function `anntationstable`
+#'   for an explanation of the data structure of the class `anntationstable`.
+#' @rdname unga_migrationspeeches
 "unga_migrationspeeches_anntationstable"

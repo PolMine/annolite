@@ -2,7 +2,7 @@
 % Please edit documentation in R/annotate.R
 \name{annotate}
 \alias{annotate}
-\title{Call Leightweight Annotation Widget.}
+\title{Shiny Gadget for Text Annotation.}
 \usage{
 annotate(
   x,
@@ -35,18 +35,27 @@ color names R knows about (see \code{grDevices::colors()}). For display mode,
 set argument as \code{FALSE}, and there will \emph{not}  be a pop-up menu to create
 an annotation if text is selected.}
 
-\item{file}{If a \code{character} vector, a filename to save table with
-annotations to disk whenever a new annotation is added. If the filename
-ends with ".rds", a RDS file is saved. In all other cases, a csv file
-is generated.}
+\item{file}{If a \code{character} vector, a filename that is used to save
+table with annotations to disk whenever a new annotation is added. If the
+filename ends with ".rds", a RDS file is saved. In all other cases, a csv
+file is generated. If argument is \code{NULL} (default), no file with
+annotations will be generated an upated.}
 
-\item{...}{Further arguments passed into call of \code{fulltexttable}.}
+\item{...}{Further arguments passed into call of \code{fulltexttable()}.}
 }
 \value{
-A \code{data.frame} with annotations is returned invisibly.
+A \code{data.frame} with annotations (class \code{annotationstable}) is
+returned invisibly.
 }
 \description{
-Call Leightweight Annotation Widget.
+Calling the method \code{annotate()} on an object that is either a \code{fulltexttable}
+or that can be transformed to a \code{fulltexttable} (using the method
+\code{fulltexttable()}) will launch a Shiny Widget as a leightweight text
+annotation tool. The HTML widget \code{annolite} is the core of the gadget. It
+provides the essential functionality for highlighter-and-pencil-style
+annotation. Wrapping the \emph{annolite}  HTML wideget in a Shiny Gadget
+facilitates the implementation of a pure R workflow for generating and
+procesing text annotations.
 }
 \examples{
 library(polmineR)
