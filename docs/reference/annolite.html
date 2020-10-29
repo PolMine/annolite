@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Instantiate annolite htmlwidget — annolite • annolite</title>
+<title>Create annolite htmlwidget — annolite • annolite</title>
 
 
 <!-- jquery -->
@@ -39,16 +39,19 @@
 
 
 
-<meta property="og:title" content="Instantiate annolite htmlwidget — annolite" />
+<meta property="og:title" content="Create annolite htmlwidget — annolite" />
 <meta property="og:description" content="The HTML widget annolite is the core of the package and the annolite()
-method is the constructor to generate it. The widget is designed for two
-basic uses: (a) The widget's annotation mode offers a pure R workflow for
-basic text annotation tasks. In this scenario, it is used within a Shiny
-Gadget called via annotate(). (b) The widget's display mode is designed to
-inspect the fulltext of a document with highlighted annotations either in an
-interactive R session or embedded in Rmarkdown documents. The widget is
-supports crosstalk, enabling the interactive selection among a set of
-documents within an HTML document generated from Rmarkdown." />
+method is the constructor to generate it. The widget targets two basic uses:
+The widget's annotation mode offers a pure R workflow for basic text
+annotation tasks. In this scenario, it is used within a Shiny Gadget called
+via annotate().
+The widget's display mode is designed to inspect the fulltext of a
+document with highlighted annotations either in an interactive R session or
+embedded in Rmarkdown documents. The widget's support of crosstalk enables
+the interactive selection among a set of documents within an HTML document
+generated from Rmarkdown.
+
+" />
 
 
 
@@ -80,7 +83,7 @@ documents within an HTML document generated from Rmarkdown." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">annolite</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9010</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1</span>
       </span>
     </div>
 
@@ -103,7 +106,7 @@ documents within an HTML document generated from Rmarkdown." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/vignette.html">Introducing 'annolite'. A Leightweight Fulltext Display and Annotation Toolset</a>
+      <a href="../articles/vignette.html">Introducing 'annolite'</a>
     </li>
   </ul>
 </li>
@@ -126,21 +129,24 @@ documents within an HTML document generated from Rmarkdown." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Instantiate annolite htmlwidget</h1>
+    <h1>Create annolite htmlwidget</h1>
     
     <div class="hidden name"><code>annolite.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>The HTML widget <em>annolite</em> is the core of the package and the <code>annolite()</code>
-method is the constructor to generate it. The widget is designed for two
-basic uses: (a) The widget's annotation mode offers a pure R workflow for
-basic text annotation tasks. In this scenario, it is used within a Shiny
-Gadget called via <code><a href='annotate.html'>annotate()</a></code>. (b) The widget's display mode is designed to
-inspect the fulltext of a document with highlighted annotations either in an
-interactive R session or embedded in Rmarkdown documents. The widget is
-supports crosstalk, enabling the interactive selection among a set of
-documents within an HTML document generated from Rmarkdown.</p>
+method is the constructor to generate it. The widget targets two basic uses:</p><ol>
+<li><p>The widget's <em>annotation mode</em> offers a pure R workflow for basic text
+annotation tasks. In this scenario, it is used within a Shiny Gadget called
+via <code><a href='annotate.html'>annotate()</a></code>.</p></li>
+<li><p>The widget's <em>display mode</em> is designed to inspect the fulltext of a
+document with highlighted annotations either in an interactive R session or
+embedded in Rmarkdown documents. The widget's support of crosstalk enables
+the interactive selection among a set of documents within an HTML document
+generated from Rmarkdown.</p></li>
+</ol>
+
     </div>
 
     <pre class="usage"><span class='fu'>annolite</span>(<span class='no'>x</span>, <span class='no'>...</span>)
@@ -159,25 +165,7 @@ documents within an HTML document generated from Rmarkdown.</p>
 )
 
 <span class='co'># S4 method for SharedData</span>
-<span class='fu'>annolite</span>(
-  <span class='no'>x</span>,
-  <span class='kw'>annotations</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>width</span> <span class='kw'>=</span> <span class='st'>"100%"</span>,
-  <span class='kw'>height</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>box</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>x</span>$<span class='fu'>groupName</span>(),
-  <span class='kw'>crosstalk</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
-)
-
-<span class='no'>sample_annotation</span>
-
-<span class='no'>emma_chapters_tokenized</span>
-
-<span class='no'>secretary_general_2000</span>
-
-<span class='no'>unga_migrationspeeches_fulltext</span>
-
-<span class='no'>unga_migrationspeeches_anntationstable</span></pre>
+<span class='fu'>annolite</span>(<span class='no'>x</span>, <span class='kw'>annotations</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='st'>"100%"</span>, <span class='kw'>height</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>box</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -200,9 +188,13 @@ Defaults to an empty <code>annotationstable</code> generated by calling
     </tr>
     <tr>
       <th>buttons</th>
-      <td><p>Named <code>list</code> of length-one <code>character</code> vectors to specify
-labels of codes and colors that are assigned (names are codes, values
-colors).</p></td>
+      <td><p>To define button/color combinations for annotation mode,
+supply a named <code>list</code> of length-one <code>character</code> vectors to specify codes
+and corresponding colors for highlighting (names are codes, values colors).
+Colors that are assigned need to be either valid hex colors or among the
+color names R knows about (see <code><a href='https://rdrr.io/r/grDevices/colors.html'>grDevices::colors()</a></code>). For display mode,
+set argument as <code>FALSE</code>, and there will <em>not</em>  be a pop-up menu to create
+an annotation if text is selected.</p></td>
     </tr>
     <tr>
       <th>width</th>
@@ -233,13 +225,6 @@ argument <code>group</code> of <code><a href='https://rdrr.io/pkg/crosstalk/man/
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
-
-    <p>An object of class <code>data.frame</code> with 4 rows and 6 columns.</p>
-<p>An object of class <code>list</code> of length 55.</p>
-<p>An object of class <code>fulltexttable</code> (inherits from <code>data.frame</code>, <code>list</code>, <code>oldClass</code>, <code>vector</code>) with 21 rows and 4 columns.</p>
-<p>An object of class <code>fulltexttable</code> (inherits from <code>data.frame</code>, <code>list</code>, <code>oldClass</code>, <code>vector</code>) with 178 rows and 4 columns.</p>
-<p>An object of class <code>annotationstable</code> (inherits from <code>data.frame</code>, <code>list</code>, <code>oldClass</code>, <code>vector</code>) with 2041 rows and 6 columns.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>polmineR</span>)

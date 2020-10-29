@@ -19,6 +19,8 @@ emma_chapters_tokenized <- lapply(
   }
 )
 
+emma_chapters_tokenized <- emma_chapters_tokenized[1:5]
+
 save(
   emma_chapters_tokenized,
   file = "~/Lab/github/annolite/data/emma.RData",

@@ -1,11 +1,22 @@
-#' Call Leightweight Annotation Widget.
+#' Shiny Gadget for Text Annotation.
 #' 
-#' @param file If a \code{character} vector, a filename to save table with
-#'   annotations to disk whenever a new annotation is added. If the filename
-#'   ends with ".rds", a RDS file is saved. In all other cases, a csv file
-#'   is generated.
-#' @param ... Further arguments passed into call of \code{fulltexttable}.
-#' @return A \code{data.frame} with annotations is returned invisibly.
+#' Calling the method `annotate()` on an object that is either a `fulltexttable`
+#' or that can be transformed to a `fulltexttable` (using the method
+#' `fulltexttable()`) will launch a Shiny Widget as a leightweight text
+#' annotation tool. The HTML widget `annolite` is the core of the gadget. It
+#' provides the essential functionality for highlighter-and-pencil-style
+#' annotation. Wrapping the *annolite*  HTML wideget in a Shiny Gadget
+#' facilitates the implementation of a pure R workflow for generating and
+#' procesing text annotations.
+#' 
+#' @param file If a `character` vector, a filename that is used to save
+#'   table with annotations to disk whenever a new annotation is added. If the
+#'   filename ends with ".rds", a RDS file is saved. In all other cases, a csv
+#'   file is generated. If argument is `NULL` (default), no file with
+#'   annotations will be generated an upated.
+#' @param ... Further arguments passed into call of `fulltexttable()`.
+#' @return A `data.frame` with annotations (class `annotationstable`) is
+#'   returned invisibly.
 #' @importFrom miniUI miniPage miniContentPanel gadgetTitleBar miniButtonBlock
 #'   miniTabstripPanel miniTabPanel
 #' @importFrom shiny tags runGadget paneViewer textAreaInput observeEvent

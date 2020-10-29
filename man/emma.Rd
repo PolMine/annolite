@@ -3,23 +3,21 @@
 \docType{data}
 \name{emma_chapters_tokenized}
 \alias{emma_chapters_tokenized}
-\title{Jane Austen's novel Emma (tokenized)}
+\title{Jane Austen's Emma}
 \format{
-A \code{list}
+A list of lists of character vectors. Each list of character vectors
+represents a chapter of Emma.
 }
 \usage{
 emma_chapters_tokenized
 }
 \description{
-The novels written by Jane Austen are popular data to illustrate text mining
-applications readily available via the R package
-\href{https://CRAN.R-project.org/package=janeaustenr}{janeaustenr}. To convey how
-\code{annolite} may be used in the context of the tidytext approach (see \href{https://www.tidytextmining.com/}{the book by Julia Silge and David Robinson}), the
-package includes a pre-processed object with the chapters of the novel Emma.
+For explaining how a \code{fulltexttable} can be generated from any kind
+of textual data, the package includes the tokenized text of the first
+five chapters of Jane Austen's novel \emph{Emma}.
 }
-\seealso{
-Other datasets included in the annolite package: 
-\code{\link{secretary_general_2000}}
+\details{
+To inspect the code that has been used to prepare the object, see the file
+'emma.R' in the data-raw subdirectory of the package.
 }
-\concept{datasets included in the annolite package}
 \keyword{datasets}

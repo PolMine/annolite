@@ -1,8 +1,8 @@
 Package: annolite
 Type: Package
 Title: Leightweight Fulltext Display and Annotation Tools
-Version: 0.0.0.9010
-Date: 2020-10-27
+Version: 0.0.1
+Date: 2020-10-29
 Authors@R: person("Andreas", "Blaette", role = c("aut", "cre"), email = "andreas.blaette@uni-due.de")
 Description: The package includes an htmlwidget 'fulltext' and a shiny gadget to inspect the fulltext of (sub-)corpora, and for coding and adding free-text memos. 
 Depends:

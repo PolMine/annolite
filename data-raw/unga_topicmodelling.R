@@ -16,7 +16,7 @@ unga_lda <- readRDS(lda_tmp_local)
 topic_term_matrix <- topicmodels::get_terms(unga_lda, k = 50)
 
 document_topics <- topicmodels::get_topics(unga_lda, k = 1)
-mig_speeches <- sample(names(document_topics)[document_topics == 105], size = 25)
+mig_speeches <- names(document_topics)[document_topics == 105][1:25]
 
 unga_speeches <- as.speeches("UNGA", s_attribute_date = "date", s_attribute_name = "speaker")
 unga_speeches_mig <- unga_speeches[[mig_speeches]]
@@ -42,6 +42,8 @@ unga_migrationspeeches_anntationstable <- annotationstable(
   start = matches[,1],
   end = matches[,2]
 )
+
+unga_migrationspeeches_fulltext[["name"]] <- gsub("González", "Gonzalez", unga_migrationspeeches_fulltext[["name"]])
 
 save(
   unga_migrationspeeches_fulltext,

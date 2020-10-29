@@ -1,11 +1,10 @@
 #' Create annolite htmlwidget
 #' 
 #' The HTML widget *annolite* is the core of the package and the `annolite()`
-#' method is the constructor to generate it. The widget targets two
-#' basic uses:
+#' method is the constructor to generate it. The widget targets two basic uses:
 #' 1. The widget's *annotation mode* offers a pure R workflow for basic text
 #' annotation tasks. In this scenario, it is used within a Shiny Gadget called
-#' via `annotate()`.#
+#' via `annotate()`.
 #' 2. The widget's *display mode* is designed to inspect the fulltext of a
 #' document with highlighted annotations either in an interactive R session or
 #' embedded in Rmarkdown documents. The widget's support of crosstalk enables
@@ -20,9 +19,13 @@
 #'   `annotationstable()`.
 #' @param width The width of the annolite htmlwidget.
 #' @param height The height of the annolite htmlwidget.
-#' @param buttons Named `list` of length-one `character` vectors to specify
-#'   labels of codes and colors that are assigned (names are codes, values
-#'   colors).
+#' @param buttons To define button/color combinations for annotation mode,
+#'   supply a named `list` of length-one `character` vectors to specify codes
+#'   and corresponding colors for highlighting (names are codes, values colors).
+#'   Colors that are assigned need to be either valid hex colors or among the
+#'   color names R knows about (see `grDevices::colors()`). For display mode,
+#'   set argument as `FALSE`, and there will *not*  be a pop-up menu to create
+#'   an annotation if text is selected.
 #' @param box Length-one `logical` value, whether draw box around HTML widget
 #'   with fulltext display.
 #' @param group An identifier for a Crosstalk group. HTML widgets within one
@@ -34,6 +37,7 @@
 #' @importFrom htmlwidgets createWidget sizingPolicy
 #' @importFrom crosstalk crosstalkLibs is.SharedData bscols
 #' @importFrom utils packageVersion
+#' @importFrom grDevices colors
 #' @export annolite
 #' @aliases annolite-package annolite
 #' @docType package
@@ -57,95 +61,74 @@ setOldClass("fulltexttable")
 #' @rdname annolite
 setMethod("annolite", "fulltexttable", function(x, annotations = annotationstable(), buttons = list(keep = "yellow", drop = "lightgreen"), width = "100%", height = NULL,  box = TRUE, crosstalk = FALSE, layout = "filter", group = "fulltext") {
   
-  if (length(unique(x[["name"]])) == 1L){
-    y <- createWidget(
-      "annolite",
-      package = "annolite",
-      x = list(
-        data = list(fulltext = htmlize(x), annotations = annotations),
-        settings = list(
-          annotationMode = TRUE,
-          crosstalk = crosstalk,
-          crosstalk_key = NULL,
-          crosstalk_group = group,
-          box = box,
-          buttons = buttons
-        )
-      ),
-      width = width,
-      height = height,
-      dependencies = list(
-        htmltools::htmlDependency(
-          name = "crosstalk", 
-          version = packageVersion("crosstalk"),
-          package = "crosstalk",
-          src = "www",
-          script = "js/crosstalk.min.js",
-          stylesheet = "css/crosstalk.css"
-        )
-      ),
-      sizingPolicy(
-        browser.fill = TRUE,
-        viewer.defaultHeight = 800L,
-        browser.defaultHeight = 800L,
-        viewer.fill = TRUE,
-        knitr.figure = FALSE,
-        knitr.defaultWidth = 800L,
-        knitr.defaultHeight = 400L
+  # Ensure that argument 'buttons' is either FALSE or a named list of length-one
+  # character vectors
+  if (is.null(buttons)|| is.na(buttons)) buttons <- FALSE
+  if (is.character(buttons)) buttons <- as.list(buttons)
+  if (is.list(buttons)){
+    if (!all(sapply(buttons, length) == 1L)){
+      stop("Invalid value for argument buttons: All elements in the list are required to be length-one character vectors.")
+    }
+    if (
+      isFALSE(
+        all(as.character(unname(buttons)) %in% grDevices::colors()) ||
+        all(grepl(pattern = "^#[a-fA-F0-9]{6}$", x = as.character(unname(buttons)), ignore.case = TRUE))
       )
-    )
-  } else {
-    x[["style"]] <- rep("display:none", times = nrow(x))
-    x_sd <- crosstalk::SharedData$new(x, ~name, group = group) 
-    if (layout == "filter"){
-      y <- bscols(
-        widths = c(3,9), device = "lg",
-        crosstalk::filter_select(id = "select_text", label = "Selection", sharedData = x_sd, group = ~name, multiple = FALSE),
-        htmlwidgets::createWidget(
-          "annolite",
-          package = "annolite",
-          x = list(
-            data = list(fulltext = htmlize(x), annotations = annotations),
-            settings = list(
-              annotationMode = FALSE,
-              crosstalk = TRUE,
-              box = box,
-              crosstalk_key = "name",
-              crosstalk_group = group
-            )
-          ),
-          width = width, 
-          height = height,
-          dependencies = crosstalk::crosstalkLibs()
-        )
-      )
-    } else {
-      doc_datatable_sd <- DT::datatable(
-        crosstalk::SharedData$new(data.frame(document_id = x[["name"]]), ~document_id, group = group),
-        options = list(lengthChange = TRUE, pageLength = 8L, pagingType = "simple", dom = "tp"),
-        rownames = NULL, width = "100%", selection = "single"
-      )
-      
-      y <- bscols(
-        widths = c(4,8),
-        doc_datatable_sd,
-        annolite(x_sd, annotations = annotations, width = width, height = height, box = box, crosstalk = TRUE)
+    ){
+      stop(
+        "Invalid color definition in argument 'buttons': ", 
+        "Values need to be either valid hex colors, or included in grDevices::colors()."
       )
     }
   }
-  y
+  
+  createWidget(
+    "annolite",
+    package = "annolite",
+    x = list(
+      data = list(fulltext = htmlize(x), annotations = annotations),
+      settings = list(
+        crosstalk = crosstalk,
+        crosstalk_key = if (isTRUE(crosstalk)) "name" else NULL,
+        crosstalk_group = group,
+        box = box,
+        buttons = buttons
+      )
+    ),
+    width = width,
+    height = height,
+    dependencies = if (crosstalk) list(
+      htmltools::htmlDependency(
+        name = "crosstalk", 
+        version = packageVersion("crosstalk"),
+        package = "crosstalk",
+        src = "www",
+        script = "js/crosstalk.min.js",
+        stylesheet = "css/crosstalk.css"
+      )
+    ) else NULL,
+    sizingPolicy(
+      browser.fill = TRUE,
+      viewer.defaultHeight = 800L,
+      browser.defaultHeight = 800L,
+      viewer.fill = TRUE,
+      knitr.figure = FALSE,
+      knitr.defaultWidth = 800L,
+      knitr.defaultHeight = 400L
+    )
+  )
 })
 
 setOldClass("SharedData")
 
 #' @rdname annolite
 #' @exportMethod annolite
-setMethod("annolite", "SharedData", function(x, annotations = NULL, width = "100%", height = NULL, box = TRUE, group = x$groupName(), crosstalk = TRUE) {
+setMethod("annolite", "SharedData", function(x, annotations = NULL, width = "100%", height = NULL, box = TRUE) {
   annolite(
     x = x$origData(),
-    annotations = annotations,
+    annotations = annotations, buttons = FALSE,
     width = width, height = height, box = box,
-    group = group, crosstalk = TRUE
+    group = x$groupName(), crosstalk = TRUE
   )
 })
 
@@ -174,45 +157,64 @@ renderAnnolite <- function(expr, env = parent.frame(), quoted = FALSE) {
 }
 
 
-#' Sample annotation of a speech given by Volker Kauder
-#' @rdname kauder_sample_annotation
-"sample_annotation"
+#' Annotated speech of Kofi Annan
+#' 
+#' The package includes the fulltext of Kofi Annan's speech opening the 2000
+#' Millennium Summit (object `secretary_general_2000_speech`) and a sample
+#' annotation of the speech (object `secretary_general_2000_annotations`).
+#' 
+#' @format The object `secretary_general_2000_speech` is a `fulltexttable`, see
+#'   documentation object \code{\link{fulltexttable}} for an explanation of the
+#'   data structure. To inspect the code that has been used to prepare the
+#'   `fulltexttable`, see the file 'annan2000.R' in the data-raw subdirectory of
+#'   the package.
+#' @rdname sg2000
+"secretary_general_2000_speech"
 
-#' Jane Austen's novel Emma (tokenized)
+#' @format The object `secretary_general_2000_annotations` is a
+#'   `annotationstable`, see documentation obje \code{\link{annotationstable}}
+#'   for an explanation of the data structure. To inspect the code that has been
+#'   used to prepare the `annotationstable`, see the file 'annan2000.R' in the
+#'   data-raw subdirectory of the package.
+#' @rdname sg2000
+"secretary_general_2000_annotations"
+
+
+#' Jane Austen's Emma
 #' 
-#' The novels written by Jane Austen are popular data to illustrate text mining
-#' applications readily available via the R package
-#' [janeaustenr](https://CRAN.R-project.org/package=janeaustenr). To convey how
-#' `annolite` may be used in the context of the tidytext approach (see [the book
-#' by Julia Silge and David Robinson](https://www.tidytextmining.com/)), the
-#' package includes a pre-processed object with the chapters of the novel Emma.
+#' For explaining how a `fulltexttable` can be generated from any kind 
+#' of textual data, the package includes the tokenized text of the first
+#' five chapters of Jane Austen's novel *Emma*.
 #' 
-#' @format A `list`
-#' @family datasets included in the annolite package
+#' To inspect the code that has been used to prepare the object, see the file
+#' 'emma.R' in the data-raw subdirectory of the package.
+#' 
+#' @format A list of lists of character vectors. Each list of character vectors
+#'   represents a chapter of Emma.
 #' @rdname emma
 "emma_chapters_tokenized"
 
-#' Sample documents and annotations from the UN General Assembly
+#' Speeches on migration in the UN General Assembly
 #' 
-#' The package includes three pieces of data derived from the corpus of speeches
-#' given in the UN General Assembly (UNGA corpus, [available at
-#' Zenodo](https://zenodo.org/record/3831472#.X5nMp1kxlZ0)).
+#' To illustrate how the *annolite* HTML widget can be used for evaluating a
+#' topic model, i.e. for inspecting documents where a topic is present among the
+#' m first topics, the package includes a set of UN General Assembly speeches
+#' (presumably) addressing migration affairs (object
+#' `unga_migrationspeeches_fulltext`) and an `annotationstable` (object
+#' `unga_migrationspeeches_anntationstable`) to highlight tokens indicative of
+#' the migration topic.
 #' 
-#' The file
-#' [unga_topicmodelling.R](https://github.com/PolMine/annolite/blob/master/data-raw/unga_topicmodelling.R)
-#' in the data-raw folder of the package has been used to create the data
-#' objects.
+#' To inspect the code that has been used to prepare the object, see the file
+#' 'unga_topicmodelling.R' in the data-raw subdirectory of the package.
 #' 
-#' @rdname undocs
-#' @family datasets included in the annolite package
-#' @format The object `secretary_general_2000` is a `fulltexttable`.
-"secretary_general_2000"
-
-#' @format The object `unga_migrationspeechess_fulltext` is a `fulltexttable` 
-#' @rdname undocs
+#' @format The object `unga_migrationspeeches_fulltext` is a `fulltexttable`,
+#'   see the documentation of the function `fulltexttable` for an explanation 
+#'   of the data structure of the class `fulltexttable`.
+#' @rdname unga_migrationspeeches
 "unga_migrationspeeches_fulltext"
 
-#' @format The object `unga_migrationspeeches_annotationstable` is an
-#'   `annotationstable`.
-#' @rdname undocs
+#' @format The object `unga_migrationspeeches_anntationstable` is a
+#'   `anntationstable`, see the documentation of the function `anntationstable`
+#'   for an explanation of the data structure of the class `anntationstable`.
+#' @rdname unga_migrationspeeches
 "unga_migrationspeeches_anntationstable"
