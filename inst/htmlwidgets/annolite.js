@@ -11,12 +11,10 @@ HTMLWidgets.widget({
 
     var container = el;
     
-    // if (x.settings.annotationMode){
-      document.annotations = {};
-      document.annotationsCreated = 0;
-      var getSelectionText; // needs to be defined globally
-      var annotationCompleted;
-    // }
+    document.annotations = {};
+    document.annotationsCreated = 0;
+    var getSelectionText; // needs to be defined globally
+    var annotationCompleted;
 
     // if (x.settings.crosstalk){
       var selected_subcorpus;
@@ -60,7 +58,7 @@ HTMLWidgets.widget({
           ct_sel.setGroup(x.settings.crosstalk_group);
         }
         
-        if (buttons){
+        if (x.settings.buttons){
           var buttons = 'Add Annotation<hr/><div id="selection" class="btn-group" data-toggle="buttons">';
           for (var i = 0; i < Object.keys(x.settings.buttons).length; i++){
             buttons += '<label class="radio-inline"><input type="radio" name="radioGroup" value="';
@@ -81,7 +79,7 @@ HTMLWidgets.widget({
           for (var id = x.data.annotations.start[i]; id <= x.data.annotations.end[i]; id++){
             el = document.getElementById(id.toString())
             el.style.backgroundColor = x.data.annotations.color[i];
-            if (x.settings.annotationMode){
+            if (x.settings.buttons){
               el.addEventListener('contextmenu', function(ev) {
                 ev.preventDefault();
                 alert('success!');
@@ -134,9 +132,7 @@ HTMLWidgets.widget({
             var anchorParent = window.getSelection().anchorNode.parentNode;
             var focusParent = window.getSelection().focusNode.parentNode;
             var textSelected = window.getSelection().toString();
-            
-            console.log("text selected");
-            
+
             if (RegExp("^\\s+$").test(textSelected)){
               console.log("nothing selected");
             } else {

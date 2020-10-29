@@ -88,9 +88,8 @@ setMethod("annolite", "fulltexttable", function(x, annotations = annotationstabl
       x = list(
         data = list(fulltext = htmlize(x), annotations = annotations),
         settings = list(
-          annotationMode = TRUE,
           crosstalk = crosstalk,
-          crosstalk_key = NULL,
+          crosstalk_key = if (isTRUE(crosstalk)) "name" else NULL,
           crosstalk_group = group,
           box = box,
           buttons = buttons
