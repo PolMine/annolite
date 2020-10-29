@@ -105,10 +105,10 @@ The functionality to include fulltext based on the `fulltextlist` class in an Rm
 
 The `annotationstable` class is a S3 superclass of a `data.frame`. So it is and behaves like a `data.frame`, but using the class is useful for being able to define specified methods. An `annotationsstable` has the columns "text", "code", "color", "annotation" , "start" and "end". This captures all the information generated when annotating a document using *annolite*.  
 
-To convey what this table looks like, inspect the `sample_annotation` object that is included as sample annotation in the package.
+To convey what this table looks like, inspect the `secretary_general_2000_annotations` object that is included as sample annotation in the package.
 
 ```{r}
-sample_annotation
+secretary_general_2000_annotations
 ```
 
 Note that what you see in the column "text" is the text selection when creating an annotation that does not necessarily cover entire words. The token ids in this table are fairly high numbers because these are (arbitrary) annotations of a speech given by Volker Kauder as part of the GermaParl - a fairly small subset of a much larger corpus.
@@ -178,14 +178,13 @@ To use annolite for displaying documents with annotations, you supply the documm
 
 The code to create an `annolite` htmlwidget and the result can be embedded in Rmarkdown documents (including slides) easily. You can send around the html document or put it online (e.g. via GitHub Pages). Given the almost universal access to browsers that will be able to process the html documents you generate, barriers for creating maximum transparency on your research are minimal. Nobody will have to install a server to inspect and check the annotations you and your team made. It is not necessary to acquire access to proprietary software before your annotations can be looked at.
 
-The package includes a minimal dataset with annotations on the speech of Volker Kauder that served as an example initially (object `sample_annotation`). This is how you create the htmlwidget and include it in the document.
+The package includes a minimal dataset with annotations on the speech of UN Secretary-General Kofi Annan on the occassion of the Millenium Summit (object `secretary_general_2000_annotations`). This is how you create the htmlwidget and include it in the document.
 
 ```{r, eval = TRUE}
-kauder_speech_flist <- corpus("GERMAPARLMINI") %>%
-  subset(speaker == "Volker Kauder" & date == "2009-11-10") %>%
-  fulltexttable()
-
-annolite(kauder_speech_flist, annotations = sample_annotation)
+annolite(
+  secretary_general_2000_speech,
+  annotations = secretary_general_2000_annotations
+)
 ```
 
 

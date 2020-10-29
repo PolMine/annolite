@@ -199,13 +199,13 @@ renderAnnolite <- function(expr, env = parent.frame(), quoted = FALSE) {
 
 
 #' @rdname annolite
-"sample_annotation"
+"secretary_general_2000_annotations"
 
 #' @rdname annolite
 "emma_chapters_tokenized"
 
 #' @rdname annolite
-"secretary_general_2000"
+"secretary_general_2000_speech"
 
 #' @rdname annolite
 "unga_migrationspeeches_fulltext"
