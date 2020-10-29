@@ -18,9 +18,13 @@
 #'   `annotationstable()`.
 #' @param width The width of the annolite htmlwidget.
 #' @param height The height of the annolite htmlwidget.
-#' @param buttons Named `list` of length-one `character` vectors to specify
-#'   labels of codes and colors that are assigned (names are codes, values
-#'   colors).
+#' @param buttons To define button/color combinations for annotation mode,
+#'   supply a named `list` of length-one `character` vectors to specify codes
+#'   and corresponding colors for highlighting (names are codes, values colors).
+#'   Colors that are assigned need to be either valid hex colors or among the
+#'   color names R knows about (see `grDevices::colors()`). For display mode,
+#'   set argument as `FALSE`, and there will *not*  be a pop-up menu to create
+#'   an annotation if text is selected.
 #' @param box Length-one `logical` value, whether draw box around HTML widget
 #'   with fulltext display.
 #' @param group An identifier for a Crosstalk group. HTML widgets within one
@@ -32,6 +36,7 @@
 #' @importFrom htmlwidgets createWidget sizingPolicy
 #' @importFrom crosstalk crosstalkLibs is.SharedData bscols
 #' @importFrom utils packageVersion
+#' @importFrom grDevices colors
 #' @export annolite
 #' @aliases annolite-package annolite
 #' @docType package
@@ -55,6 +60,27 @@ setOldClass("fulltexttable")
 #' @rdname annolite
 setMethod("annolite", "fulltexttable", function(x, annotations = annotationstable(), buttons = list(keep = "yellow", drop = "lightgreen"), width = "100%", height = NULL,  box = TRUE, crosstalk = FALSE, layout = "filter", group = "fulltext") {
   
+  # Ensure that argument 'buttons' is either FALSE or a named list of length-one
+  # character vectors
+  if (is.null(buttons)|| is.na(buttons)) buttons <- FALSE
+  if (is.character(buttons)) buttons <- as.list(buttons)
+  if (is.list(buttons)){
+    if (!all(sapply(buttons, length) == 1L)){
+      stop("Invalid value for argument buttons: All elements in the list are required to be length-one character vectors.")
+    }
+    if (
+      isFALSE(
+        all(as.character(unname(buttons)) %in% grDevices::colors()) ||
+        all(grepl(pattern = "^#[a-fA-F0-9]{6}$", x = as.character(unname(buttons)), ignore.case = TRUE))
+      )
+    ){
+      stop(
+        "Invalid color definition in argument 'buttons': ", 
+        "Values need to be either valid hex colors, or included in grDevices::colors()."
+      )
+    }
+  }
+
   if (length(unique(x[["name"]])) == 1L){
     y <- createWidget(
       "annolite",

@@ -134,6 +134,8 @@ HTMLWidgets.widget({
             var focusParent = window.getSelection().focusNode.parentNode;
             var textSelected = window.getSelection().toString();
             
+            console.log("text selected");
+            
             if (RegExp("^\\s+$").test(textSelected)){
               console.log("nothing selected");
             } else {
@@ -168,7 +170,7 @@ HTMLWidgets.widget({
           
         }
         
-        if (x.settings.dialog){
+        if (x.settings.buttons){
           container.onmouseup = function(el) { getSelectionText() };
         };
 
