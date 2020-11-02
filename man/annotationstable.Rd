@@ -2,6 +2,7 @@
 % Please edit documentation in R/annotationstable.R
 \name{annotationstable}
 \alias{annotationstable}
+\alias{is.annotationstable}
 \title{Create annotationstable}
 \usage{
 annotationstable(
@@ -12,6 +13,8 @@ annotationstable(
   start = integer(),
   end = integer()
 )
+
+is.annotationstable(x)
 }
 \arguments{
 \item{text}{A \code{character} vector.}
@@ -25,6 +28,8 @@ annotationstable(
 \item{start}{A \code{integer} vector}
 
 \item{end}{integer A \code{integer} vector.}
+
+\item{x}{An object to check whether it is a valid \code{annotationstable} object.}
 }
 \description{
 The annolite package uses an \code{annotationstable} to store and manage the
@@ -52,6 +57,10 @@ The function \code{annotationstable()} serves as a constructor for an
 \code{annotationstable}. If called without arguments, an empty
 \code{annotationstable} is returned. If called with arguments, all input
 vectors need to have the same length.
+}
+\details{
+The auxiliary \code{is.annotationstable()} function will check whether the
+input objext \code{x} is a \code{annotationstable} object and whether it is valid.
 }
 \examples{
 empty_annotationstable <- annotationstable()

@@ -33,6 +33,7 @@
 #' @param start A \code{integer} vector
 #' @param end integer A \code{integer} vector.
 #' @export annotationstable
+#' @rdname annotationstable
 #' @examples
 #' empty_annotationstable <- annotationstable()
 annotationstable <- function(text = character(), code = character(), color = character(), annotation = character(), start = integer(), end = integer()){
@@ -62,4 +63,58 @@ annotationstable <- function(text = character(), code = character(), color = cha
   )
   class(retval) <- c("annotationstable", is(retval))
   retval
+}
+
+
+#' @details The auxiliary `is.annotationstable()` function will check whether the
+#' input objext `x` is a `annotationstable` object and whether it is valid.
+#' @param x An object to check whether it is a valid `annotationstable` object.
+#' @rdname annotationstable
+#' @export annotationstable
+is.annotationstable <- function(x){
+  
+  result <- TRUE # TRUE by default, will be FALSE if any condition is not met
+  
+  if ("annotationstable" %in% is(x)){
+    warning("Object is not an 'annotationstable'.")
+    result <- FALSE
+  }
+    
+  if (isFALSE(inherits(x, "data.frame"))){
+    warning("Object does not inherit from 'data.frame'.")
+    result <- FALSE
+  }
+    
+  # Now go through columns
+  if (!is.character(x[["text"]])){
+    warning("Object is not a valid 'annotationstable' object, column 'text' needs to be a character vector.")
+    result <- FALSE
+  }
+  
+  if (!is.character(x[["code"]])){
+    warning("Object is not a valid 'annotationstable' object, column 'code' needs to be a character vector.")
+    result <- FALSE
+  }
+  
+  if (!is.character(x[["color"]])){
+    warning("Object is not a valid 'annotationstable' object, column 'color' needs to be a character vector.")
+    result <- FALSE
+  }
+  
+  if (!is.character(x[["annotation"]])){
+    warning("Object is not a valid 'annotationstable' object, column 'annotation' needs to be a character vector.")
+    result <- FALSE
+  }
+  
+  if (!is.integer(x[["start"]])){
+    warning("Object is not a valid 'annotationstable' object, column 'start' needs to be a integer vector.")
+    result <- FALSE
+  }
+  
+  if (!is.integer(x[["end"]])){
+    warning("Object is not a valid 'annotationstable' object, column 'end' needs to be a integer vector.")
+    result <- FALSE
+  }
+  
+  result
 }

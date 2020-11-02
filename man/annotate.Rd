@@ -35,10 +35,12 @@ color names R knows about (see \code{grDevices::colors()}). For display mode,
 set argument as \code{FALSE}, and there will \emph{not}  be a pop-up menu to create
 an annotation if text is selected.}
 
-\item{file}{If a \code{character} vector, a filename that is used to save
-table with annotations to disk whenever a new annotation is added. If the
+\item{file}{If a \code{character} vector, a filename that is used to save table
+with annotations to disk whenever a new annotation is added. If the
 filename ends with ".rds", a RDS file is saved. In all other cases, a csv
-file is generated. If argument is \code{NULL} (default), no file with
+file is generated.  If the parent directory of the file does not exists,
+\code{annotate()} will abort issuing an error message. Note that existing files
+will be overwritten. If argument is \code{NULL} (default), no file with
 annotations will be generated an upated.}
 
 \item{...}{Further arguments passed into call of \code{fulltexttable()}.}
