@@ -6,7 +6,6 @@ r_github_packages: PolMine/polmineR@dev
 matrix:
   include:
     - os: linux
-      dist: trusty
     - os: osx
       osx_image: xcode9.1
 
