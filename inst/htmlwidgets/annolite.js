@@ -15,11 +15,12 @@ HTMLWidgets.widget({
     document.annotationsCreated = 0;
     var getSelectionText; // needs to be defined globally
     var annotationCompleted;
+    
+    var selected_subcorpus;
+    var previously_selected_subcorpus;
+    var tokens;
 
-    // if (x.settings.crosstalk){
-      var selected_subcorpus;
-      var previously_selected_subcorpus;
-      var tokens;
+    if (x.settings.crosstalk){
     
       var ct_sel = new crosstalk.SelectionHandle();
       ct_sel.on("change", function(e) {
@@ -44,7 +45,7 @@ HTMLWidgets.widget({
         tokens = document.getElementsByName(ct_filter.filteredKeys);
         tokens.forEach((token) => { token.style.display = "block";})
       });
-    // }
+    }
 
 
 

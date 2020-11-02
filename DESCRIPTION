@@ -1,6 +1,6 @@
 Package: annolite
 Type: Package
-Title: Leightweight Fulltext Display and Annotation Tools
+Title: Lightweight Fulltext Display and Annotation Tools
 Version: 0.0.1
 Date: 2020-10-29
 Authors@R: person("Andreas", "Blaette", role = c("aut", "cre"), email = "andreas.blaette@uni-due.de")
