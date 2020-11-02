@@ -7,6 +7,9 @@ annolite 0.0.1.9001
 * A new `as.annotationstable()` auxiliary function can be used to turn a `data.frame` into an `annotationstable` object.
 * Tests on Travis CI will not require the (outdated) Trusty version of Linux.
 * The `annolite()` function coerce the input argument `annotations` to a `annotationstable` object, running a validity check if it is a `data.frame` (#7).
+* The *annolite* did not work as intended if argument `crosstalk`  was `FALSE` due to a misplaced JavaScript check whether the crosstalk library is present. The text is more robust now and the widget works as intended (#10).
+* The JavaScript part of the package will handle situations correctly if the end position of a text selection is before the start position / annotation from right to left (#11).
+
 
 annolite 0.0.1
 ==============

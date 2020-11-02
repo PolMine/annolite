@@ -19,9 +19,11 @@ HTMLWidgets.widget({
     var selected_subcorpus;
     var previously_selected_subcorpus;
     var tokens;
+    var from;
+    var to;
     
     // instantiate handles only if crosstalk is available
-    if (crosstalk){
+    if (typeof crosstalk != "undefined"){
     
       var ct_sel = new crosstalk.SelectionHandle();
       ct_sel.on("change", function(e) {
@@ -93,7 +95,7 @@ HTMLWidgets.widget({
     
           if (result == null){
       
-            // remove data that has been added by even handler
+            // remove data that has been added by event handler
             document.annotations.text.pop();
             document.annotations.start.pop();
             document.annotations.end.pop();
@@ -106,7 +108,7 @@ HTMLWidgets.widget({
             document.annotations.code.push(code_selected);
             document.annotations.color.push(color_selected);
             document.annotations.annotation.push(result);
-    
+            
             for (var id = document.annotations.start[i]; id <= document.annotations.end[i]; id++) {
               document.getElementById(id.toString()).style.backgroundColor = color_selected;
             };
@@ -157,8 +159,17 @@ HTMLWidgets.widget({
               
               // code, color and the text of the annotation are added in bootbox
               document.annotations.text.push(textSelected);
-              document.annotations.start.push(start);
-              document.annotations.end.push(end);
+              
+              // If the annotation has been generated against the direction of reading
+              // (right to left), the end position will be smaller than the start
+              // position - assign start and end accordingly
+              if (end >= start){
+                document.annotations.start.push(start);
+                document.annotations.end.push(end);
+              } else {
+                document.annotations.start.push(end);
+                document.annotations.end.push(start);
+              }
 
             };
           } else if (document.selection && document.selection.type != "Control") {
