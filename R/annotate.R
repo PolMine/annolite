@@ -9,10 +9,12 @@
 #' facilitates the implementation of a pure R workflow for generating and
 #' procesing text annotations.
 #' 
-#' @param file If a `character` vector, a filename that is used to save
-#'   table with annotations to disk whenever a new annotation is added. If the
+#' @param file If a `character` vector, a filename that is used to save table
+#'   with annotations to disk whenever a new annotation is added. If the
 #'   filename ends with ".rds", a RDS file is saved. In all other cases, a csv
-#'   file is generated. If argument is `NULL` (default), no file with
+#'   file is generated.  If the parent directory of the file does not exists,
+#'   `annotate()` will abort issuing an error message. Note that existing files
+#'   will be overwritten. If argument is `NULL` (default), no file with
 #'   annotations will be generated an upated.
 #' @param ... Further arguments passed into call of `fulltexttable()`.
 #' @return A `data.frame` with annotations (class `annotationstable`) is
@@ -34,10 +36,13 @@
 #' if (interactive()) Y <- annotate(D, annotations = sample_annotation)
 annotate <- function(x, annotations = annotationstable(), width = NULL, height = NULL, buttons = list(keep = "yellow", drop = "orange"), file = NULL, ...) { 
   
+  if (isFALSE(is.null(file))){
+    if (isFALSE(dir.exists(dirname(file))))
+      stop(sprintf("Cannot use file '%s' to store annotations: Directory '%s' does not exist.", file, dirname(file)))
+  } 
+  
   x <- fulltexttable(x, ...)
-  
   TXT <- annolite(x = x, annotations = annotations, width = width, height = height, buttons = buttons, box = FALSE)
-  
   values <- reactiveValues()
 
   ui <- miniPage(

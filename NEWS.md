@@ -1,3 +1,9 @@
+annolite 0.0.1.9001
+===================
+
+* The `annotate()` function will check whether the parent directory of a file stated via argument `file` exists and throws a warning if not (#6).
+
+
 annolite 0.0.1
 ==============
 

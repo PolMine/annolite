@@ -19,8 +19,9 @@ HTMLWidgets.widget({
     var selected_subcorpus;
     var previously_selected_subcorpus;
     var tokens;
-
-    if (x.settings.crosstalk){
+    
+    // instantiate handles only if crosstalk is available
+    if (crosstalk){
     
       var ct_sel = new crosstalk.SelectionHandle();
       ct_sel.on("change", function(e) {
@@ -33,8 +34,6 @@ HTMLWidgets.widget({
 
       });
     
-    // presumably the FilterHandle can be removed:
-    // FilterHandle cannot be used due to design
       var ct_filter = new crosstalk.FilterHandle();
       ct_filter.on("change", function(e) {
         tokens = document.getElementsByName(previously_selected_subcorpus);
