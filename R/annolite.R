@@ -67,7 +67,8 @@ setMethod("annolite", "fulltexttable", function(x, annotations = annotationstabl
   
   # Ensure that argument 'buttons' is either FALSE or a named list of length-one
   # character vectors
-  if (is.null(buttons)|| is.na(buttons)) buttons <- FALSE
+  if (is.null(buttons)) buttons <- FALSE
+  if (any(is.na(buttons))) buttons <- FALSE
   if (is.character(buttons)) buttons <- as.list(buttons)
   if (is.list(buttons)){
     if (!all(sapply(buttons, length) == 1L)){
