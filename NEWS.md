@@ -3,7 +3,10 @@ annolite 0.0.1.9001
 
 * The `annotate()` function will check whether the parent directory of a file stated via argument `file` exists and throws a warning if not (#6).
 * The package *testthat*  is now a suggested package and there is a minimal testsuite.
-
+* A new `is.annotationstable()` auxiliary function will check systematically that the input object is a valid `annotationstable` object.
+* A new `as.annotationstable()` auxiliary function can be used to turn a `data.frame` into an `annotationstable` object.
+* Tests on Travis CI will not require the (outdated) Trusty version of Linux.
+* The `annolite()` function coerce the input argument `annotations` to a `annotationstable` object, running a validity check if it is a `data.frame` (#7).
 
 annolite 0.0.1
 ==============

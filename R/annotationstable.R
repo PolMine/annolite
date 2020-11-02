@@ -21,10 +21,10 @@
 #' document is a subcorpus of a CWB corpus, the token ID is the \code{integer}
 #' corpus position.
 #' 
-#' The function \code{annotationstable()} serves as a constructor for an
-#' \code{annotationstable}. If called without arguments, an empty
-#' \code{annotationstable} is returned. If called with arguments, all input
-#' vectors need to have the same length.
+#' @details The function \code{annotationstable()} serves as a constructor for
+#'   an \code{annotationstable}. If called without arguments, an empty
+#'   \code{annotationstable} is returned. If called with arguments, all input
+#'   vectors need to have the same length.
 #' 
 #' @param text A \code{character} vector.
 #' @param code A \code{character} vector.
@@ -66,11 +66,13 @@ annotationstable <- function(text = character(), code = character(), color = cha
 }
 
 
-#' @details The auxiliary `is.annotationstable()` function will check whether the
-#' input objext `x` is a `annotationstable` object and whether it is valid.
+#' @details The auxiliary function `is.annotationstable()` checks whether
+#'   the input objext `x` is a `annotationstable` object and whether it is
+#'   valid. The return value is `TRUE` if `x` is a valid `annotationsstable`
+#'   object and `FALSE` if not.
 #' @param x An object to check whether it is a valid `annotationstable` object.
 #' @rdname annotationstable
-#' @export annotationstable
+#' @export
 is.annotationstable <- function(x){
   
   result <- TRUE # TRUE by default, will be FALSE if any condition is not met
@@ -90,6 +92,7 @@ is.annotationstable <- function(x){
     warning("Object is not a valid 'annotationstable' object, column 'text' needs to be a character vector.")
     result <- FALSE
   }
+
   
   if (!is.character(x[["code"]])){
     warning("Object is not a valid 'annotationstable' object, column 'code' needs to be a character vector.")
@@ -116,5 +119,57 @@ is.annotationstable <- function(x){
     result <- FALSE
   }
   
+  # End positions may not be lower than start positions
+  if (any((x[["end"]] - x[["start"]]) < 0L)){
+    warning("Values of end positions of annotations may not be smaller than start positions: Not true.")
+    result <- FALSE
+  }
+  
+  # None of the columns may include any NA value
+  for (col in colnames(x)){
+    if (any(is.na(x[[col]]))){
+      warning(
+        sprintf("Object is not a valid 'annotationstable' object, column '%s' includes NA values.", col)
+      )
+      result <- FALSE
+    }
+  }
+  
   result
+}
+
+#' @details The auxiliary function `as.annotationstable()` will only accept
+#'   objects of class `data.frame` and `annotationstable` as input `x` at this
+#'   stage. If `x` is a `data.frame`, the object will be assigned the class
+#'   `annotationstable`. If `x` is an `annotationstable`, it will remain
+#'   unchanged. To ensure the validity of the object that is returned, the
+#'   object is checked using `is.annotationstable()`. The return value is a
+#'   valid `annotationstable` object.
+#' @rdname annotationstable
+#' @export
+as.annotationstable <- function(x){
+  
+  if (is(x)[1] == "data.frame"){
+    class(x) <- c("annotationstable", is(x))
+  } else if (is(x)[1] == "annotationstable"){
+    return(x)
+  } else {
+    warning(
+      "Input object for function 'as.annotationstable()' is required ",
+      "to be either a 'data.frame' or an 'annotationstable'."
+    )
+  }
+  
+  x[["text"]] <- as.character(x[["text"]])
+  x[["code"]] <- as.character(x[["code"]])
+  x[["color"]] <- as.character(x[["color"]])
+  x[["annotation"]] <- as.character(x[["annotation"]])
+  x[["start"]] <- as.integer(x[["start"]])
+  x[["end"]] <- as.integer(x[["end"]])
+
+  if (isFALSE(is.annotationstable(x))){
+    warning("Input object x cannot be transformed to a (valid) 'annotationstable' object.")
+  }
+  
+  x
 }

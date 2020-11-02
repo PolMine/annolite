@@ -3,6 +3,7 @@
 \name{annotationstable}
 \alias{annotationstable}
 \alias{is.annotationstable}
+\alias{as.annotationstable}
 \title{Create annotationstable}
 \usage{
 annotationstable(
@@ -15,6 +16,8 @@ annotationstable(
 )
 
 is.annotationstable(x)
+
+as.annotationstable(x)
 }
 \arguments{
 \item{text}{A \code{character} vector.}
@@ -52,15 +55,25 @@ annotated document is a subcorpus of a CWB corpus, the token ID is the
 document is a subcorpus of a CWB corpus, the token ID is the \code{integer}
 corpus position.
 }
-
-The function \code{annotationstable()} serves as a constructor for an
-\code{annotationstable}. If called without arguments, an empty
-\code{annotationstable} is returned. If called with arguments, all input
-vectors need to have the same length.
 }
 \details{
-The auxiliary \code{is.annotationstable()} function will check whether the
-input objext \code{x} is a \code{annotationstable} object and whether it is valid.
+The function \code{annotationstable()} serves as a constructor for
+an \code{annotationstable}. If called without arguments, an empty
+\code{annotationstable} is returned. If called with arguments, all input
+vectors need to have the same length.
+
+The auxiliary function \code{is.annotationstable()} checks whether
+the input objext \code{x} is a \code{annotationstable} object and whether it is
+valid. The return value is \code{TRUE} if \code{x} is a valid \code{annotationsstable}
+object and \code{FALSE} if not.
+
+The auxiliary function \code{as.annotationstable()} will only accept
+objects of class \code{data.frame} and \code{annotationstable} as input \code{x} at this
+stage. If \code{x} is a \code{data.frame}, the object will be assigned the class
+\code{annotationstable}. If \code{x} is an \code{annotationstable}, it will remain
+unchanged. To ensure the validity of the object that is returned, the
+object is checked using \code{is.annotationstable()}. The return value is a
+valid \code{annotationstable} object.
 }
 \examples{
 empty_annotationstable <- annotationstable()
