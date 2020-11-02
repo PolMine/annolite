@@ -7,8 +7,6 @@ matrix:
   include:
     - os: linux
     - os: osx
-      osx_image: xcode9.1
-
 
 before_install:
   - Rscript -e 'install.packages("rmarkdown")'
@@ -27,5 +25,5 @@ notifications:
   on_failure: change
 
 after_success:
-  - Rscript -e 'library(covr); codecov(token = "26677b57-5e66-44cd-ad0c-49957456a028")'
+  - Rscript -e 'library(covr); codecov(token = "1783ba51-9d95-4200-ad71-b01dc6e74fb2")'
 
