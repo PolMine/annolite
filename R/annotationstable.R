@@ -77,48 +77,31 @@ is.annotationstable <- function(x){
   
   result <- TRUE # TRUE by default, will be FALSE if any condition is not met
   
-  if ("annotationstable" %in% is(x)){
-    warning("Object is not an 'annotationstable'.")
-    result <- FALSE
-  }
+  if (!"annotationstable" %in% is(x)) return(FALSE)
+
+  if (isFALSE(inherits(x, "data.frame"))) return(FALSE)
+
+  for (character_column in c("text", "code", "color", "annotation")){
+    if (!is.character(x[[character_column]])){
+      warning(
+        "Object is not a valid 'annotationstable' object, ",
+        sprintf("column '%s' needs to be a character vector.", character_column)
+      )
+      result <- FALSE
+    }
     
-  if (isFALSE(inherits(x, "data.frame"))){
-    warning("Object does not inherit from 'data.frame'.")
-    result <- FALSE
   }
-    
-  # Now go through columns
-  if (!is.character(x[["text"]])){
-    warning("Object is not a valid 'annotationstable' object, column 'text' needs to be a character vector.")
-    result <- FALSE
+  
+  for (integer_column in c("start", "end")){
+    if (!is.integer(x[[integer_column]])){
+      warning(
+        "Object is not a valid 'annotationstable' object, ", 
+        sprintf("column '%s' needs to be a integer vector.", integer_column)
+      )
+      result <- FALSE
+    }
   }
 
-  
-  if (!is.character(x[["code"]])){
-    warning("Object is not a valid 'annotationstable' object, column 'code' needs to be a character vector.")
-    result <- FALSE
-  }
-  
-  if (!is.character(x[["color"]])){
-    warning("Object is not a valid 'annotationstable' object, column 'color' needs to be a character vector.")
-    result <- FALSE
-  }
-  
-  if (!is.character(x[["annotation"]])){
-    warning("Object is not a valid 'annotationstable' object, column 'annotation' needs to be a character vector.")
-    result <- FALSE
-  }
-  
-  if (!is.integer(x[["start"]])){
-    warning("Object is not a valid 'annotationstable' object, column 'start' needs to be a integer vector.")
-    result <- FALSE
-  }
-  
-  if (!is.integer(x[["end"]])){
-    warning("Object is not a valid 'annotationstable' object, column 'end' needs to be a integer vector.")
-    result <- FALSE
-  }
-  
   # End positions may not be lower than start positions
   if (any((x[["end"]] - x[["start"]]) < 0L)){
     warning("Values of end positions of annotations may not be smaller than start positions: Not true.")
@@ -166,6 +149,12 @@ as.annotationstable <- function(x){
   x[["annotation"]] <- as.character(x[["annotation"]])
   x[["start"]] <- as.integer(x[["start"]])
   x[["end"]] <- as.integer(x[["end"]])
+  
+  # When loading an annotationstable that has been saved as a csv file, empty character
+  # strings ("") may become NA values 
+  if (any(is.na(x[["annotation"]]))){
+    x[["annotation"]] <- ifelse(is.na(x[["annotation"]]), "", x[["annotation"]])
+  }
 
   if (isFALSE(is.annotationstable(x))){
     warning("Input object x cannot be transformed to a (valid) 'annotationstable' object.")
