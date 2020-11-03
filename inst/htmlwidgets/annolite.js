@@ -12,7 +12,7 @@ HTMLWidgets.widget({
     var container = el;
     
     document.annotations = {};
-    document.annotationsCreated = 0;
+    document.annotationsChanged = 0;
     var getSelectionText; // needs to be defined globally
     var annotationCompleted;
     
@@ -21,6 +21,7 @@ HTMLWidgets.widget({
     var tokens;
     var from;
     var to;
+    var range;
     
     // instantiate handles only if crosstalk is available
     if (typeof crosstalk != "undefined"){
@@ -113,8 +114,8 @@ HTMLWidgets.widget({
               document.getElementById(id.toString()).style.backgroundColor = color_selected;
             };
     
-            document.annotationsCreated++;
-            Shiny.onInputChange('annotations_created', document.annotationsCreated);
+            document.annotationsChanged++;
+            Shiny.onInputChange('annotations_changed', document.annotationsChanged);
             Shiny.onInputChange('annotations_table', document.annotations);
 
           };
@@ -138,12 +139,6 @@ HTMLWidgets.widget({
             if (RegExp("^\\s+$").test(textSelected)){
               console.log("nothing selected");
             } else {
-              
-              bootbox.prompt({
-                title: buttons,
-                inputType: 'textarea',
-                callback: bootboxCallback
-              });
 
               if (anchorParent.hasAttribute("id")){
                 var start = parseInt(anchorParent.getAttribute("id"));
@@ -157,18 +152,68 @@ HTMLWidgets.widget({
                 var end = parseInt(focusParent.previousSibling.getAttribute("id"));
               };
               
-              // code, color and the text of the annotation are added in bootbox
-              document.annotations.text.push(textSelected);
               
               // If the annotation has been generated against the direction of reading
               // (right to left), the end position will be smaller than the start
               // position - assign start and end accordingly
               if (end >= start){
-                document.annotations.start.push(start);
-                document.annotations.end.push(end);
+                range = [start, end]
               } else {
-                document.annotations.start.push(end);
-                document.annotations.end.push(start);
+                range = [end, start]
+              }
+              
+              // Iterate through tokens and test whether any is highlighted
+              var isHighlighted = false;
+              for (var id = range[0]; id <= range[1]; id++){
+                var annocolor = document.getElementById(id.toString()).style.backgroundColor;
+                if (!RegExp("^\\s*$").test(annocolor)) isHighlighted = true;
+              };
+
+              if (!isHighlighted){
+                
+                // code, color and the text of the annotation are added in bootbox
+                // start end and text are removed upon cancel
+                document.annotations.text.push(textSelected);
+                document.annotations.start.push(range[0]);
+                document.annotations.end.push(range[1]);
+                
+                bootbox.prompt({
+                  title: buttons,
+                  inputType: 'textarea',
+                  callback: bootboxCallback
+                });
+                
+              } else {
+                
+                if ((range[1] - range[0]) == 0){
+                  console.log("one token only");
+                  var index = 0;
+                  for (index = 0; index <= document.annotations.start.length - 1; index++){
+                    if (
+                        (range[0] >= document.annotations.start[index]) && 
+                        (range[0] <= document.annotations.start[index])
+                    ){
+                      // Remove highlight
+                      for (var id = document.annotations.start[index]; id <= document.annotations.end[index]; id++){
+                        document.getElementById(id.toString()).style.backgroundColor = "";
+                      }
+                      // Remove annotation
+                      for (const [key, value] of Object.entries(document.annotations)){
+                        document.annotations[key].splice(index, 1);
+                      }
+
+                      // Send message to R/Shiny that annotations have changed and transfer new data
+                      document.annotationsChanged++;
+                      Shiny.onInputChange('annotations_changed', document.annotationsChanged);
+                      Shiny.onInputChange('annotations_table', document.annotations);
+                    }
+                  }
+                } else {
+                  bootbox.alert({
+                    message: 'Existing annotation in selection - select only one token for modifications!',
+                    size: 'small'
+                  });
+                }
               }
 
             };

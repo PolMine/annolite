@@ -65,7 +65,7 @@ annotate <- function(x, annotations = annotationstable(), width = NULL, height =
     output$annolite <- renderAnnolite(TXT)
     
     observeEvent(
-      input$annotations_created,
+      input$annotations_changed,
       {
         values[["annotations"]] <- data.frame(lapply(input$annotations_table, unlist))
         if (isFALSE(is.null(file))){
