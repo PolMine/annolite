@@ -126,6 +126,37 @@ HTMLWidgets.widget({
             window.getSelection().removeAllRanges();
           }
         }
+        
+        function deleteAnnotationCallback(result){
+          if (result == null){
+            console.log("do not remove annotation")
+          } else {
+            var index = 0;
+            for (index = 0; index <= document.annotations.start.length - 1; index++){
+              if (
+                (range[0] >= document.annotations.start[index]) && 
+                (range[0] <= document.annotations.end[index])
+              ){
+                // Remove highlight
+                for (var id = document.annotations.start[index]; id <= document.annotations.end[index]; id++){
+                  console.log(id.toString());
+                  document.getElementById(id.toString()).style.backgroundColor = "";
+                }
+                
+                // Remove annotation
+                for (const [key, value] of Object.entries(document.annotations)){
+                  document.annotations[key].splice(index, 1);
+                }
+
+              }
+              
+              // Send message to R/Shiny that annotations have changed and transfer new data
+              document.annotationsChanged++;
+              Shiny.onInputChange('annotations_changed', document.annotationsChanged);
+              Shiny.onInputChange('annotations_table', document.annotations);
+            }
+          }
+        }
 
         
         function getSelectionText() {
@@ -187,30 +218,14 @@ HTMLWidgets.widget({
                 
                 if ((range[1] - range[0]) == 0){
                   console.log("one token only");
-                  var index = 0;
-                  for (index = 0; index <= document.annotations.start.length - 1; index++){
-                    if (
-                        (range[0] >= document.annotations.start[index]) && 
-                        (range[0] <= document.annotations.start[index])
-                    ){
-                      // Remove highlight
-                      for (var id = document.annotations.start[index]; id <= document.annotations.end[index]; id++){
-                        document.getElementById(id.toString()).style.backgroundColor = "";
-                      }
-                      // Remove annotation
-                      for (const [key, value] of Object.entries(document.annotations)){
-                        document.annotations[key].splice(index, 1);
-                      }
-
-                      // Send message to R/Shiny that annotations have changed and transfer new data
-                      document.annotationsChanged++;
-                      Shiny.onInputChange('annotations_changed', document.annotationsChanged);
-                      Shiny.onInputChange('annotations_table', document.annotations);
-                    }
-                  }
+                  
+                  bootbox.confirm({
+                    message: "Delete Annotation?",
+                    callback: deleteAnnotationCallback
+                  });
                 } else {
                   bootbox.alert({
-                    message: 'Existing annotation in selection - select only one token for modifications!',
+                    message: 'Existing annotation in selection:</br>Select only one token for modifications!',
                     size: 'small'
                   });
                 }

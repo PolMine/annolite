@@ -48,7 +48,7 @@ annotations will be generated an upated.}
 \item{...}{Further arguments passed into call of \code{fulltexttable()}.}
 }
 \value{
-A \code{data.frame} with annotations (class \code{annotationstable}) is
+A \code{data.frame} with annotations (class \code{\link{annotationstable}}) is
 returned invisibly.
 }
 \description{
@@ -60,6 +60,20 @@ provides the essential functionality for highlighter-and-pencil-style
 annotation. Wrapping the \emph{annolite}  HTML wideget in a Shiny Gadget
 facilitates the implementation of a pure R workflow for generating and
 procesing text annotations.
+}
+\details{
+The HTML widget will permit the following actions:
+\itemize{
+\item When selecting a range of text, a modal dialogue will open to create a new
+annotation; using the buttons that have been defined (argument \code{buttons}),
+you assign an annotation. Optionally, you can write an explanatory note on
+an annotation.
+\item When you click on an existing annotation, you can delete the annotation.
+Modifying an existing annotation is not possible yet.
+\item When you select a range of text including more than one word and that includes
+an existing annotation, a modal dialogue will inform you that deleting an
+existing annotation will require selecting only one word.
+}
 }
 \examples{
 library(polmineR)

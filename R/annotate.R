@@ -9,6 +9,18 @@
 #' facilitates the implementation of a pure R workflow for generating and
 #' procesing text annotations.
 #' 
+#' @details 
+#' The HTML widget will permit the following actions:
+#' - When selecting a range of text, a modal dialogue will open to create a new
+#' annotation; using the buttons that have been defined (argument `buttons`), 
+#' you assign an annotation. Optionally, you can write an explanatory note on
+#' an annotation.
+#' - When you click on an existing annotation, you can delete the annotation.
+#' Modifying an existing annotation is not possible yet.
+#' - When you select a range of text including more than one word and that includes
+#' an existing annotation, a modal dialogue will inform you that deleting an 
+#' existing annotation will require selecting only one word.
+#' 
 #' @param file If a `character` vector, a filename that is used to save table
 #'   with annotations to disk whenever a new annotation is added. If the
 #'   filename ends with ".rds", a RDS file is saved. In all other cases, a csv
@@ -17,7 +29,7 @@
 #'   will be overwritten. If argument is `NULL` (default), no file with
 #'   annotations will be generated an upated.
 #' @param ... Further arguments passed into call of `fulltexttable()`.
-#' @return A `data.frame` with annotations (class `annotationstable`) is
+#' @return A `data.frame` with annotations (class \code{\link{annotationstable}}) is
 #'   returned invisibly.
 #' @importFrom miniUI miniPage miniContentPanel gadgetTitleBar miniButtonBlock
 #'   miniTabstripPanel miniTabPanel
