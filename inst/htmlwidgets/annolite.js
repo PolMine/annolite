@@ -94,7 +94,7 @@ HTMLWidgets.widget({
         
         function bootboxCallback(result) {
     
-          if (result == null){
+          if (result === null){
       
             // remove data that has been added by event handler
             document.annotations.text.pop();
@@ -102,6 +102,8 @@ HTMLWidgets.widget({
             document.annotations.end.pop();
 
           } else {
+            
+            console.log(range);
       
             var i = document.annotations.start.length - 1;
             var color_selected = $('#selection input:radio:checked').val();
