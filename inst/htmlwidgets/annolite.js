@@ -128,9 +128,8 @@ HTMLWidgets.widget({
         }
         
         function deleteAnnotationCallback(result){
-          if (result == null){
-            console.log("do not remove annotation")
-          } else {
+          // With bootbox.confirm, 'result' will be true ("OK") or false (cancel)
+          if (result){
             var index = 0;
             for (index = 0; index <= document.annotations.start.length - 1; index++){
               if (

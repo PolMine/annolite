@@ -41,11 +41,12 @@
 #' @export annotate
 #' @inheritParams annolite
 #' @examples
-#' library(polmineR)
-#' use("polmineR")
-#' P <- partition("GERMAPARLMINI", speaker = "Volker Kauder", date = "2009-11-10")
-#' if (interactive()) Y <- annotate(P)
-#' if (interactive()) Y <- annotate(D, annotations = sample_annotation)
+#' if (interactive()){
+#' y <- annotate(
+#'   x = secretary_general_2000_speech,
+#'   annotations = annolite::secretary_general_2000_annotations
+#' )
+#' }
 annotate <- function(x, annotations = annotationstable(), width = NULL, height = NULL, buttons = list(keep = "yellow", drop = "orange"), file = NULL, ...) { 
   
   if (isFALSE(is.null(file))){
