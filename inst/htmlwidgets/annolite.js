@@ -14,8 +14,9 @@ HTMLWidgets.widget({
     document.annotations = {};
     document.annotationsChanged = 0;
     var getSelectionText; // needs to be defined globally
+    var textSelected;
     var annotationCompleted;
-    
+
     var selected_subcorpus;
     var previously_selected_subcorpus;
     var tokens;
@@ -93,26 +94,26 @@ HTMLWidgets.widget({
         };
         
         function bootboxCallback(result) {
+          
+          console.log(range);
+          console.log(result);
     
-          if (result === null){
-      
-            // remove data that has been added by event handler
-            document.annotations.text.pop();
-            document.annotations.start.pop();
-            document.annotations.end.pop();
-
-          } else {
+          if (!(result == null)){
             
             console.log(range);
       
-            var i = document.annotations.start.length - 1;
             var color_selected = $('#selection input:radio:checked').val();
             var code_selected = $('input[name="radioGroup"]:checked').parent().text();
+            
+            document.annotations.start.push(range[0]);
+            document.annotations.end.push(range[1]);
+            document.annotations.text.push(textSelected);
             document.annotations.code.push(code_selected);
             document.annotations.color.push(color_selected);
             document.annotations.annotation.push(result);
             
-            for (var id = document.annotations.start[i]; id <= document.annotations.end[i]; id++) {
+            for (var id = range[0]; id <= range[1]; id++) {
+              console.log(id);
               document.getElementById(id.toString()).style.backgroundColor = color_selected;
             };
     
@@ -166,7 +167,7 @@ HTMLWidgets.widget({
             
             var anchorParent = window.getSelection().anchorNode.parentNode;
             var focusParent = window.getSelection().focusNode.parentNode;
-            var textSelected = window.getSelection().toString();
+            textSelected = window.getSelection().toString();
 
             if (RegExp("^\\s+$").test(textSelected)){
               console.log("nothing selected");
@@ -202,13 +203,6 @@ HTMLWidgets.widget({
               };
 
               if (!isHighlighted){
-                
-                // code, color and the text of the annotation are added in bootbox
-                // start end and text are removed upon cancel
-                document.annotations.text.push(textSelected);
-                document.annotations.start.push(range[0]);
-                document.annotations.end.push(range[1]);
-                
                 bootbox.prompt({
                   title: buttons,
                   inputType: 'textarea',
@@ -226,7 +220,7 @@ HTMLWidgets.widget({
                   });
                 } else {
                   bootbox.alert({
-                    message: 'Existing annotation in selection:</br>Select only one token for modifications!',
+                    message: 'Existing annotation in selection:</br>Select only one token of existing annotation to delete it!',
                     size: 'small'
                   });
                 }
