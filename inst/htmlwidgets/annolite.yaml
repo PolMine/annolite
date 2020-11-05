@@ -17,4 +17,3 @@ dependencies:
     version: 0.0.0.9008
     stylesheet:
       - markdown7.css
-      - tooltips.css

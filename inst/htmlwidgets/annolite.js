@@ -30,23 +30,23 @@ HTMLWidgets.widget({
       var ct_sel = new crosstalk.SelectionHandle();
       ct_sel.on("change", function(e) {
         tokens = document.getElementsByName(previously_selected_subcorpus);
-        tokens.forEach((token) => {token.style.display = "none";})
+        tokens.forEach((token) => {token.style.display = "none";});
         previously_selected_subcorpus = e.value;
       
         tokens = document.getElementsByName(e.value);
-        tokens.forEach((token) => {token.style.display = "block";})
+        tokens.forEach((token) => {token.style.display = "block";});
 
       });
     
       var ct_filter = new crosstalk.FilterHandle();
       ct_filter.on("change", function(e) {
         tokens = document.getElementsByName(previously_selected_subcorpus);
-        tokens.forEach((token) => { token.style.display = "none"; })
+        tokens.forEach((token) => { token.style.display = "none"; });
         previously_selected_subcorpus = ct_filter.filteredKeys;
       
         console.log("ct_filter.filteredKeys");
         tokens = document.getElementsByName(ct_filter.filteredKeys);
-        tokens.forEach((token) => { token.style.display = "block";})
+        tokens.forEach((token) => { token.style.display = "block";});
       });
     }
 
@@ -55,7 +55,7 @@ HTMLWidgets.widget({
     return {
       renderValue: function(x) {
         
-        if (x.settings.box){ container.style.border = "1px solid #ddd"; };
+        if (x.settings.box){ container.style.border = "1px solid #ddd"; }
         
         if (x.settings.crosstalk){
           ct_filter.setGroup(x.settings.crosstalk_group);
@@ -68,10 +68,10 @@ HTMLWidgets.widget({
             buttons += '<label class="radio-inline"><input type="radio" name="radioGroup" value="';
             buttons += x.settings.buttons[Object.keys(x.settings.buttons)[i]];
             buttons += '"';
-            if (i == 0) buttons += ' checked';
+            if (i === 0) buttons += ' checked';
             buttons += '>';
             buttons += Object.keys(x.settings.buttons)[i] + '</label>';
-          };
+          }
           buttons += '</div>';
         }
 
@@ -81,29 +81,24 @@ HTMLWidgets.widget({
 
         for (var i = 0; i < x.data.annotations.start.length; i++){
           for (var id = x.data.annotations.start[i]; id <= x.data.annotations.end[i]; id++){
-            el = document.getElementById(id.toString())
-            el.style.backgroundColor = x.data.annotations.color[i];
-            el.setAttribute("data-toggle", "tooltip");
-            el.setAttribute("title", x.data.annotations.code[i]);
+            var token = document.getElementById(id.toString());
+            token.style.backgroundColor = x.data.annotations.color[i];
+            token.setAttribute("data-toggle", "tooltip");
+            token.setAttribute("data-placement", "auto top");
+            token.setAttribute("title", x.data.annotations.code[i]);
             if (x.settings.buttons){
-              el.addEventListener('contextmenu', function(ev) {
+              token.addEventListener('contextmenu', function(ev) {
                 ev.preventDefault();
-                alert('success!');
                 return false;
               }, true);
             }
-          };
-        };
+          }
+        }
         
         function bootboxCallback(result) {
           
-          console.log(range);
-          console.log(result);
-    
           if (!(result == null)){
             
-            console.log(range);
-      
             var color_selected = $('#selection input:radio:checked').val();
             var code_selected = $('input[name="radioGroup"]:checked').parent().text();
             
@@ -115,15 +110,14 @@ HTMLWidgets.widget({
             document.annotations.annotation.push(result);
             
             for (var id = range[0]; id <= range[1]; id++) {
-              console.log(id);
               document.getElementById(id.toString()).style.backgroundColor = color_selected;
-            };
+            }
     
             document.annotationsChanged++;
             Shiny.onInputChange('annotations_changed', document.annotationsChanged);
             Shiny.onInputChange('annotations_table', document.annotations);
 
-          };
+          }
     
           if (window.getSelection().empty) {  // Chrome
             window.getSelection().empty();
@@ -141,17 +135,19 @@ HTMLWidgets.widget({
                 (range[0] >= document.annotations.start[index]) && 
                 (range[0] <= document.annotations.end[index])
               ){
-                // Remove highlight
+                // Remove highlight and tooltip
                 for (var id = document.annotations.start[index]; id <= document.annotations.end[index]; id++){
-                  console.log(id.toString());
-                  document.getElementById(id.toString()).style.backgroundColor = "";
+                  var token = document.getElementById(id.toString());
+                  token.style.backgroundColor = "";
+                  token.removeAttribute("data-toggle");
+                  token.removeAttribute("data-placement");
+                  token.removeAttribute("title");
                 }
                 
                 // Remove annotation
                 for (const [key, value] of Object.entries(document.annotations)){
                   document.annotations[key].splice(index, 1);
                 }
-
               }
               
               // Send message to R/Shiny that annotations have changed and transfer new data
