@@ -83,6 +83,8 @@ HTMLWidgets.widget({
           for (var id = x.data.annotations.start[i]; id <= x.data.annotations.end[i]; id++){
             el = document.getElementById(id.toString())
             el.style.backgroundColor = x.data.annotations.color[i];
+            el.setAttribute("data-toggle", "tooltip");
+            el.setAttribute("title", x.data.annotations.code[i]);
             if (x.settings.buttons){
               el.addEventListener('contextmenu', function(ev) {
                 ev.preventDefault();

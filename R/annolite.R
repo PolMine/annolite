@@ -87,7 +87,7 @@ setMethod("annolite", "fulltexttable", function(x, annotations = annotationstabl
     }
   }
   
-  createWidget(
+  widget <- createWidget(
     "annolite",
     package = "annolite",
     x = list(
@@ -121,6 +121,11 @@ setMethod("annolite", "fulltexttable", function(x, annotations = annotationstabl
       knitr.defaultWidth = 800L,
       knitr.defaultHeight = 400L
     )
+  )
+  htmlwidgets::onRender(
+    x = widget,
+    jsCode = '$(document).ready(function(){ $(\'[data-toggle="tooltip"]\').tooltip(); });'
+    
   )
 })
 
