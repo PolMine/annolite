@@ -87,7 +87,7 @@ setMethod("annolite", "fulltexttable", function(x, annotations = annotationstabl
     }
   }
   
-  widget <- createWidget(
+  createWidget(
     "annolite",
     package = "annolite",
     x = list(
@@ -122,11 +122,11 @@ setMethod("annolite", "fulltexttable", function(x, annotations = annotationstabl
       knitr.defaultHeight = 400L
     )
   )
-  htmlwidgets::onRender(
-    x = widget,
-    jsCode = '$(document).ready(function(){ $(\'[data-toggle="tooltip"]\').tooltip(); });'
-    
-  )
+  # htmlwidgets::onRender(
+  #   x = widget,
+  #   jsCode = '$(document).ready(function(){ $(\'[data-toggle="tooltip"]\').tooltip(); });'
+  #   
+  # )
 })
 
 setOldClass("SharedData")

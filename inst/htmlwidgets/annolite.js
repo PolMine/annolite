@@ -83,9 +83,16 @@ HTMLWidgets.widget({
           for (var id = x.data.annotations.start[i]; id <= x.data.annotations.end[i]; id++){
             var token = document.getElementById(id.toString());
             token.style.backgroundColor = x.data.annotations.color[i];
+            
             token.setAttribute("data-toggle", "tooltip");
             token.setAttribute("data-placement", "auto top");
-            token.setAttribute("title", x.data.annotations.code[i]);
+            var tooltipText = x.data.annotations.code[i];
+            if (!RegExp("^\\s*$").test(x.data.annotations.annotation[i])){
+                tooltipText = tooltipText + '<br><i>[' + x.data.annotations.annotation[i] + ']</i>'
+            }
+            token.setAttribute("title", tooltipText);
+            $('#' + id).tooltip({html: true});
+
             if (x.settings.buttons){
               token.addEventListener('contextmenu', function(ev) {
                 ev.preventDefault();
@@ -98,7 +105,7 @@ HTMLWidgets.widget({
         function bootboxCallback(result) {
           
           // Simply checking for result will not do because result = "" will be treated as false
-          if (!(result == null)){
+          if (result !== null){
             
             var colorSelected = $('#selection input:radio:checked').val();
             var codeSelected = $('input[name="radioGroup"]:checked').parent().text();
@@ -115,9 +122,9 @@ HTMLWidgets.widget({
               token.style.backgroundColor = colorSelected;
               token.setAttribute("data-toggle", "tooltip");
               token.setAttribute("data-placement", "auto top");
-              var tooltipText = codeSelected
+              var tooltipText = codeSelected;
               if (!RegExp("^\\s*$").test(result)){
-                tooltipText = codeSelected + '<br><i>[' + result + ']</i>'
+                tooltipText += '<br><i>[' + result + ']</i>';
               }
               token.setAttribute("title", tooltipText);
               $('#' + id).tooltip({html: true});
