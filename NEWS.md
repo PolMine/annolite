@@ -11,6 +11,7 @@ annolite 0.0.1.9001 - 0.0.1.9002
 * The JavaScript part of the package will handle situations correctly if the end position of a text selection is before the start position / annotation from right to left (#11).
 * Deleting annotations did not work correctly, the annotation was removed even if user cancelled the action - fixed (#14).
 * The example for the `annotate()` function still used a speech of Volker Kauder. Now it is the speech of Kofi Annan on the Millennium Declaration.
+* Functionality to show tooltips has been restored. As comparedd to the previous pure CSS implementation, the new implementation of tooltips relies on the bootstrap JavaScript library (#15). A customn / self-made CSS definition has been removed from the package, as it is not necessary any more and as it provoked conflicts with bootstrap.
 
 
 annolite 0.0.1

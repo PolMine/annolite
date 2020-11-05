@@ -97,20 +97,30 @@ HTMLWidgets.widget({
         
         function bootboxCallback(result) {
           
+          // Simply checking for result will not do because result = "" will be treated as false
           if (!(result == null)){
             
-            var color_selected = $('#selection input:radio:checked').val();
-            var code_selected = $('input[name="radioGroup"]:checked').parent().text();
+            var colorSelected = $('#selection input:radio:checked').val();
+            var codeSelected = $('input[name="radioGroup"]:checked').parent().text();
             
             document.annotations.start.push(range[0]);
             document.annotations.end.push(range[1]);
             document.annotations.text.push(textSelected);
-            document.annotations.code.push(code_selected);
-            document.annotations.color.push(color_selected);
+            document.annotations.code.push(codeSelected);
+            document.annotations.color.push(colorSelected);
             document.annotations.annotation.push(result);
             
             for (var id = range[0]; id <= range[1]; id++) {
-              document.getElementById(id.toString()).style.backgroundColor = color_selected;
+              var token = document.getElementById(id.toString());
+              token.style.backgroundColor = colorSelected;
+              token.setAttribute("data-toggle", "tooltip");
+              token.setAttribute("data-placement", "auto top");
+              var tooltipText = codeSelected
+              if (!RegExp("^\\s*$").test(result)){
+                tooltipText = codeSelected + '<br><i>[' + result + ']</i>'
+              }
+              token.setAttribute("title", tooltipText);
+              $('#' + id).tooltip({html: true});
             }
     
             document.annotationsChanged++;
@@ -137,8 +147,10 @@ HTMLWidgets.widget({
               ){
                 // Remove highlight and tooltip
                 for (var id = document.annotations.start[index]; id <= document.annotations.end[index]; id++){
+                  
                   var token = document.getElementById(id.toString());
                   token.style.backgroundColor = "";
+                  $('#' + id).tooltip("disable");
                   token.removeAttribute("data-toggle");
                   token.removeAttribute("data-placement");
                   token.removeAttribute("title");
